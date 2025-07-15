@@ -1,0 +1,21 @@
+# Arquivos e pastas geradas automaticamente
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build/
+.cxx/
+.externalNativeBuild/
+captures/
+
+# Evita subir configurações locais de ambiente
+local.properties
+
+# Evita subir arquivos de cache do Android Studio
+.idea/
