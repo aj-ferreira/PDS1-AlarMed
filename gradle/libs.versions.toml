@@ -13,6 +13,7 @@ navigationUi = "2.8.9"
 room = "2.6.1"
 lifecycle = "2.7.0"
 roomCommonJvm = "2.7.2"
+core = "1.6.1"
 
 
 [libraries]
@@ -30,6 +31,8 @@ room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime", version.ref = "lifecycle" }
 room-common-jvm = { group = "androidx.room", name = "room-common-jvm", version.ref = "roomCommonJvm" }
+room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+core = { group = "androidx.test", name = "core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

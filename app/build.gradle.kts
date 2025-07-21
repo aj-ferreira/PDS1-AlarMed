@@ -37,18 +37,31 @@ android {
 
 dependencies {
 
+    // UI
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
+
+    // Lifecycle
+    implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
+
+    // Navigation
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
-    implementation(libs.room.common.jvm)
-    testImplementation(libs.junit)
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
+    testImplementation("androidx.room:room-testing:2.6.1")
+
+    // Testes unitários
+    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.core)
+    testImplementation(libs.ext.junit)
+
+    // Testes instrumentados (AndroidTest)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.room.runtime)
-    annotationProcessor(libs.room.compiler) // Java uses annotationProcessor instead of kapt
-    implementation(libs.lifecycle.runtime)
 }

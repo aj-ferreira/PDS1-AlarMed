@@ -1,14 +1,19 @@
 package com.example.alarmed.model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(tableName = "relatorio_pdf")
 public class RelatorioPDF {
     @PrimaryKey(autoGenerate = true)
     public int id;
+    @ColumnInfo(name = "data_criacao") // Formato ISO 8601
+    public String dataCriacao;
 
-    public String data_criacao;
-    public String caminho_arquivo;
+    @ColumnInfo(name = "caminho_arquivo")
+    public String caminhoArquivo;
+
+    @ColumnInfo(name = "descricao")
     public String descricao;
 }
