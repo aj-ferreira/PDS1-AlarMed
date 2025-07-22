@@ -86,6 +86,43 @@ public class MedicamentoDaoTest {
         // Assert: Verifica se a lista contém os dois medicamentos
         assertEquals(2, allMedicamentos.size());
     }
+
+    @Test
+    public void updateMedicamento() throws Exception {
+        // Arrange: Insere um medicamento
+        Medicamento medicamento = new Medicamento();
+        medicamento.nome = "Aspirina";
+        medicamento.descricao = "Descrição Original";
+        medicamentoDao.insertMedicamento(medicamento);
+
+        // Act: Pega o medicamento inserido, atualiza a descrição e o salva novamente
+        List<Medicamento> allMeds = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
+        Medicamento medToUpdate = allMeds.get(0);
+        medToUpdate.descricao = "Descrição Atualizada";
+        medicamentoDao.insertMedicamento(medToUpdate); // O OnConflictStrategy.REPLACE funciona como um update
+
+        // Assert: Busca o medicamento pelo ID e verifica se a descrição foi atualizada
+        Medicamento updatedMed = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getMedicamentoById(medToUpdate.id));
+        assertEquals("Descrição Atualizada", updatedMed.descricao);
+    }
+
+    @Test
+    public void deleteMedicamento() throws Exception {
+        // Arrange: Insere um medicamento
+        Medicamento medicamento = new Medicamento();
+        medicamento.nome = "Omeprazol";
+        medicamentoDao.insertMedicamento(medicamento);
+
+        // Act: Pega o medicamento inserido e o deleta
+        List<Medicamento> allMeds = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
+        Medicamento medToDelete = allMeds.get(0);
+        medicamentoDao.deleteMedicamentoById(medToDelete.id);
+
+        // Assert: Busca todos os medicamentos e verifica se a lista está vazia
+        List<Medicamento> finalList = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
+        assertTrue(finalList.isEmpty());
+    }
+
 }
 
 /**
