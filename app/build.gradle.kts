@@ -60,8 +60,11 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation(libs.core)
     testImplementation(libs.ext.junit)
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
 
     // Testes instrumentados (AndroidTest)
+    testImplementation("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

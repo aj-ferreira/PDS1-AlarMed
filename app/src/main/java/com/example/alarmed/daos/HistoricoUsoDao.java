@@ -1,8 +1,10 @@
 package com.example.alarmed.daos;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -12,18 +14,12 @@ import java.util.List;
 
 @Dao
 public interface HistoricoUsoDao {
-    @Insert
-    void inserir(HistoricoUso historico);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertHistorico(HistoricoUso historico);
 
-    @Update
-    void atualizar(HistoricoUso historico);
+    @Query("SELECT * FROM historico_uso WHERE id_medicamento = :medicamentoId ORDER BY data_hora DESC")
+    LiveData<List<HistoricoUso>> getHistoricoParaMedicamento(int medicamentoId);
 
-    @Delete
-    void deletar(HistoricoUso historico);
-
-    @Query("SELECT * FROM historico_uso ORDER BY data_hora DESC")
-    List<HistoricoUso> listarTodos();
-
-    @Query("SELECT * FROM historico_uso WHERE id_medicamento = :idMedicamento ORDER BY data_hora DESC")
-    List<HistoricoUso> listarPorMedicamento(int idMedicamento);
+    @Query("DELETE FROM historico_uso WHERE id = :id")
+    void deleteHistoricoById(int id);
 }
