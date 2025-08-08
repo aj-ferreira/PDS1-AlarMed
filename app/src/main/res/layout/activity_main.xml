@@ -7,21 +7,31 @@
     android:background="@color/gray_background"
     tools:context="com.example.alarmed.ui.medicamentos.list.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <!-- Conteúdo principal com tudo dentro -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="8dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/list_item_medicamento" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/adicionar_medicamento"
-        app:srcCompat="@drawable/ic_adicionar_medicamento" />
+        android:orientation="vertical">
 
+        <include layout="@layout/nav_header_main" />
+
+        <include layout="@layout/view_btn_add_medicamento" />
+
+        <include layout="@layout/view_subtitulo_lista_medicamentos"/>
+
+        <include layout="@layout/list_item_medicamento"/>
+
+        <!-- Lista de medicamentos -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="8dp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/list_item_medicamento" />
+
+        <include layout="@layout/view_botoes_inferiores"/>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Botões inferiores -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:gravity="center_horizontal"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVerHistorico"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/btn_ver_historico"
+            android:textColor="@color/blue_500"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_historico"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconTint="@color/blue_500" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGerarPdf"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/btn_ver_historico"
+            android:textColor="@color/red"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_pdf"
+            app:iconGravity="textStart"
+            app:iconPadding="4dp"
+            app:iconTint="@color/red" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

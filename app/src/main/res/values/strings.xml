@@ -2,20 +2,16 @@
     <string name="app_name">alarmed</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_logotipo">Logotipo</string>
+    <string name="nav_header_title">AlarMed</string>
+    <string name="nav_header_subtitle">Cuidando da sua saúde</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="adicionar_medicamento">+++</string>
-
-    <string name="medicamento">Medicamento</string>
-    <string name="tomei">Tomei</string>
-    <string name="editar">Editar</string>
-    <string name="excluir">Excluir</string>
+    <string name="add_medicamento">Adicionar Novo Medicamento</string>
 
     <string-array name="tipos_medicamento">
         <item>Comprimido</item>
@@ -26,5 +22,13 @@
         <item>Gotas</item>
         <item>Outro</item>
     </string-array>
+
+    <string name="list_subtitle">Seus Medicamentos</string>
+    <string name="icon_medicamento">Medicamento</string>
+    <string name="btn_tomei">Tomei</string>
+    <string name="btn_editar">Editar</string>
+    <string name="btn_excluir">Excluir</string>
+    <string name="btn_ver_historico">Ver Histórico</string>
+    <string name="btn_gerar_pdf">Gerar PDF da Semana</string>
 
 </resources>
