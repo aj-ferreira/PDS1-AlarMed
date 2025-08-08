@@ -1,4 +1,4 @@
-package com.example.alarmed.persistencia;
+package com.example.alarmed.data.db;
 
 import android.content.Context;
 
@@ -6,15 +6,15 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.example.alarmed.daos.HistoricoUsoDao;
-import com.example.alarmed.daos.HorarioDao;
-import com.example.alarmed.daos.MedicamentoDao;
-import com.example.alarmed.daos.RelatorioPdfDao;
-import com.example.alarmed.model.HistoricoUso;
-import com.example.alarmed.model.Horario;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.model.RelatorioPDF;
-import com.example.alarmed.model.RelatorioPDFMedicamento;
+import com.example.alarmed.data.db.daos.HistoricoUsoDao;
+import com.example.alarmed.data.db.daos.HorarioDao;
+import com.example.alarmed.data.db.daos.MedicamentoDao;
+import com.example.alarmed.data.db.daos.RelatorioPdfDao;
+import com.example.alarmed.data.db.entity.HistoricoUso;
+import com.example.alarmed.data.db.entity.Horario;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.entity.RelatorioPDF;
+import com.example.alarmed.data.db.entity.RelatorioPDFMedicamento;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

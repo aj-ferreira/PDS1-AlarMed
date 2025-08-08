@@ -1,13 +1,12 @@
-package com.example.alarmed.model;
+package com.example.alarmed.data.db.entity;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "horario",
+@Entity(tableName = "historico_uso",
         foreignKeys = @ForeignKey(
         entity = Medicamento.class,
         parentColumns = "id",
@@ -15,17 +14,18 @@ import androidx.room.PrimaryKey;
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE),
         indices = {@Index("id_medicamento")})
-public class Horario {
+public class HistoricoUso {
     @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name = "id_medicamento")
     public int id_medicamento;
 
-    @NonNull
-    @ColumnInfo(name = "horario")
-    public String horario; // Ex: "08:00" quer dizer que se toma o remedio a cada 8 horas
+    @ColumnInfo(name = "data_hora")
+    public String data_hora; // Ex: "2025-06-22T08:00"
 
-    @ColumnInfo(name = "repetir_dias")
-    public String repetir_dias; // Ex: "SEG,TER,QUA,TODOS..."
+    @ColumnInfo(name = "status")
+    public String status;    // "Tomado", "Ignorado", "Atrasado"
+    @ColumnInfo(name = "observacao")
+    public String observacao;
 }

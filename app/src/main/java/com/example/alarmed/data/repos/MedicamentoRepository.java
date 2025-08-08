@@ -1,17 +1,17 @@
-package com.example.alarmed.repos;
+package com.example.alarmed.data.repos;
 
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.alarmed.daos.HistoricoUsoDao;
-import com.example.alarmed.daos.HorarioDao;
-import com.example.alarmed.daos.MedicamentoDao;
-import com.example.alarmed.model.HistoricoUso;
-import com.example.alarmed.model.Horario;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.persistencia.AppDatabase;
-import com.example.alarmed.relacionamentos.MedicamentoComHorarios;
+import com.example.alarmed.data.db.daos.HistoricoUsoDao;
+import com.example.alarmed.data.db.daos.HorarioDao;
+import com.example.alarmed.data.db.daos.MedicamentoDao;
+import com.example.alarmed.data.db.entity.HistoricoUso;
+import com.example.alarmed.data.db.entity.Horario;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.AppDatabase;
+import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

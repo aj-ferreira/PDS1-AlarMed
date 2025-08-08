@@ -1,15 +1,15 @@
-package com.example.alarmed.repos;
+package com.example.alarmed.data.repos;
 
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.alarmed.daos.RelatorioPdfDao;
-import com.example.alarmed.persistencia.AppDatabase;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.model.RelatorioPDF;
-import com.example.alarmed.model.RelatorioPDFMedicamento;
-import com.example.alarmed.relacionamentos.RelatorioComMedicamentos;
+import com.example.alarmed.data.db.daos.RelatorioPdfDao;
+import com.example.alarmed.data.db.AppDatabase;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.entity.RelatorioPDF;
+import com.example.alarmed.data.db.entity.RelatorioPDFMedicamento;
+import com.example.alarmed.data.db.relacionamentos.RelatorioComMedicamentos;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

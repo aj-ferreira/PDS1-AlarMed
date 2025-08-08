@@ -21,9 +21,9 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 
-import com.example.alarmed.daos.MedicamentoDao;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.persistencia.AppDatabase;
+import com.example.alarmed.data.db.daos.MedicamentoDao;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.AppDatabase;
 
 /**
  * Classe de teste instrumentado para o MedicamentoDao.

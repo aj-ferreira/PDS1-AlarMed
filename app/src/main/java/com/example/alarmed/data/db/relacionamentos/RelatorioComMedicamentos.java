@@ -1,12 +1,12 @@
-package com.example.alarmed.relacionamentos;
+package com.example.alarmed.data.db.relacionamentos;
 
 import androidx.room.Embedded;
 import androidx.room.Junction;
 import androidx.room.Relation;
 
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.model.RelatorioPDF;
-import com.example.alarmed.model.RelatorioPDFMedicamento;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.entity.RelatorioPDF;
+import com.example.alarmed.data.db.entity.RelatorioPDFMedicamento;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.alarmed.model;
+package com.example.alarmed.data.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

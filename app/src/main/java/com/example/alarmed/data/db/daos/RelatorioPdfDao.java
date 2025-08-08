@@ -1,17 +1,15 @@
-package com.example.alarmed.daos;
+package com.example.alarmed.data.db.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
-import com.example.alarmed.model.RelatorioPDF;
-import com.example.alarmed.model.RelatorioPDFMedicamento;
-import com.example.alarmed.relacionamentos.RelatorioComMedicamentos;
+import com.example.alarmed.data.db.entity.RelatorioPDF;
+import com.example.alarmed.data.db.entity.RelatorioPDFMedicamento;
+import com.example.alarmed.data.db.relacionamentos.RelatorioComMedicamentos;
 
 import java.util.List;
 
