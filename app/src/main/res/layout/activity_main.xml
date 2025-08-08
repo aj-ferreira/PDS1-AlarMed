@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_background"
     tools:context="com.example.alarmed.ui.medicamentos.list.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/adicionar_medicamento"
-        app:srcCompat="@drawable/adicionar" />
+        app:srcCompat="@drawable/ic_adicionar_medicamento" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
