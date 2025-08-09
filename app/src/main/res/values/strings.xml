@@ -1,17 +1,17 @@
 <resources>
     <string name="app_name">alarmed</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_logotipo">Logotipo</string>
     <string name="nav_header_title">AlarMed</string>
     <string name="nav_header_subtitle">Cuidando da sua saúde</string>
     <string name="nav_header_desc">Navigation header</string>
+
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="add_medicamento">Adicionar Novo Medicamento</string>
 
     <string-array name="tipos_medicamento">
         <item>Comprimido</item>
@@ -23,12 +23,23 @@
         <item>Outro</item>
     </string-array>
 
+    <string name="add_medicamento">Adicionar Novo Medicamento</string>
     <string name="list_subtitle">Seus Medicamentos</string>
-    <string name="icon_medicamento">Medicamento</string>
-    <string name="btn_tomei">Tomei</string>
-    <string name="btn_editar">Editar</string>
-    <string name="btn_excluir">Excluir</string>
-    <string name="btn_ver_historico">Ver Histórico</string>
-    <string name="btn_gerar_pdf">Gerar PDF da Semana</string>
+    <string name="historico_medicamentos">Histórico de Medicamentos</string>
+    <string name="data_calendario">09/08/2025</string>
+    <string name="selecionar_data">Selecione a data</string>
+    <string name="resumo_dia">Resumo do Dia</string>
+
+    <string name="icon_medicamento">Ícone de comprimido</string>
+    <string name="icon_logotipo">Ícone de logotipo</string>
+    <string name="icon_seta_esquerda">Ícone de seta para a esquerda</string>
+    <string name="icon_calendario">Ícone de calendário</string>
+    <string name="icon_filtro">Ícone de filtro</string>
+
+    <string name="btn_tomei">Botão tomei remédio</string>
+    <string name="btn_editar">Botão para editar medicamento</string>
+    <string name="btn_excluir">Botão para excluir medicamento</string>
+    <string name="btn_ver_historico">Botão de visualizar histórico</string>
+    <string name="btn_gerar_pdf">Botão de gerar PDF com histórico da semana</string>
 
 </resources>

@@ -6,13 +6,13 @@
     android:background="@drawable/bg_header"
     android:padding="16dp">
 
-    <!-- Ícone -->
+    <!-- Ícone logo-->
     <ImageView
         android:id="@+id/logoIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/ic_logo2"
-        android:contentDescription="@string/nav_header_logotipo"
+        android:contentDescription="@string/icon_logotipo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
