@@ -17,16 +17,17 @@
         <!-- Botão azul de adicionar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAdicionar"
-            android:layout_width="350dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:backgroundTint="@color/blue_500"
-            app:icon="@drawable/ic_add_medicamento"
-            app:iconGravity="textStart"
             android:text="@string/add_medicamento"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            app:cornerRadius="16dp"
+            app:cornerRadius="6dp"
+            app:cardElevation="4dp"
+            app:icon="@drawable/ic_add_medicamento"
+            app:iconGravity="textStart"
             tools:ignore="MissingConstraints" />
     </LinearLayout>
 

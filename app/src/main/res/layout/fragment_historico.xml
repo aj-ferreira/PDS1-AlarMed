@@ -2,30 +2,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_background">
+    android:background="@color/gray_background"
+    tools:ignore="ExtraText">
 
     <!-- Cabeçalho -->
     <include
         android:id="@+id/cabecalhoHistorico"
         layout="@layout/nav_header_historico" />
 
+    <!-- Card branco calendário -->
     <include
         android:id="@+id/cardCalendario"
-        layout="@layout/view_card_seletor_data"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/cabecalhoHistorico"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/view_card_seletor_data"/>
 
     <include
+        android:id="@+id/cardResumoDia"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/cardCalendario"
-        layout="@layout/view_card_resumo_dia"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/view_card_resumo_dia"/>
+
+    <TextView
+        android:id="@+id/subtituloListaMedicamentos"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/list_subtitle_history"
+        app:layout_constraintTop_toBottomOf="@id/cardResumoDia"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <include
+        android:id="@+id/cardListaMedicamentos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/subtituloListaMedicamentos"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/list_item_medicamentos_dia"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

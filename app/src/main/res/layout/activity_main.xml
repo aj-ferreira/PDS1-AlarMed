@@ -17,7 +17,18 @@
 
         <include layout="@layout/view_btn_add_medicamento" />
 
-        <include layout="@layout/view_subtitulo_lista_medicamentos"/>
+        <TextView
+            android:id="@+id/subtituloListaMedicamentos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/gray"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:text="@string/list_subtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include layout="@layout/list_item_medicamento"/>
 

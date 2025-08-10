@@ -27,8 +27,12 @@
     <string name="list_subtitle">Seus Medicamentos</string>
     <string name="historico_medicamentos">Histórico de Medicamentos</string>
     <string name="data_calendario">09/08/2025</string>
-    <string name="selecionar_data">Selecione a data</string>
+    <string name="selecionar_data">Selecionar Data</string>
     <string name="resumo_dia">Resumo do Dia</string>
+    <string name="list_subtitle_history">Medicamentos do Dia</string>
+    <string name="status_tomado">Tomado</string>
+    <string name="horario_tomado">Tomado:</string>
+    <string name="horario_previsto">Previsto:</string>
 
     <string name="icon_medicamento">Ícone de comprimido</string>
     <string name="icon_logotipo">Ícone de logotipo</string>
@@ -36,10 +40,10 @@
     <string name="icon_calendario">Ícone de calendário</string>
     <string name="icon_filtro">Ícone de filtro</string>
 
-    <string name="btn_tomei">Botão tomei remédio</string>
-    <string name="btn_editar">Botão para editar medicamento</string>
-    <string name="btn_excluir">Botão para excluir medicamento</string>
-    <string name="btn_ver_historico">Botão de visualizar histórico</string>
-    <string name="btn_gerar_pdf">Botão de gerar PDF com histórico da semana</string>
+    <string name="btn_tomei">Tomei</string>
+    <string name="btn_editar">Editar</string>
+    <string name="btn_excluir">Excluir</string>
+    <string name="btn_ver_historico">Visualizar histórico</string>
+    <string name="btn_gerar_pdf">Gerar PDF com histórico da semana</string>
 
 </resources>
