@@ -13,7 +13,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:src="@drawable/ic_seta_para_esquerda"
-        android:contentDescription="@string/icon_seta_esquerda"
+        android:contentDescription="@string/left_arrow_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:text="@string/historico_medicamentos"
+            android:text="@string/nav_header_title_historical"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@android:color/white"

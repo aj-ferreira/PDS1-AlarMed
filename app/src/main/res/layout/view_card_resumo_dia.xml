@@ -30,7 +30,7 @@
                 android:id="@+id/tituloResumoDia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/resumo_dia"
+                android:text="@string/day_summary"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"

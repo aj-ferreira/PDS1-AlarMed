@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 mMedicamentoViewModel.deleteById(med.id);
                 Toast.makeText(MainActivity.this, "Medicamento deletado", Toast.LENGTH_SHORT).show();
             }
+
         });
 
         itemTouchHelper.attachToRecyclerView(recyclerView);

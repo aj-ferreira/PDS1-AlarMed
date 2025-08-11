@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_background"
+    android:background="@color/gray_200"
     tools:context="com.example.alarmed.ui.medicamentos.list.MainActivity">
 
     <!-- Conteúdo principal com tudo dentro -->
@@ -23,10 +23,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginBottom="15dp"
-            android:textColor="@color/gray"
+            android:textColor="@color/gray_500"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/list_subtitle"
+            android:text="@string/subtitle_main"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,6 +43,6 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/list_item_medicamento" />
 
-        <include layout="@layout/view_botoes_inferiores"/>
+        <include layout="@layout/view_btn_inferiores"/>
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

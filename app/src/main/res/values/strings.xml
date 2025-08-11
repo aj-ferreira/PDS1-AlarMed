@@ -1,11 +1,12 @@
 <resources>
-    <string name="app_name">alarmed</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">AlarMed</string>
-    <string name="nav_header_subtitle">Cuidando da sua saúde</string>
-    <string name="nav_header_desc">Navigation header</string>
+    <string name="app_name">AlarMed</string>
+
+    <string name="nav_header_subtitle_app">Cuidando da sua saúde</string>
+    <string name="nav_header_title_historical">Histórico de Medicamentos</string>
+
+    <string name="subtitle_main">Seus Medicamentos</string>
+    <string name="subtitle_historical">Medicamentos do Dia</string>
 
     <string name="action_settings">Settings</string>
 
@@ -23,27 +24,29 @@
         <item>Outro</item>
     </string-array>
 
-    <string name="add_medicamento">Adicionar Novo Medicamento</string>
-    <string name="list_subtitle">Seus Medicamentos</string>
-    <string name="historico_medicamentos">Histórico de Medicamentos</string>
-    <string name="data_calendario">09/08/2025</string>
-    <string name="selecionar_data">Selecionar Data</string>
-    <string name="resumo_dia">Resumo do Dia</string>
-    <string name="list_subtitle_history">Medicamentos do Dia</string>
-    <string name="status_tomado">Tomado</string>
-    <string name="horario_tomado">Tomado:</string>
-    <string name="horario_previsto">Previsto:</string>
+    <string name="data_calendar">09/08/2025</string>
+    <string name="select_date">Selecionar Data</string>
+    <string name="day_summary">Resumo do Dia</string>
 
-    <string name="icon_medicamento">Ícone de comprimido</string>
-    <string name="icon_logotipo">Ícone de logotipo</string>
-    <string name="icon_seta_esquerda">Ícone de seta para a esquerda</string>
-    <string name="icon_calendario">Ícone de calendário</string>
-    <string name="icon_filtro">Ícone de filtro</string>
+    <string name="status_taken">Tomado</string>
+    <string name="lost_status">Perdido</string>
+    <string name="late_status">Atrasado</string>
 
-    <string name="btn_tomei">Tomei</string>
-    <string name="btn_editar">Editar</string>
-    <string name="btn_excluir">Excluir</string>
-    <string name="btn_ver_historico">Visualizar histórico</string>
-    <string name="btn_gerar_pdf">Gerar PDF com histórico da semana</string>
+    <string name="schedule_taken">Tomado:</string>
+    <string name="scheduled_time">Previsto:</string>
+
+    <string name="pill_icon">Ícone de comprimido</string>
+    <string name="logo_icon">Ícone de logotipo</string>
+    <string name="left_arrow_icon">Ícone de seta para a esquerda</string>
+    <string name="calendar_icon">Ícone de calendário</string>
+    <string name="filter_icon">Ícone de filtro</string>
+
+    <string name="btn_add_medication">Adicionar Novo Medicamento</string>
+    <string name="btn_medication_taken">Tomei</string>
+    <string name="btn_edit_medicine">Editar</string>
+    <string name="btn_delete_medication">Excluir</string>
+    <string name="btn_view_history">Visualizar histórico</string>
+    <string name="btn_generate_pdf">Gerar PDF com histórico semanal</string>
+    <string name="btn_return_to_main_menu">Voltar ao Menu Principal</string>
 
 </resources>

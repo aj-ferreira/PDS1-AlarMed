@@ -32,7 +32,7 @@
                 android:id="@+id/iconMedicamento"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:contentDescription="@string/icon_medicamento"
+                android:contentDescription="@string/pill_icon"
                 android:src="@drawable/ic_comprimido"
                 app:tint="@color/teal_700" />
 
@@ -112,7 +112,7 @@
                     android:layout_height="38dp"
                     android:minHeight="36dp"
                     android:paddingHorizontal="10dp"
-                    android:text="@string/btn_tomei"
+                    android:text="@string/btn_medication_taken"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:backgroundTint="@color/pink"
@@ -130,9 +130,9 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/btn_editar"
+                        android:contentDescription="@string/btn_edit_medicine"
                         android:src="@drawable/ic_editar"
-                        app:tint="@color/gray"
+                        app:tint="@color/gray_500"
                         />
 
                     <ImageButton
@@ -140,7 +140,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/btn_excluir"
+                        android:contentDescription="@string/btn_delete_medication"
                         android:src="@drawable/ic_lixeira"
                         app:tint="@color/red" />
                 </LinearLayout>

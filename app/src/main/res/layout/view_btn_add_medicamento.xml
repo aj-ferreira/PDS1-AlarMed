@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:backgroundTint="@color/blue_500"
-            android:text="@string/add_medicamento"
+            android:text="@string/btn_add_medication"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:cornerRadius="6dp"
