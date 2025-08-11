@@ -46,17 +46,5 @@
             android:textColor="@android:color/white" />
     </LinearLayout>
 
-    <!-- Botão + -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/btn_add_medication"
-        app:srcCompat="@drawable/ic_add_medicamento"
-        app:backgroundTint="@color/blue_200"
-        app:tint="@android:color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
