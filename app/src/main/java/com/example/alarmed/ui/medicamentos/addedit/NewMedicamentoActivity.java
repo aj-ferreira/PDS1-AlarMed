@@ -1,8 +1,10 @@
 package com.example.alarmed.ui.medicamentos.addedit;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ public class NewMedicamentoActivity extends AppCompatActivity {
     public static final String EXTRA_REPLY_ESTOQUE_ATUAL = "com.example.android.medicamento.REPLY_ESTOQUE_ATUAL";
     public static final String EXTRA_REPLY_ESTOQUE_MINIMO = "com.example.android.medicamento.REPLY_ESTOQUE_MINIMO";
     public static final String EXTRA_REPLY_TIPO = "com.example.android.medicamento.REPLY_TIPO";
+    public static final String EXTRA_REPLY_ID = "com.example.android.medicamento.REPLY_ID";
 
     private EditText mEditNomeView;
     private EditText mEditDescricaoView;
@@ -34,6 +37,7 @@ public class NewMedicamentoActivity extends AppCompatActivity {
     private Spinner mSpinnerTipo;
     private ImageView mImagePreview;
     private String mImagemUriString = "";
+    private int mId = -1; // -1 indica um novo medicamento
 
     // Launcher para o seletor de imagens
     private final ActivityResultLauncher<String> mGetContent = registerForActivityResult(
@@ -66,6 +70,31 @@ public class NewMedicamentoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinnerTipo.setAdapter(adapter);
 
+        // Verifica se está em modo de edição e preenche os campos
+        final Intent intent = getIntent();
+        if (intent.hasExtra(EXTRA_REPLY_ID)) {
+            Log.i("NewMedicamentoActivity", "Modo de edição ativado com EXTRA_REPLY_ID =" + EXTRA_REPLY_ID);
+            setTitle("Editar Medicamento");
+            mId = intent.getIntExtra(EXTRA_REPLY_ID, -1);
+            Log.i("NewMedicamentoActivity", "mId value: " + mId);
+            mEditNomeView.setText(intent.getStringExtra(EXTRA_REPLY_NOME));
+            mEditDescricaoView.setText(intent.getStringExtra(EXTRA_REPLY_DESCRICAO));
+            mEditEstoqueAtualView.setText(String.valueOf(intent.getIntExtra(EXTRA_REPLY_ESTOQUE_ATUAL, 0)));
+            mEditEstoqueMinimoView.setText(String.valueOf(intent.getIntExtra(EXTRA_REPLY_ESTOQUE_MINIMO, 0)));
+            mImagemUriString = intent.getStringExtra(EXTRA_REPLY_IMAGEM_URI);
+            if (mImagemUriString != null && !mImagemUriString.isEmpty()) {
+                mImagePreview.setImageURI(Uri.parse(mImagemUriString));
+            }
+            // Seleciona o item correto no Spinner
+            String tipo = intent.getStringExtra(EXTRA_REPLY_TIPO);
+            if (tipo != null) {
+                int spinnerPosition = adapter.getPosition(tipo);
+                mSpinnerTipo.setSelection(spinnerPosition);
+            }
+        } else {
+            setTitle("Adicionar Medicamento");
+        }
+
         // Listener para o botão de selecionar imagem
         buttonSelectImage.setOnClickListener(view -> mGetContent.launch("image/*"));
 
@@ -87,6 +116,7 @@ public class NewMedicamentoActivity extends AppCompatActivity {
                 String tipo = mSpinnerTipo.getSelectedItem().toString();
 
                 // Coloca os dados no Intent de resposta
+                replyIntent.putExtra(EXTRA_REPLY_ID, mId);
                 replyIntent.putExtra(EXTRA_REPLY_NOME, nome);
                 replyIntent.putExtra(EXTRA_REPLY_DESCRICAO, descricao);
                 replyIntent.putExtra(EXTRA_REPLY_IMAGEM_URI, mImagemUriString);

@@ -41,8 +41,8 @@ public class MedicamentoViewModel extends AndroidViewModel {
      * A operação de inserção é executada em uma thread de segundo plano dentro do repositório.
      * @param medicamento O medicamento a ser inserido.
      */
-    public void insert(Medicamento medicamento) {
-        mRepository.insertMedicamento(medicamento);
+    public void save(Medicamento medicamento) {
+        mRepository.saveMedicamento(medicamento);
     }
 
     /**

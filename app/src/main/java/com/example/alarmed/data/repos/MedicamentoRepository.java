@@ -45,8 +45,8 @@ public class MedicamentoRepository {
         return medicamentoDao.getMedicamentoById(id);
     }
 
-    public void insertMedicamento(Medicamento medicamento) {
-        executor.execute(() -> medicamentoDao.insertMedicamento(medicamento));
+    public void saveMedicamento(Medicamento medicamento) {
+        executor.execute(() -> medicamentoDao.save(medicamento));
     }
 
     public void deleteMedicamentoById(int id) {

@@ -14,6 +14,7 @@ import com.example.alarmed.R;
 import com.example.alarmed.data.db.entity.Medicamento;
 
 public class MedicamentoListAdapter  extends ListAdapter<Medicamento, MedicamentoListAdapter.MedicamentoViewHolder> {
+    private OnItemClickListener listener;
     public MedicamentoListAdapter(@NonNull DiffUtil.ItemCallback<Medicamento> diffCallback) {
         super(diffCallback);
     }
@@ -36,7 +37,7 @@ public class MedicamentoListAdapter  extends ListAdapter<Medicamento, Medicament
         return getItem(position);
     }
 
-    static class MedicamentoViewHolder extends RecyclerView.ViewHolder {
+     class MedicamentoViewHolder extends RecyclerView.ViewHolder {
         private final TextView nomeItemView;
         private final TextView descricaoItemView;
 
@@ -44,12 +45,27 @@ public class MedicamentoListAdapter  extends ListAdapter<Medicamento, Medicament
             super(itemView);
             nomeItemView = itemView.findViewById(R.id.textViewNome);
             descricaoItemView = itemView.findViewById(R.id.textViewDescricao);
+
+            itemView.setOnClickListener(v -> {
+                int pos = getAdapterPosition();
+                if(listener != null && pos != RecyclerView.NO_POSITION){
+                    listener.onItemClick(getItem(pos));
+                }
+            });
         }
 
         public void bind(String nome, String descricao) {
             nomeItemView.setText(nome);
             descricaoItemView.setText(descricao);
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Medicamento medicamento);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     static class MedicamentoDiff extends DiffUtil.ItemCallback<Medicamento> {
@@ -60,8 +76,13 @@ public class MedicamentoListAdapter  extends ListAdapter<Medicamento, Medicament
 
         @Override
         public boolean areContentsTheSame(@NonNull Medicamento oldItem, @NonNull Medicamento newItem) {
+            // Compare todos os campos para uma atualização de conteúdo mais precisa
             return oldItem.nome.equals(newItem.nome) &&
-                    oldItem.descricao.equals(newItem.descricao);
+                    java.util.Objects.equals(oldItem.descricao, newItem.descricao) &&
+                    java.util.Objects.equals(oldItem.imagem, newItem.imagem) &&
+                    oldItem.estoque_atual == newItem.estoque_atual &&
+                    oldItem.estoque_minimo == newItem.estoque_minimo &&
+                    java.util.Objects.equals(oldItem.tipo, newItem.tipo);
         }
     }
 }

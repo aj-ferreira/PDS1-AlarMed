@@ -62,7 +62,7 @@ public class MedicamentoDaoTest {
         medicamento.descricao = "Analgésico e antitérmico";
 
         // Act: Insere o medicamento no banco de dados
-        medicamentoDao.insertMedicamento(medicamento);
+        medicamentoDao.save(medicamento);
 
         // Assert: Busca o medicamento pelo nome e verifica se não é nulo
         List<Medicamento> allMedicamentos = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
@@ -77,8 +77,8 @@ public class MedicamentoDaoTest {
         Medicamento med2 = new Medicamento();
         med2.nome = "Dipirona";
 
-        medicamentoDao.insertMedicamento(med1);
-        medicamentoDao.insertMedicamento(med2);
+        medicamentoDao.save(med1);
+        medicamentoDao.save(med2);
 
         // Act: Busca todos os medicamentos
         List<Medicamento> allMedicamentos = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
@@ -93,13 +93,13 @@ public class MedicamentoDaoTest {
         Medicamento medicamento = new Medicamento();
         medicamento.nome = "Aspirina";
         medicamento.descricao = "Descrição Original";
-        medicamentoDao.insertMedicamento(medicamento);
+        medicamentoDao.save(medicamento);
 
         // Act: Pega o medicamento inserido, atualiza a descrição e o salva novamente
         List<Medicamento> allMeds = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
         Medicamento medToUpdate = allMeds.get(0);
         medToUpdate.descricao = "Descrição Atualizada";
-        medicamentoDao.insertMedicamento(medToUpdate); // O OnConflictStrategy.REPLACE funciona como um update
+        medicamentoDao.save(medToUpdate); // O OnConflictStrategy.REPLACE funciona como um update
 
         // Assert: Busca o medicamento pelo ID e verifica se a descrição foi atualizada
         Medicamento updatedMed = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getMedicamentoById(medToUpdate.id));
@@ -111,7 +111,7 @@ public class MedicamentoDaoTest {
         // Arrange: Insere um medicamento
         Medicamento medicamento = new Medicamento();
         medicamento.nome = "Omeprazol";
-        medicamentoDao.insertMedicamento(medicamento);
+        medicamentoDao.save(medicamento);
 
         // Act: Pega o medicamento inserido e o deleta
         List<Medicamento> allMeds = LiveDataTestUtil.getOrAwaitValue(medicamentoDao.getAllMedicamentos());
