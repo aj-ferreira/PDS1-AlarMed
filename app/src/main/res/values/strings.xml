@@ -10,4 +10,16 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="adicionar_medicamento">+++</string>
+
+    <string-array name="tipos_medicamento">
+        <item>Comprimido</item>
+        <item>Cápsula</item>
+        <item>Líquido</item>
+        <item>Pomada</item>
+        <item>Injetável</item>
+        <item>Gotas</item>
+        <item>Outro</item>
+    </string-array>
+
 </resources>

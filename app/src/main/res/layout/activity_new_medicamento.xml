@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.medicamentos.addedit.NewMedicamentoActivity">
+
+    <!-- addedit = add + edit -->
+    <!-- Nome do Medicamento (Existing)  -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints="name"
+            android:hint="Nome do Medicamento *"
+            android:inputType="textCapWords"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Descrição (Existing) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_descricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descrição (opcional)"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:gravity="top"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Imagem (Placeholder - You'll need to implement image selection logic) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/image_preview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_placeholder_image"
+            android:scaleType="centerCrop"
+            android:contentDescription="Pré-visualização da imagem do medicamento"/>
+
+        <Button
+            android:id="@+id/button_selecionar_imagem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Selecionar Imagem" />
+    </LinearLayout>
+    <!-- Hidden EditText to store the image URI/path if needed -->
+    <EditText
+        android:id="@+id/edit_imagem_path"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        tools:ignore="LabelFor" />
+
+
+    <!-- Estoque Atual -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_estoque_atual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Estoque Atual *"
+            android:inputType="number"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Estoque Mínimo -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_estoque_minimo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Estoque Mínimo *"
+            android:inputType="number"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Tipo do Medicamento (Using a Spinner for selection) -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Tipo do Medicamento *"
+        android:labelFor="@id/spinner_tipo"
+        style="@style/TextAppearance.MaterialComponents.Caption"/>
+
+    <Spinner
+        android:id="@+id/spinner_tipo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:minHeight="48dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        style="@style/Widget.AppCompat.Spinner.Underlined"/>
+    <!-- You will need to populate this Spinner programmatically -->
+    <!-- Example items could be: Comprimido, Cápsula, Líquido, Pomada, etc. -->
+
+
+    <!-- Botão Salvar (Existing) -->
+    <Button
+        android:id="@+id/button_save"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Salvar Medicamento" />
+
+</LinearLayout>

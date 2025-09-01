@@ -1,27 +1,31 @@
-package com.example.alarmed.daos;
+package com.example.alarmed.data.db.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
-import androidx.room.Update;
 
-import com.example.alarmed.model.HistoricoUso;
-import com.example.alarmed.model.Horario;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.relacionamentos.MedicamentoComHistorico;
-import com.example.alarmed.relacionamentos.MedicamentoComHorarios;
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.relacionamentos.MedicamentoComHistorico;
+import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
 
 import java.util.List;
 
 @Dao
 public interface MedicamentoDao {
     // --- Operações básicas em Medicamento ---
+
+    /**
+     * Insere ou atualiza um medicamento.
+     * Se o medicamento já existir (mesmo ID), ele será substituído.
+     * Se for novo (ID 0), será inserido.
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMedicamento(Medicamento medicamento);
+    void save(Medicamento medicamento);
+    //@Update
+    //void updateMedicamento(Medicamento medicamento);
 
     @Query("SELECT * FROM medicamento ORDER BY nome ASC")
     LiveData<List<Medicamento>> getAllMedicamentos();

@@ -1,14 +1,14 @@
-package com.example.alarmed.views;
+package com.example.alarmed.ui.medicamentos.detail;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import java.util.List;
-import com.example.alarmed.model.Medicamento;
-import com.example.alarmed.relacionamentos.MedicamentoComHorarios;
-import com.example.alarmed.repos.MedicamentoRepository;
+
+import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
+import com.example.alarmed.data.repos.MedicamentoRepository;
 
 import java.util.List;
 
@@ -41,8 +41,8 @@ public class MedicamentoViewModel extends AndroidViewModel {
      * A operação de inserção é executada em uma thread de segundo plano dentro do repositório.
      * @param medicamento O medicamento a ser inserido.
      */
-    public void insert(Medicamento medicamento) {
-        mRepository.insertMedicamento(medicamento);
+    public void save(Medicamento medicamento) {
+        mRepository.saveMedicamento(medicamento);
     }
 
     /**

@@ -1,14 +1,12 @@
-package com.example.alarmed.daos;
+package com.example.alarmed.data.db.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.example.alarmed.model.HistoricoUso;
+import com.example.alarmed.data.db.entity.HistoricoUso;
 
 import java.util.List;
 
