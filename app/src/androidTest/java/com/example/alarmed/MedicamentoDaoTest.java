@@ -60,6 +60,7 @@ public class MedicamentoDaoTest {
         Medicamento medicamento = new Medicamento();
         medicamento.nome = "Paracetamol";
         medicamento.descricao = "Analgésico e antitérmico";
+        medicamento.dose = "500mg";
 
         // Act: Insere o medicamento no banco de dados
         medicamentoDao.save(medicamento);
@@ -74,8 +75,10 @@ public class MedicamentoDaoTest {
         // Arrange: Cria e insere dois medicamentos
         Medicamento med1 = new Medicamento();
         med1.nome = "Ibuprofeno";
+        med1.dose = "600mg";
         Medicamento med2 = new Medicamento();
         med2.nome = "Dipirona";
+        med2.dose = "500mg";
 
         medicamentoDao.save(med1);
         medicamentoDao.save(med2);

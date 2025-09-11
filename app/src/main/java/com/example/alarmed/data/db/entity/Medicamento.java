@@ -26,4 +26,7 @@ public class Medicamento {
 
     @ColumnInfo(name = "tipo")
     public String tipo;
+
+    @ColumnInfo(name = "dose")
+    public String dose;
 }

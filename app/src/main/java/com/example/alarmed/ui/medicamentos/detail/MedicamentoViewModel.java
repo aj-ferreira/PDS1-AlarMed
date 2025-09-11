@@ -1,6 +1,7 @@
 package com.example.alarmed.ui.medicamentos.detail;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -18,6 +19,7 @@ public class MedicamentoViewModel extends AndroidViewModel {
 
     public MedicamentoViewModel(@NonNull Application application) {
         super(application);
+        Log.d("MedicamentoViewModel", "Inicializando ViewModel...");
         // Cria uma instância do repositório.
         // O ViewModel não deve ter uma referência direta ao banco de dados ou DAOs.
         mRepository = new MedicamentoRepository(application);
@@ -25,6 +27,7 @@ public class MedicamentoViewModel extends AndroidViewModel {
         // Obtém a lista de todos os medicamentos do repositório.
         // Como o DAO retorna LiveData, esta lista será atualizada automaticamente.
         mAllMedicamentos = mRepository.getAllMedicamentos();
+        Log.d("MedicamentoViewModel", "ViewModel inicializado com sucesso");
     }
 
     /**
@@ -33,6 +36,7 @@ public class MedicamentoViewModel extends AndroidViewModel {
      * @return um LiveData contendo a lista de todos os medicamentos.
      */
     public LiveData<List<Medicamento>> getAllMedicamentos() {
+        Log.d("MedicamentoViewModel", "getAllMedicamentos() chamado");
         return mAllMedicamentos;
     }
 
@@ -42,7 +46,18 @@ public class MedicamentoViewModel extends AndroidViewModel {
      * @param medicamento O medicamento a ser inserido.
      */
     public void save(Medicamento medicamento) {
-        mRepository.saveMedicamento(medicamento);
+        Log.d("MedicamentoViewModel", "save() chamado - Medicamento: " + medicamento.nome + " (ID: " + medicamento.id + ")");
+        mRepository.save(medicamento);
+    }
+
+    /**
+     * Salva (insere) um novo medicamento e executa um callback com o novo ID.
+     * @param medicamento O novo medicamento a ser inserido.
+     * @param listener O listener a ser chamado após a conclusão.
+     */
+    public void save(Medicamento medicamento, MedicamentoRepository.OnSaveCompleteListener listener) {
+        Log.d("MedicamentoViewModel", "save() com callback chamado - Medicamento: " + medicamento.nome);
+        mRepository.save(medicamento, listener);
     }
 
     /**
@@ -50,6 +65,7 @@ public class MedicamentoViewModel extends AndroidViewModel {
      * @param id O ID do medicamento a ser deletado.
      */
     public void deleteById(int id) {
+        Log.d("MedicamentoViewModel", "deleteById() chamado - ID: " + id);
         mRepository.deleteMedicamentoById(id);
     }
 
@@ -57,6 +73,7 @@ public class MedicamentoViewModel extends AndroidViewModel {
     // por exemplo, para buscar um medicamento específico ou seus horários.
 
     public LiveData<MedicamentoComHorarios> getMedicamentoComHorarios(int medicamentoId) {
+        Log.d("MedicamentoViewModel", "getMedicamentoComHorarios() chamado - ID: " + medicamentoId);
         return mRepository.getMedicamentoComHorarios(medicamentoId);
     }
 }

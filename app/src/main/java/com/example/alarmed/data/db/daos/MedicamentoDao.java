@@ -23,7 +23,7 @@ public interface MedicamentoDao {
      * Se for novo (ID 0), será inserido.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void save(Medicamento medicamento);
+    long save(Medicamento medicamento);
     //@Update
     //void updateMedicamento(Medicamento medicamento);
 
@@ -48,4 +48,8 @@ public interface MedicamentoDao {
     @Transaction
     @Query("SELECT * FROM medicamento WHERE id = :medicamentoId")
     LiveData<MedicamentoComHistorico> getMedicamentoComHistorico(int medicamentoId);
+
+    // Método síncrono para ser chamado de uma background thread
+    @Query("SELECT * FROM medicamento WHERE id = :id")
+    Medicamento getMedicamentoByIdSync(int id);
 }
