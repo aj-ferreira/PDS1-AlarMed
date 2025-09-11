@@ -30,7 +30,11 @@
         </activity>
         <activity
             android:name=".ui.medicamentos.addedit.AddEditMedicamentoActivity"
-            android:label="Adicionar Medicamento">
+            android:label="Adicionar Medicamento"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
         <activity
             android:name=".ui.horario.HorarioActivity"
