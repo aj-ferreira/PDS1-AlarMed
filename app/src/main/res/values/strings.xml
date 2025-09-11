@@ -6,6 +6,7 @@
     <string name="nav_header_title_historical">Histórico de Medicamentos</string>
     <string name="nav_header_title_register">Novo Medicamento</string>
     <string name="nav_header_title_edit">Editar Medicamento</string>
+    <string name="nav_header_subtitle_edit">Atualize as informações do medicamento</string>
 
     <string name="subtitle_main">Seus Medicamentos</string>
     <string name="subtitle_historical">Medicamentos do Dia</string>

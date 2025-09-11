@@ -18,5 +18,11 @@
     <color name="green_200">#16a34a</color>
     <color name="orange">#ca8a04</color>
     <color name="red">#ef4444</color>
+    
+    <!-- Cores adicionais para os layouts personalizados -->
+    <color name="blue_700">#1e40af</color>
+    <color name="gray_300">#d1d5db</color>
+    <color name="gray_700">#374151</color>
+    <color name="gray_900">#111827</color>
 
 </resources>

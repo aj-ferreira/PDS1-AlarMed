@@ -3,6 +3,22 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
-    <dimen name="nav_header_height">176dp</dimen>
+    <dimen name="nav_header_height">120dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    
+    <!-- Card margins and paddings -->
+    <dimen name="card_margin_horizontal">8dp</dimen>
+    <dimen name="card_margin_vertical">6dp</dimen>
+    <dimen name="card_padding">12dp</dimen>
+    <dimen name="card_corner_radius">8dp</dimen>
+    
+    <!-- Button dimensions -->
+    <dimen name="button_min_height">48dp</dimen>
+    <dimen name="button_padding_horizontal">16dp</dimen>
+    
+    <!-- Text sizes -->
+    <dimen name="text_title">20sp</dimen>
+    <dimen name="text_subtitle">16sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_caption">12sp</dimen>
 </resources>

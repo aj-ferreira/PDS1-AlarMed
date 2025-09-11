@@ -1,206 +1,300 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.medicamentos.addedit.NewMedicamentoActivity">
+    android:background="@color/gray_200"
+    android:fillViewport="true">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:background="@drawable/bg_header"
-        android:padding="16dp">
-
-        <!-- Ícone seta para esquerda -->
-        <ImageView
-            android:id="@+id/logoIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/ic_seta_para_esquerda"
-            android:contentDescription="@string/left_arrow_icon"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <!-- Título -->
-        <LinearLayout
-            android:id="@+id/textContainer"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/logoIcon"
-            app:layout_constraintTop_toTopOf="@id/logoIcon"
-            app:layout_constraintBottom_toBottomOf="@id/logoIcon"
-            app:layout_constraintEnd_toStartOf="@id/fab"
-            tools:ignore="NotSibling">
-
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:text="@string/nav_header_title_edit"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                tools:ignore="MissingConstraints" />
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- addedit = add + edit -->
-    <!-- Nome do Medicamento (Existing)  -->
-    <TextView
-        android:id="@+id/subtituloEdit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textColor="@color/gray_500"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="@string/info_medicamento"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_nome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:autofillHints="name"
-            android:hint="@string/nome_medicamento"
-            android:inputType="textCapWords"
-            android:minHeight="48dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Descrição (Existing) -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_descricao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/descricao_medicamento"
-            android:inputType="textMultiLine"
-            android:minLines="2"
-            android:gravity="top"
-            android:minHeight="48dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Imagem (Placeholder - You'll need to implement image selection logic) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="20dp"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        tools:context=".ui.medicamentos.addedit.NewMedicamentoActivity">
 
-        <ImageView
-            android:id="@+id/image_preview"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_placeholder_image"
-            android:scaleType="centerCrop"
-            android:contentDescription="Pré-visualização da imagem do medicamento"/>
+        <!-- Header personalizado -->
+        <include layout="@layout/header_add_edit_medicamento" />
 
-        <Button
-            android:id="@+id/button_selecionar_imagem"
-            android:layout_width="wrap_content"
+        <!-- Conteúdo do formulário -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="@color/blue_500"
-            android:text="Selecionar Imagem" />
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Subtítulo -->
+            <TextView
+                android:id="@+id/subtituloEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textColor="@color/gray_500"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="@string/info_medicamento" />
+
+            <!-- Informações Básicas -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Informações Básicas"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray_700"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Nome do Medicamento -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_nome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:autofillHints="name"
+                            android:hint="@string/nome_medicamento"
+                            android:inputType="textCapWords"
+                            android:minHeight="48dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Descrição -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_descricao"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/descricao_medicamento"
+                            android:inputType="textMultiLine"
+                            android:minLines="2"
+                            android:gravity="top"
+                            android:minHeight="48dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Dose -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_dose"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Dose (ex: 1, 2...)"
+                            android:inputType="number"
+                            android:minHeight="48dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Imagem -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:id="@+id/image_preview"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/ic_placeholder_image"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/bg_image_placeholder"
+                        android:contentDescription="Pré-visualização da imagem do medicamento"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginStart="16dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Imagem do Medicamento"
+                            android:textStyle="bold"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_700" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/button_selecionar_imagem"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Selecionar"
+                            android:textColor="@color/blue_500"
+                            app:strokeColor="@color/blue_500" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Hidden EditText to store the image URI/path if needed -->
+            <EditText
+                android:id="@+id/edit_imagem_path"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone"
+                tools:ignore="LabelFor" />
+
+            <!-- Controle de Estoque -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Controle de Estoque"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray_700"
+                        android:layout_marginBottom="12dp" />
+
+                    <!-- Estoque Atual -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_estoque_atual"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Estoque Atual *"
+                            android:inputType="number"
+                            android:minHeight="48dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Estoque Mínimo -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_estoque_minimo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Estoque Mínimo *"
+                            android:inputType="number"
+                            android:minHeight="48dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tipo do Medicamento -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:backgroundTint="@android:color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tipo do Medicamento *"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/gray_700"
+                        android:layout_marginBottom="8dp" />
+
+                    <Spinner
+                        android:id="@+id/spinner_tipo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        style="@style/Widget.AppCompat.Spinner.Underlined"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Botões de ação -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                <!-- Botão Consultar Horário (apenas no modo de edição) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_consultar_horario"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="Consultar Horário"
+                    android:textColor="@color/blue_500"
+                    app:strokeColor="@color/blue_500"
+                    app:icon="@drawable/ic_relogio"
+                    app:iconTint="@color/blue_500"
+                    android:visibility="gone" />
+
+                <!-- Botão Atualizar -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/blue_500"
+                    android:text="@string/atualizar"
+                    android:textColor="@android:color/white"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
-    <!-- Hidden EditText to store the image URI/path if needed -->
-    <EditText
-        android:id="@+id/edit_imagem_path"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        tools:ignore="LabelFor" />
-
-
-    <!-- Estoque Atual -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_estoque_atual"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Estoque Atual *"
-            android:inputType="number"
-            android:minHeight="48dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Estoque Mínimo -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginHorizontal="20dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_estoque_minimo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Estoque Mínimo *"
-            android:inputType="number"
-            android:minHeight="48dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Tipo do Medicamento (Using a Spinner for selection) -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginHorizontal="20dp"
-        android:text="Tipo do Medicamento *"
-        android:labelFor="@id/spinner_tipo"
-        style="@style/TextAppearance.MaterialComponents.Caption"/>
-
-    <Spinner
-        android:id="@+id/spinner_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:minHeight="48dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:layout_marginHorizontal="20dp"
-        style="@style/Widget.AppCompat.Spinner.Underlined"/>
-    <!-- You will need to populate this Spinner programmatically -->
-    <!-- Example items could be: Comprimido, Cápsula, Líquido, Pomada, etc. -->
-
-    <!-- Botão Atualizar (Existing) -->
-    <Button
-        android:id="@+id/button_save"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginHorizontal="20dp"
-        android:backgroundTint="@color/blue_500"
-        android:text="@string/atualizar"
-        />
-
-</LinearLayout>
+</ScrollView>
