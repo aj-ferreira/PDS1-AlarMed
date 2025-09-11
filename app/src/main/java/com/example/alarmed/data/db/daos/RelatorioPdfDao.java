@@ -15,10 +15,10 @@ import java.util.List;
 
 @Dao
 public interface RelatorioPdfDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     long insertRelatorio(RelatorioPDF relatorio); // Retorna o ID do relatório inserido
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertRelatorioMedicamentoCrossRef(RelatorioPDFMedicamento crossRef);
 
     @Transaction

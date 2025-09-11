@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.medicamentos.addedit.NewMedicamentoActivity">
+    tools:context=".ui.medicamentos.addedit.AddEditMedicamentoActivity">
 
     <!-- addedit = add + edit -->
     <!-- Nome do Medicamento (Existing)  -->
@@ -73,6 +73,21 @@
         android:visibility="gone"
         tools:ignore="LabelFor" />
 
+    <!-- Dose (Novo campo) -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_dose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Dose (ex: 1, 2...)"
+            android:inputType="number"
+            android:minHeight="48dp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Estoque Atual -->
     <com.google.android.material.textfield.TextInputLayout
@@ -127,6 +142,15 @@
     <!-- You will need to populate this Spinner programmatically -->
     <!-- Example items could be: Comprimido, Cápsula, Líquido, Pomada, etc. -->
 
+    <!-- Botão Consultar Horário (apenas no modo de edição) -->
+    <Button
+        android:id="@+id/button_consultar_horario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Consultar Horário"
+        android:visibility="gone"
+        />
 
     <!-- Botão Salvar (Existing) -->
     <Button

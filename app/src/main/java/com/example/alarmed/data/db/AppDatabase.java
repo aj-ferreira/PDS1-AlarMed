@@ -5,6 +5,8 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.alarmed.data.db.daos.HistoricoUsoDao;
 import com.example.alarmed.data.db.daos.HorarioDao;
@@ -24,7 +26,7 @@ import java.util.concurrent.Executors;
         HistoricoUso.class,
         RelatorioPDF.class,
         RelatorioPDFMedicamento.class},
-        version = 1)
+        version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     // Métodos abstratos para que o Room possa fornecer as implementações dos DAOs.
     public abstract MedicamentoDao medicamentoDao();
@@ -40,6 +42,14 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    // Migração da versão 1 para 2 - adiciona campo dose
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE medicamento ADD COLUMN dose TEXT");
+        }
+    };
+
     /**
      * Implementação do padrão Singleton para obter a instância do banco de dados.
      * Isso garante que apenas uma instância do banco de dados seja aberta por vez.
@@ -54,7 +64,8 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "alarmed_database")
-                            // Estratégias de migração seriam adicionadas aqui se necessário.
+                            // Adiciona a migração para incluir o campo dose
+                            .addMigrations(MIGRATION_1_2)
                             .build();
                 }
             }
