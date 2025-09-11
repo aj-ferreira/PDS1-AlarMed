@@ -158,6 +158,39 @@ public class MainActivity extends AppCompatActivity {
             mAddEditMedicamentoLauncher.launch(intent);
         });
 
+        // Listener para os botões dos cards
+        adapter.setOnButtonClickListener(new MedicamentoListAdapter.OnButtonClickListener() {
+            @Override
+            public void onTomeiClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão 'Tomei' clicado para medicamento: " + medicamento.nome);
+                StockManager stockManager = new StockManager(MainActivity.this);
+                stockManager.medicamentTaken(medicamento.id);
+                Toast.makeText(MainActivity.this, "Medicamento tomado registrado", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEditClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão editar clicado - medicamento ID: " + medicamento.id);
+                Intent intent = new Intent(MainActivity.this, AddEditMedicamentoActivity.class);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, medicamento.id);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME, medicamento.nome);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO, medicamento.descricao);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE, medicamento.dose);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI, medicamento.imagem);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, medicamento.estoque_atual);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, medicamento.estoque_minimo);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO, medicamento.tipo);
+                mAddEditMedicamentoLauncher.launch(intent);
+            }
+
+            @Override
+            public void onDeleteClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão excluir clicado - medicamento ID: " + medicamento.id);
+                mMedicamentoViewModel.deleteById(medicamento.id);
+                Toast.makeText(MainActivity.this, "Medicamento excluído", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // A funcionalidade de deletar
         Log.d("MainActivity", "Configurando swipe para deletar...");
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
