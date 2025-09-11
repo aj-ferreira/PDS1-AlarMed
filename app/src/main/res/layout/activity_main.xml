@@ -20,8 +20,6 @@
 
             <include layout="@layout/nav_header_main" />
 
-            <include layout="@layout/view_btn_add_medicamento" />
-
             <TextView
                 android:id="@+id/subtituloListaMedicamentos"
                 android:layout_width="wrap_content"
