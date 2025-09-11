@@ -1,19 +1,29 @@
 package com.example.alarmed.ui.medicamentos.list;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alarmed.R;
+import com.example.alarmed.alarm.NotificationHelper;
+import com.example.alarmed.alarm.StockManager;
 import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.ui.horario.HorarioActivity;
+import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -21,59 +31,135 @@ public class MainActivity extends AppCompatActivity {
 
     private MedicamentoViewModel mMedicamentoViewModel;
 
-    // O novo método recomendado para obter o resultado de uma activity.
-    private final ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher = registerForActivityResult(
+    private ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher;
+
+    // Launcher para pedir a permissão de notificação
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                Log.d("MainActivity", "Resultado da permissão de notificação: " + isGranted);
+                if (isGranted) {
+                    Toast.makeText(this, "Permissão de notificação concedida.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, "Permissão negada. Lembretes podem não funcionar.", Toast.LENGTH_LONG).show();
+                }
+            });
+
+    // Launcher para a tela de Adicionar/Editar
+    private final ActivityResultLauncher<Intent> mAddEditMedicamentoLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
+                Log.d("MainActivity", "Resultado recebido da tela de adicionar/editar - Código: " + result.getResultCode());
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Intent data = result.getData();
-                    // Extrai todos os dados do Intent
-                    String nome = data.getStringExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_NOME);
-                    String descricao = data.getStringExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_DESCRICAO);
-                    String imagemUri = data.getStringExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI);
-                    int estoqueAtual = data.getIntExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, 0);
-                    int estoqueMinimo = data.getIntExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, 0);
-                    String tipo = data.getStringExtra(com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.EXTRA_REPLY_TIPO);
+                    int id = data.getIntExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, -1);
 
-                    // Cria o objeto Medicamento com todos os campos
+                    String nome = data.getStringExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME);
+                    String descricao = data.getStringExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO);
+                    String dose = data.getStringExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE);
+                    String imagemUri = data.getStringExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI);
+                    int estoqueAtual = data.getIntExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, 0);
+                    int estoqueMinimo = data.getIntExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, 0);
+                    String tipo = data.getStringExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO);
+
+                    Log.d("MainActivity", "Dados recebidos - ID: " + id + ", Nome: " + nome + 
+                          ", Dose: " + dose + ", Estoque: " + estoqueAtual + "/" + estoqueMinimo);
+
                     Medicamento medicamento = new Medicamento();
                     medicamento.nome = nome;
                     medicamento.descricao = descricao;
+                    medicamento.dose = dose;
                     medicamento.imagem = imagemUri;
                     medicamento.estoque_atual = estoqueAtual;
                     medicamento.estoque_minimo = estoqueMinimo;
                     medicamento.tipo = tipo;
 
-                    mMedicamentoViewModel.insert(medicamento);
-                    Toast.makeText(this, "Medicamento salvo.", Toast.LENGTH_SHORT).show();
+                    if (id == -1) {
+                        Log.d("MainActivity", "Operação: CRIAR novo medicamento");
+                        // NOVO MEDICAMENTO: usa o save com callback para obter o ID e navegar
+                        mMedicamentoViewModel.save(medicamento, (long newId) -> {
+                            Log.d("MainActivity", "Medicamento criado com ID: " + newId + " - navegando para tela de horário");
+                            // Este código é executado em background após o medicamento ser salvo
+                            // Para interagir com a UI, precisamos garantir que está na thread principal
+                            runOnUiThread(() -> {
+                                Intent intent = new Intent(MainActivity.this, HorarioActivity.class);
+                                intent.putExtra(HorarioActivity.EXTRA_MEDICAMENTO_ID, (int) newId);
+                                intent.putExtra(HorarioActivity.EXTRA_MEDICAMENTO_NOME, medicamento.nome);
+                                startActivity(intent);
+                            });
+                        });
+                        Toast.makeText(this, "Medicamento criado.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d("MainActivity", "Operação: ATUALIZAR medicamento existente ID: " + id);
+                        // ATUALIZAÇÃO: usa o save normal, sem navegar
+                        medicamento.id = id;
+                        mMedicamentoViewModel.save(medicamento);
+                        Toast.makeText(this, "Medicamento atualizado.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Medicamento não salvo.", Toast.LENGTH_SHORT).show();
+                    Log.d("MainActivity", "Operação cancelada pelo usuário");
+                    Toast.makeText(this, "Operação cancelada.", Toast.LENGTH_SHORT).show();
                 }
             });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("MainActivity", "onCreate() iniciado");
         setContentView(R.layout.activity_main);
+        
+        Log.d("MainActivity", "Criando canal de notificação...");
+        NotificationHelper.createNotificationChannel(this);
 
+        Log.d("MainActivity", "Solicitando permissão de notificação...");
+        askNotificationPermission();
+
+        Log.d("MainActivity", "Configurando RecyclerView e Adapter...");
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final MedicamentoListAdapter adapter = new MedicamentoListAdapter(new MedicamentoListAdapter.MedicamentoDiff());
         recyclerView.setAdapter(adapter);
 
+        Log.d("MainActivity", "Inicializando ViewModel...");
         mMedicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
 
+        Log.d("MainActivity", "Configurando observador dos medicamentos...");
         mMedicamentoViewModel.getAllMedicamentos().observe(this, medicamentos -> {
+            Log.d("MainActivity", "Lista de medicamentos atualizada. Total: " + 
+                  (medicamentos != null ? medicamentos.size() : 0));
             adapter.submitList(medicamentos);
+            
+            // Verifica estoque baixo quando a lista é atualizada
+            checkLowStockForAllMedications(medicamentos);
         });
 
-        // O FAB agora abre a nova activity
+        // O FAB abre a a tela pra adc novo medicamento
+        Log.d("MainActivity", "Configurando FAB...");
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, com.example.alarmed.ui.medicamentos.addedit.NewMedicamentoActivity.class);
-            mNewMedicamentoActivityLauncher.launch(intent);
+            Log.d("MainActivity", "FAB clicado - abrindo tela de novo medicamento");
+            Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
+            mAddEditMedicamentoLauncher.launch(intent);
         });
 
-        // A funcionalidade de deletar permanece a mesma
+        // Listener para o clique em um item da lista (para edição)
+        Log.d("MainActivity", "Configurando listener de clique dos itens...");
+        adapter.setOnItemClickListener(medicamento -> {
+            Log.d("MainActivity", "Item clicado - editando medicamento ID: " + medicamento.id + 
+                  ", Nome: " + medicamento.nome);
+            Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, medicamento.id);
+            Log.i("MainActivity", "id sent in extra to NewMedicamentoActivity intent: " + medicamento.id);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME, medicamento.nome);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO, medicamento.descricao);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE, medicamento.dose);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI, medicamento.imagem);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, medicamento.estoque_atual);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, medicamento.estoque_minimo);
+            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO, medicamento.tipo);
+            mAddEditMedicamentoLauncher.launch(intent);
+        });
+
+        // A funcionalidade de deletar
+        Log.d("MainActivity", "Configurando swipe para deletar...");
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -85,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
                 Medicamento med = adapter.getMedicamentoAt(position);
+                Log.d("MainActivity", "Medicamento deletado via swipe - ID: " + med.id + ", Nome: " + med.nome);
                 mMedicamentoViewModel.deleteById(med.id);
                 Toast.makeText(MainActivity.this, "Medicamento deletado", Toast.LENGTH_SHORT).show();
             }
@@ -92,5 +179,59 @@ public class MainActivity extends AppCompatActivity {
         });
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
+        Log.d("MainActivity", "onCreate() finalizado");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(0, 1, 0, "Testar Notificação");
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == 1) {
+            // Testa a notificação
+            Log.d("MainActivity", "Testando notificação...");
+            NotificationHelper.testNotification(this);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    // Implementação do método para pedir permissão
+    private void askNotificationPermission() {
+        Log.d("MainActivity", "askNotificationPermission() iniciado");
+        // Obrigatório a partir da API 33 (Android 13)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            Log.d("MainActivity", "Android 13+ detectado, verificando permissão POST_NOTIFICATIONS");
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                Log.d("MainActivity", "Permissão não concedida, solicitando...");
+                // Lança o pedido de permissão
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS);
+            } else {
+                Log.d("MainActivity", "Permissão já concedida");
+            }
+        } else {
+            Log.d("MainActivity", "Android < 13, permissão não necessária");
+        }
+    }
+
+    /**
+     * Verifica estoque baixo para todos os medicamentos
+     */
+    private void checkLowStockForAllMedications(java.util.List<Medicamento> medicamentos) {
+        if (medicamentos == null) return;
+        
+        Log.d("MainActivity", "Verificando estoque baixo para " + medicamentos.size() + " medicamentos");
+        
+        for (Medicamento medicamento : medicamentos) {
+            if (NotificationHelper.isLowStock(medicamento)) {
+                Log.w("MainActivity", "Estoque baixo detectado: " + medicamento.nome + 
+                      " (Atual: " + medicamento.estoque_atual + ", Mínimo: " + medicamento.estoque_minimo + ")");
+                NotificationHelper.sendLowStockNotification(this, medicamento);
+            }
+        }
     }
 }

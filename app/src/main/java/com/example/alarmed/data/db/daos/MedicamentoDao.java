@@ -16,8 +16,16 @@ import java.util.List;
 @Dao
 public interface MedicamentoDao {
     // --- Operações básicas em Medicamento ---
+
+    /**
+     * Insere ou atualiza um medicamento.
+     * Se o medicamento já existir (mesmo ID), ele será substituído.
+     * Se for novo (ID 0), será inserido.
+     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertMedicamento(Medicamento medicamento);
+    long save(Medicamento medicamento);
+    //@Update
+    //void updateMedicamento(Medicamento medicamento);
 
     @Query("SELECT * FROM medicamento ORDER BY nome ASC")
     LiveData<List<Medicamento>> getAllMedicamentos();
@@ -40,4 +48,8 @@ public interface MedicamentoDao {
     @Transaction
     @Query("SELECT * FROM medicamento WHERE id = :medicamentoId")
     LiveData<MedicamentoComHistorico> getMedicamentoComHistorico(int medicamentoId);
+
+    // Método síncrono para ser chamado de uma background thread
+    @Query("SELECT * FROM medicamento WHERE id = :id")
+    Medicamento getMedicamentoByIdSync(int id);
 }
