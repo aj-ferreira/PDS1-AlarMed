@@ -1,5 +1,6 @@
 package com.example.alarmed.ui.horario;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.alarmed.R;
 import com.example.alarmed.data.db.entity.Horario;
+import com.example.alarmed.ui.medicamentos.list.MainActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
@@ -33,6 +35,12 @@ public class HorarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("HorarioActivity", "onCreate() iniciado");
         setContentView(R.layout.activity_horario);
+
+        // Configurar ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         medicamentoId = getIntent().getIntExtra(EXTRA_MEDICAMENTO_ID, -1);
         String medicamentoNome = getIntent().getStringExtra(EXTRA_MEDICAMENTO_NOME);
@@ -138,6 +146,16 @@ public class HorarioActivity extends AppCompatActivity {
 
                     Log.d("HorarioActivity", "Salvando horário...");
                     mHorarioViewModel.save(horarioParaSalvar);
+                    
+                    // Exibe mensagem de sucesso
+                    Toast.makeText(HorarioActivity.this, "Horário configurado com sucesso!", Toast.LENGTH_SHORT).show();
+                    
+                    // Redireciona para a tela principal após salvar
+                    Log.d("HorarioActivity", "Redirecionando para MainActivity...");
+                    Intent intent = new Intent(HorarioActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish(); // Fecha a HorarioActivity
                 })
                 .setNegativeButton("Cancelar", (dialog, id) -> {
                     Log.d("HorarioActivity", "Usuário cancelou configuração");
@@ -147,5 +165,11 @@ public class HorarioActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
         Log.d("HorarioActivity", "Dialog exibido");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

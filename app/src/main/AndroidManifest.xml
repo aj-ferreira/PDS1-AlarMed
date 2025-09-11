@@ -38,7 +38,11 @@
         </activity>
         <activity
             android:name=".ui.horario.HorarioActivity"
-            android:label="Definir Horário">
+            android:label="Definir Horário"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
 
         <receiver
