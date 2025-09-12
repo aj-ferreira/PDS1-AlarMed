@@ -290,12 +290,9 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
                 String mensagem = String.format(
                     "Horário cadastrado:\n\n" +
                     "⏰ Primeira dose: %s\n" +
-                    "🔄 Intervalo: %d horas\n" +
-                    "📅 Data de fim: %s",
+                    "🔄 Intervalo: %d horas\n",
                     horario.horario_inicial,
-                    horario.intervalo,
-                    horario.dataFim != null && !horario.dataFim.isEmpty() ? horario.dataFim : "Indefinido"
-                );
+                    horario.intervalo);
 
                 Log.d("AddEditMedicamentoActivity", "Exibindo dialog com informações do horário");
                 new AlertDialog.Builder(this)

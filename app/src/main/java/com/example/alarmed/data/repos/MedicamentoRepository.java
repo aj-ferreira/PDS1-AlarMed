@@ -64,6 +64,11 @@ public class MedicamentoRepository {
         return medicamentoDao.getAllMedicamentos();
     }
 
+    public LiveData<List<MedicamentoComHorarios>> getAllMedicamentosComHorarios() {
+        Log.d("MedicamentoRepository", "Buscando todos os medicamentos com horários");
+        return medicamentoDao.getAllMedicamentosComHorarios();
+    }
+
     public LiveData<Medicamento> getMedicamentoById(int id) {
         Log.d("MedicamentoRepository", "Buscando medicamento por ID: " + id);
         return medicamentoDao.getMedicamentoById(id);

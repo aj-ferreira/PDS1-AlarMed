@@ -76,4 +76,13 @@ public class MedicamentoViewModel extends AndroidViewModel {
         Log.d("MedicamentoViewModel", "getMedicamentoComHorarios() chamado - ID: " + medicamentoId);
         return mRepository.getMedicamentoComHorarios(medicamentoId);
     }
+
+    /**
+     * Expõe a lista de medicamentos com horários como LiveData para a UI.
+     * @return um LiveData contendo a lista de todos os medicamentos com seus horários.
+     */
+    public LiveData<List<MedicamentoComHorarios>> getAllMedicamentosComHorarios() {
+        Log.d("MedicamentoViewModel", "getAllMedicamentosComHorarios() chamado");
+        return mRepository.getAllMedicamentosComHorarios();
+    }
 }

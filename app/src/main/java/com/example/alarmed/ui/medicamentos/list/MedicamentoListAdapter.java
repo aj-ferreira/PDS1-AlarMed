@@ -16,16 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.alarmed.R;
 import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.data.db.entity.Horario;
+import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
 import com.example.alarmed.data.repos.MedicamentoRepository;
 import com.google.android.material.button.MaterialButton;
 
 import java.io.File;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
-public class MedicamentoListAdapter extends ListAdapter<Medicamento, MedicamentoListAdapter.MedicamentoViewHolder> {
+public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, MedicamentoListAdapter.MedicamentoViewHolder> {
     private OnItemClickListener listener;
     private OnButtonClickListener buttonListener;
 
-    public MedicamentoListAdapter(@NonNull DiffUtil.ItemCallback<Medicamento> diffCallback) {
+    public MedicamentoListAdapter(@NonNull DiffUtil.ItemCallback<MedicamentoComHorarios> diffCallback) {
         super(diffCallback);
         Log.d("MedicamentoListAdapter", "Adapter criado");
     }
@@ -41,15 +49,15 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
 
     @Override
     public void onBindViewHolder(@NonNull MedicamentoViewHolder holder, int position) {
-        Medicamento current = getItem(position);
+        MedicamentoComHorarios current = getItem(position);
         Log.d("MedicamentoListAdapter", "onBindViewHolder() - Posição: " + position + 
-              ", Medicamento: " + current.nome + ", Dose: " + current.dose);
+              ", Medicamento: " + current.medicamento.nome + ", Dose: " + current.medicamento.dose);
         holder.bind(current);
     }
 
     public Medicamento getMedicamentoAt(int position) {
         Log.d("MedicamentoListAdapter", "getMedicamentoAt() - Posição: " + position);
-        return getItem(position);
+        return getItem(position).medicamento;
     }
 
     class MedicamentoViewHolder extends RecyclerView.ViewHolder {
@@ -87,7 +95,7 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
             itemView.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if(listener != null && pos != RecyclerView.NO_POSITION){
-                    Medicamento medicamento = getItem(pos);
+                    Medicamento medicamento = getItem(pos).medicamento;
                     listener.onItemClick(medicamento);
                 }
             });
@@ -95,7 +103,7 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
             btnTomei.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if(buttonListener != null && pos != RecyclerView.NO_POSITION){
-                    Medicamento medicamento = getItem(pos);
+                    Medicamento medicamento = getItem(pos).medicamento;
                     buttonListener.onTomeiClick(medicamento);
                 }
             });
@@ -103,7 +111,7 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
             btnEditar.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if(buttonListener != null && pos != RecyclerView.NO_POSITION){
-                    Medicamento medicamento = getItem(pos);
+                    Medicamento medicamento = getItem(pos).medicamento;
                     buttonListener.onEditClick(medicamento);
                 }
             });
@@ -111,13 +119,16 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
             btnExcluir.setOnClickListener(v -> {
                 int pos = getAdapterPosition();
                 if(buttonListener != null && pos != RecyclerView.NO_POSITION){
-                    Medicamento medicamento = getItem(pos);
+                    Medicamento medicamento = getItem(pos).medicamento;
                     buttonListener.onDeleteClick(medicamento);
                 }
             });
         }
 
-        public void bind(Medicamento medicamento) {
+        public void bind(MedicamentoComHorarios medicamentoComHorarios) {
+            Medicamento medicamento = medicamentoComHorarios.medicamento;
+            List<Horario> horarios = medicamentoComHorarios.horarios;
+            
             // Nome do medicamento
             nomeItemView.setText(medicamento.nome);
             
@@ -168,9 +179,30 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
                 Log.d("MedicamentoListAdapter", "Exibindo ícone placeholder para: " + medicamento.nome);
             }
 
-            // Horário (placeholder - será implementado quando houver integração com horários)
-            horarioItemView.setText("--:--");
-            frequenciaItemView.setText("Não configurado");
+            // Horário e frequência baseados nos horários cadastrados
+            if (horarios != null && !horarios.isEmpty()) {
+                Horario horario = horarios.get(0); // Pega o primeiro horário
+                
+                // Calcula e exibe o PRÓXIMO horário
+                String proximoHorario = calcularProximoHorario(horario);
+                horarioItemView.setText(proximoHorario);
+                
+                // Exibe a frequência
+                if (horario.intervalo > 0) {
+                    String frequenciaText = "A cada " + horario.intervalo + " horas";
+                    if (horario.repetir_dias != null && !horario.repetir_dias.trim().isEmpty() 
+                        && !horario.repetir_dias.equals("TODOS")) {
+                        frequenciaText += " • " + horario.repetir_dias;
+                    }
+                    frequenciaItemView.setText(frequenciaText);
+                } else {
+                    frequenciaItemView.setText("Uma vez ao dia");
+                }
+            } else {
+                // Não tem horários configurados
+                horarioItemView.setText("--:--");
+                frequenciaItemView.setText("Não configurado");
+            }
         }
     }
 
@@ -193,22 +225,128 @@ public class MedicamentoListAdapter extends ListAdapter<Medicamento, Medicamento
         this.buttonListener = buttonListener;
     }
 
-    static class MedicamentoDiff extends DiffUtil.ItemCallback<Medicamento> {
+    /**
+     * Calcula o próximo horário em que o medicamento deve ser tomado
+     * baseado no horário inicial e no intervalo configurado.
+     */
+    private String calcularProximoHorario(Horario horario) {
+        if (horario == null || horario.horario_inicial == null || horario.horario_inicial.trim().isEmpty()) {
+            return "--:--";
+        }
+
+        try {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+            Calendar agora = Calendar.getInstance();
+            Calendar proximoHorario = Calendar.getInstance();
+            
+            // Parse do horário inicial
+            Date horarioInicial = timeFormat.parse(horario.horario_inicial);
+            proximoHorario.setTime(horarioInicial);
+            
+            // Ajusta para o dia de hoje
+            proximoHorario.set(Calendar.YEAR, agora.get(Calendar.YEAR));
+            proximoHorario.set(Calendar.MONTH, agora.get(Calendar.MONTH));
+            proximoHorario.set(Calendar.DAY_OF_MONTH, agora.get(Calendar.DAY_OF_MONTH));
+            
+            // Se o horário inicial já passou hoje, calcular próximos horários
+            while (proximoHorario.before(agora) || proximoHorario.equals(agora)) {
+                if (horario.intervalo > 0) {
+                    // Adiciona o intervalo em horas
+                    proximoHorario.add(Calendar.HOUR_OF_DAY, horario.intervalo);
+                } else {
+                    // Se não tem intervalo, é uma vez por dia - próximo dia no mesmo horário
+                    proximoHorario.add(Calendar.DAY_OF_MONTH, 1);
+                    // Volta para o horário original
+                    Date horarioOriginal = timeFormat.parse(horario.horario_inicial);
+                    Calendar temp = Calendar.getInstance();
+                    temp.setTime(horarioOriginal);
+                    proximoHorario.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+                    proximoHorario.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+                    break;
+                }
+            }
+            
+            // Verifica se precisa considerar os dias da semana
+            if (horario.repetir_dias != null && !horario.repetir_dias.trim().isEmpty() 
+                && !horario.repetir_dias.equals("TODOS")) {
+                
+                // Se tem dias específicos, encontra o próximo dia válido
+                String[] diasSemana = horario.repetir_dias.split(",");
+                boolean diaValido = false;
+                int tentativas = 0;
+                
+                while (!diaValido && tentativas < 7) {
+                    int diaSemana = proximoHorario.get(Calendar.DAY_OF_WEEK);
+                    String diaAtual = getDiaSemanaAbrev(diaSemana);
+                    
+                    for (String dia : diasSemana) {
+                        if (dia.trim().equals(diaAtual)) {
+                            diaValido = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!diaValido) {
+                        proximoHorario.add(Calendar.DAY_OF_MONTH, 1);
+                        // Ajusta para o horário original no próximo dia válido
+                        Date horarioOriginal = timeFormat.parse(horario.horario_inicial);
+                        Calendar temp = Calendar.getInstance();
+                        temp.setTime(horarioOriginal);
+                        proximoHorario.set(Calendar.HOUR_OF_DAY, temp.get(Calendar.HOUR_OF_DAY));
+                        proximoHorario.set(Calendar.MINUTE, temp.get(Calendar.MINUTE));
+                    }
+                    tentativas++;
+                }
+            }
+            
+            return timeFormat.format(proximoHorario.getTime());
+            
+        } catch (ParseException e) {
+            Log.e("MedicamentoListAdapter", "Erro ao calcular próximo horário: " + e.getMessage());
+            return horario.horario_inicial; // Retorna o horário original em caso de erro
+        }
+    }
+    
+    /**
+     * Converte o dia da semana do Calendar para abreviação
+     */
+    private String getDiaSemanaAbrev(int diaSemana) {
+        switch (diaSemana) {
+            case Calendar.SUNDAY: return "DOM";
+            case Calendar.MONDAY: return "SEG";
+            case Calendar.TUESDAY: return "TER";
+            case Calendar.WEDNESDAY: return "QUA";
+            case Calendar.THURSDAY: return "QUI";
+            case Calendar.FRIDAY: return "SEX";
+            case Calendar.SATURDAY: return "SAB";
+            default: return "";
+        }
+    }
+
+    static class MedicamentoDiff extends DiffUtil.ItemCallback<MedicamentoComHorarios> {
         @Override
-        public boolean areItemsTheSame(@NonNull Medicamento oldItem, @NonNull Medicamento newItem) {
-            return oldItem.id == newItem.id;
+        public boolean areItemsTheSame(@NonNull MedicamentoComHorarios oldItem, @NonNull MedicamentoComHorarios newItem) {
+            return oldItem.medicamento.id == newItem.medicamento.id;
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Medicamento oldItem, @NonNull Medicamento newItem) {
-            // Compare todos os campos para uma atualização de conteúdo mais precisa
-            return oldItem.nome.equals(newItem.nome) &&
-                    java.util.Objects.equals(oldItem.descricao, newItem.descricao) &&
-                    java.util.Objects.equals(oldItem.dose, newItem.dose) &&
-                    java.util.Objects.equals(oldItem.imagem, newItem.imagem) &&
-                    oldItem.estoque_atual == newItem.estoque_atual &&
-                    oldItem.estoque_minimo == newItem.estoque_minimo &&
-                    java.util.Objects.equals(oldItem.tipo, newItem.tipo);
+        public boolean areContentsTheSame(@NonNull MedicamentoComHorarios oldItem, @NonNull MedicamentoComHorarios newItem) {
+            // Compare o medicamento e os horários
+            Medicamento oldMed = oldItem.medicamento;
+            Medicamento newMed = newItem.medicamento;
+            
+            boolean medicamentoEqual = oldMed.nome.equals(newMed.nome) &&
+                    java.util.Objects.equals(oldMed.descricao, newMed.descricao) &&
+                    java.util.Objects.equals(oldMed.dose, newMed.dose) &&
+                    java.util.Objects.equals(oldMed.imagem, newMed.imagem) &&
+                    oldMed.estoque_atual == newMed.estoque_atual &&
+                    oldMed.estoque_minimo == newMed.estoque_minimo &&
+                    java.util.Objects.equals(oldMed.tipo, newMed.tipo);
+            
+            // Compare os horários
+            boolean horariosEqual = java.util.Objects.equals(oldItem.horarios, newItem.horarios);
+            
+            return medicamentoEqual && horariosEqual;
         }
     }
 }

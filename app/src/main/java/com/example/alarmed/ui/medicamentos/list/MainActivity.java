@@ -121,14 +121,21 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Inicializando ViewModel...");
         mMedicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
 
-        Log.d("MainActivity", "Configurando observador dos medicamentos...");
-        mMedicamentoViewModel.getAllMedicamentos().observe(this, medicamentos -> {
-            Log.d("MainActivity", "Lista de medicamentos atualizada. Total: " + 
-                  (medicamentos != null ? medicamentos.size() : 0));
-            adapter.submitList(medicamentos);
+        Log.d("MainActivity", "Configurando observador dos medicamentos com horários...");
+        mMedicamentoViewModel.getAllMedicamentosComHorarios().observe(this, medicamentosComHorarios -> {
+            Log.d("MainActivity", "Lista de medicamentos com horários atualizada. Total: " + 
+                  (medicamentosComHorarios != null ? medicamentosComHorarios.size() : 0));
+            adapter.submitList(medicamentosComHorarios);
             
             // Verifica estoque baixo quando a lista é atualizada
-            checkLowStockForAllMedications(medicamentos);
+            if (medicamentosComHorarios != null) {
+                java.util.List<com.example.alarmed.data.db.entity.Medicamento> medicamentos = 
+                    new java.util.ArrayList<>();
+                for (com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios mch : medicamentosComHorarios) {
+                    medicamentos.add(mch.medicamento);
+                }
+                checkLowStockForAllMedications(medicamentos);
+            }
         });
 
         // O FAB abre a a tela pra adc novo medicamento
