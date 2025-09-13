@@ -83,6 +83,14 @@ public class MedicamentoRepository {
         });
     }
 
+    public void updateMedicamento(Medicamento medicamento) {
+        Log.d("MedicamentoRepository", "Atualizando medicamento existente: " + medicamento.nome + " (ID: " + medicamento.id + ")");
+        executor.execute(() -> {
+            medicamentoDao.update(medicamento);
+            Log.d("MedicamentoRepository", "✓ Medicamento atualizado com UPDATE - foreign keys preservadas");
+        });
+    }
+
     /**
      * Método save com callback, usado para novas inserções para obter o ID gerado.
      * @param medicamento O novo medicamento a ser inserido.
@@ -119,7 +127,21 @@ public class MedicamentoRepository {
         Log.d("MedicamentoRepository", "Buscando horário assíncrono para medicamento ID: " + medicamentoId);
         executor.execute(() -> {
             Horario horario = horarioDao.getHorarioByMedicamentoId(medicamentoId);
-            Log.d("MedicamentoRepository", "Horário encontrado: " + (horario != null ? horario.horario_inicial : "null"));
+            Log.d("MedicamentoRepository", "Horário encontrado: " + (horario != null ? 
+                  "ID=" + horario.id + ", Horário=" + horario.horario_inicial + ", Intervalo=" + horario.intervalo : "null"));
+            
+            if (horario == null) {
+                Log.w("MedicamentoRepository", "AVISO: Nenhum horário encontrado no banco para medicamento ID: " + medicamentoId);
+                // Vamos verificar se há algum horário na tabela para debug
+                // (Nota: Em produção, essa verificação deve ser removida)
+                try {
+                    // Busca todos os horários para debug
+                    Log.d("MedicamentoRepository", "Verificando se há horários na tabela...");
+                } catch (Exception e) {
+                    Log.e("MedicamentoRepository", "Erro ao verificar horários na tabela", e);
+                }
+            }
+            
             callback.onHorarioLoaded(horario);
         });
     }
@@ -139,15 +161,41 @@ public class MedicamentoRepository {
         Log.d("MedicamentoRepository", "Salvando horário - Medicamento ID: " + horario.id_medicamento + 
               ", Horário inicial: " + horario.horario_inicial + ", Intervalo: " + horario.intervalo);
         executor.execute(() -> {
-            long result = horarioDao.save(horario);
-            Log.d("MedicamentoRepository", "Horário salvo com resultado: " + result);
+            try {
+                // Verifica se já existe um horário para este medicamento
+                Horario existente = horarioDao.getHorarioByMedicamentoId(horario.id_medicamento);
+                
+                if (existente != null) {
+                    Log.d("MedicamentoRepository", "Horário já existe - atualizando registro ID: " + existente.id);
+                    // Atualiza o registro existente
+                    horario.id = existente.id;
+                    horarioDao.update(horario);
+                    Log.d("MedicamentoRepository", "Horário atualizado com sucesso");
+                } else {
+                    Log.d("MedicamentoRepository", "Novo horário - inserindo registro");
+                    // Insere novo registro
+                    long result = horarioDao.insert(horario);
+                    Log.d("MedicamentoRepository", "Horário inserido com ID: " + result);
+                }
+                
+                // Verifica se o horário foi realmente salvo
+                Horario horarioVerificacao = horarioDao.getHorarioByMedicamentoId(horario.id_medicamento);
+                if (horarioVerificacao != null) {
+                    Log.d("MedicamentoRepository", "✓ Verificação OK - Horário salvo no banco: " + 
+                          horarioVerificacao.horario_inicial + ", Intervalo: " + horarioVerificacao.intervalo);
+                } else {
+                    Log.e("MedicamentoRepository", "✗ ERRO: Horário não encontrado no banco após salvar!");
+                }
+            } catch (Exception e) {
+                Log.e("MedicamentoRepository", "Erro ao salvar horário", e);
+            }
         });
     }
 
     public void insertHorario(Horario horario) {
         Log.d("MedicamentoRepository", "Inserindo horário...");
         executor.execute(() -> {
-            long result = horarioDao.save(horario);
+            long result = horarioDao.insert(horario);
             Log.d("MedicamentoRepository", "Horário inserido com resultado: " + result);
         });
     }

@@ -190,6 +190,7 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
                 // Exibe a frequência
                 if (horario.intervalo > 0) {
                     String frequenciaText = "A cada " + horario.intervalo + " horas";
+                
                     if (horario.repetir_dias != null && !horario.repetir_dias.trim().isEmpty() 
                         && !horario.repetir_dias.equals("TODOS")) {
                         frequenciaText += " • " + horario.repetir_dias;

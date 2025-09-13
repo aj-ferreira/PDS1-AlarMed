@@ -181,33 +181,42 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:layout_marginEnd="6dp"
-                        android:src="@drawable/ic_relogio"
-                        app:tint="@color/blue_500" />
-
-                    <TextView
-                        android:id="@+id/textViewHorario"
+                    <!-- Container do horário com ícone -->
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/blue_700"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        tools:text="14:00" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
 
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="6dp"
+                            android:src="@drawable/ic_relogio"
+                            app:tint="@color/blue_500" />
+
+                        <TextView
+                            android:id="@+id/textViewHorario"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_700"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="14:00" />
+                    </LinearLayout>
+
+                    <!-- Frequência abaixo do horário -->
                     <TextView
                         android:id="@+id/textViewFrequencia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="22dp"
                         android:textColor="@color/gray_500"
                         android:textSize="12sp"
-                        tools:text="2x ao dia" />
+                        tools:text="A cada 2 horas" />
                 </LinearLayout>
 
                 <!-- Ações -->

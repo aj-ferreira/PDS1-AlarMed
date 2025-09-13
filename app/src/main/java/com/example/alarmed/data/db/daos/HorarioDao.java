@@ -5,19 +5,21 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.alarmed.data.db.entity.Horario;
 @Dao
 public interface HorarioDao {
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    long save(Horario horario); //usado pra inserir ou atualizar
+    long insert(Horario horario);
+    
+    @Update
+    void update(Horario horario);
 
     // Agora buscamos apenas UMA regra de horário por medicamento
     @Query("SELECT * FROM horario WHERE id_medicamento = :medicamentoId")
     LiveData<Horario> getHorarioParaMedicamento(int medicamentoId);
-
-    //@Query("SELECT * FROM horario WHERE id_medicamento = :medicamentoId LIMIT 1")
-    //LiveData<Horario> getHorarioByMedicamentoId(int medicamentoId); //verificar se faz ou nao sentido o limit
 
     @Query("DELETE FROM horario WHERE id = :id")
     void deleteHorarioById(int id);

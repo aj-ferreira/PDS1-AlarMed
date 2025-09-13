@@ -171,8 +171,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTomeiClick(Medicamento medicamento) {
                 Log.d("MainActivity", "Botão 'Tomei' clicado para medicamento: " + medicamento.nome);
-                StockManager stockManager = new StockManager(MainActivity.this);
-                stockManager.medicamentTaken(medicamento.id);
+                
+                // Inicia o HistoryUpdateServiceNew para registrar histórico e reagendar alarme
+                Intent serviceIntent = new Intent(MainActivity.this, com.example.alarmed.alarm.HistoryUpdateServiceNew.class);
+                serviceIntent.setAction(com.example.alarmed.alarm.HistoryUpdateServiceNew.ACTION_TAKEN);
+                serviceIntent.putExtra(com.example.alarmed.alarm.HistoryUpdateServiceNew.EXTRA_MEDICAMENTO_ID, medicamento.id);
+                startService(serviceIntent);
+                
                 Toast.makeText(MainActivity.this, "Medicamento tomado registrado", Toast.LENGTH_SHORT).show();
             }
 

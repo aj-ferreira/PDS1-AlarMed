@@ -143,6 +143,19 @@ public class HorarioActivity extends AppCompatActivity {
 
                     horarioParaSalvar.horario_inicial = horarioInicialStr;
                     horarioParaSalvar.intervalo = intervalo;
+                    
+                    // Garantir que campos opcionais tenham valores padrão
+                    if (horarioParaSalvar.repetir_dias == null) {
+                        horarioParaSalvar.repetir_dias = "TODOS";
+                    }
+                    if (horarioParaSalvar.dataFim == null) {
+                        horarioParaSalvar.dataFim = "";
+                    }
+
+                    Log.d("HorarioActivity", "Salvando horário com todos os campos - ID medicamento: " + 
+                          horarioParaSalvar.id_medicamento + ", Horário: " + horarioParaSalvar.horario_inicial + 
+                          ", Intervalo: " + horarioParaSalvar.intervalo + 
+                          ", Repetir dias: " + horarioParaSalvar.repetir_dias);
 
                     Log.d("HorarioActivity", "Salvando horário...");
                     mHorarioViewModel.save(horarioParaSalvar);

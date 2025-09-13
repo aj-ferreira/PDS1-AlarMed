@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.widget.Toast;
 
 import com.example.alarmed.data.db.entity.Horario;
@@ -31,7 +33,9 @@ public class AlarmScheduler {
         android.util.Log.d("AlarmScheduler", "Tempo calculado para próximo alarme: " + triggerTime);
 
         if (triggerTime == -1) {
-            Toast.makeText(context, "Não há mais alarmes para agendar.", Toast.LENGTH_SHORT).show();
+            new Handler(Looper.getMainLooper()).post(() -> 
+                Toast.makeText(context, "Não há mais alarmes para agendar.", Toast.LENGTH_SHORT).show()
+            );
             android.util.Log.w("AlarmScheduler", "Não foi possível calcular o próximo horário do alarme");
             // Cancela qualquer alarme pendente para garantir
             cancel(context, medicamentoId);
@@ -53,7 +57,9 @@ public class AlarmScheduler {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
                 // Aqui você deveria guiar o usuário para as configurações para conceder a permissão
-                Toast.makeText(context, "Permissão para alarmes exatos não concedida.", Toast.LENGTH_LONG).show();
+                new Handler(Looper.getMainLooper()).post(() -> 
+                    Toast.makeText(context, "Permissão para alarmes exatos não concedida.", Toast.LENGTH_LONG).show()
+                );
                 android.util.Log.e("AlarmScheduler", "Permissão para alarmes exatos não concedida");
                 return;
             }
@@ -63,7 +69,9 @@ public class AlarmScheduler {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
         String formattedTime = sdf.format(new Date(triggerTime));
-        Toast.makeText(context, "Alarme agendado para: " + formattedTime, Toast.LENGTH_LONG).show();
+        new Handler(Looper.getMainLooper()).post(() -> 
+            Toast.makeText(context, "Alarme agendado para: " + formattedTime, Toast.LENGTH_LONG).show()
+        );
         android.util.Log.d("AlarmScheduler", "Alarme agendado com sucesso para: " + formattedTime);
     }
 
