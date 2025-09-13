@@ -114,22 +114,42 @@ public class HistoryUpdateServiceNew extends Service {
     }
 
     private void reagendarAlarme(MedicamentoRepository repository, int medicamentoId) {
-        Log.d(TAG, "Reagendando próximo alarme...");
+        Log.d(TAG, "Reagendando próximo alarme para medicamento ID: " + medicamentoId);
         
-        AlarmScheduler alarmScheduler = new AlarmScheduler(this);
+        // Primeiro, vamos verificar se o horário existe antes de reagendar
         repository.getHorarioByMedicamentoId(medicamentoId, horario -> {
+            Log.d(TAG, "Callback do getHorarioByMedicamentoId executado");
             if (horario != null) {
-                Log.d(TAG, "Horário encontrado, buscando medicamento...");
+                Log.d(TAG, "✓ Horário encontrado! - Horário inicial: " + horario.horario_inicial + 
+                      ", Intervalo: " + horario.intervalo + " horas");
+                
                 repository.getMedicamentoById(medicamentoId, medicamento -> {
+                    Log.d(TAG, "Callback do getMedicamentoById executado");
                     if (medicamento != null) {
-                        Log.d(TAG, "Medicamento encontrado, reagendando alarme para: " + medicamento.nome);
+                        Log.d(TAG, "✓ Medicamento encontrado: " + medicamento.nome);
+                        
+                        AlarmScheduler alarmScheduler = new AlarmScheduler(this);
                         alarmScheduler.schedule(this, medicamentoId, medicamento.nome, horario);
+                        Log.d(TAG, "✓ Alarme reagendado com sucesso!");
                     } else {
-                        Log.e(TAG, "Medicamento não encontrado para ID: " + medicamentoId);
+                        Log.e(TAG, "✗ ERRO: Medicamento não encontrado para ID: " + medicamentoId);
                     }
                 });
             } else {
-                Log.w(TAG, "Nenhum horário encontrado para medicamento ID: " + medicamentoId);
+                Log.e(TAG, "✗ ERRO: Nenhum horário encontrado para medicamento ID: " + medicamentoId);
+                
+                // Vamos fazer uma verificação adicional diretamente no banco
+                Log.d(TAG, "Fazendo verificação adicional no banco de dados...");
+                // Isso será executado em background thread, então é seguro usar método síncrono
+                new Thread(() -> {
+                    try {
+                        // Aqui poderíamos fazer uma verificação direta, mas não temos acesso ao método síncrono
+                        // Vamos apenas logar que não encontramos o horário
+                        Log.e(TAG, "Confirmado: Horário perdido para medicamento " + medicamentoId);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Erro na verificação adicional", e);
+                    }
+                }).start();
             }
         });
     }

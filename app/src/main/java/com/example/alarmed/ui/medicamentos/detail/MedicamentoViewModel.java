@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
+import com.example.alarmed.data.db.relacionamentos.HistoricoComMedicamento;
 import com.example.alarmed.data.repos.MedicamentoRepository;
 
 import java.util.List;
@@ -75,5 +76,23 @@ public class MedicamentoViewModel extends AndroidViewModel {
     public LiveData<MedicamentoComHorarios> getMedicamentoComHorarios(int medicamentoId) {
         Log.d("MedicamentoViewModel", "getMedicamentoComHorarios() chamado - ID: " + medicamentoId);
         return mRepository.getMedicamentoComHorarios(medicamentoId);
+    }
+
+    /**
+     * Expõe a lista de medicamentos com horários como LiveData para a UI.
+     * @return um LiveData contendo a lista de todos os medicamentos com seus horários.
+     */
+    public LiveData<List<MedicamentoComHorarios>> getAllMedicamentosComHorarios() {
+        Log.d("MedicamentoViewModel", "getAllMedicamentosComHorarios() chamado");
+        return mRepository.getAllMedicamentosComHorarios();
+    }
+
+    /**
+     * Expõe a lista de histórico com medicamentos como LiveData para a UI.
+     * @return um LiveData contendo a lista de todo o histórico com informações dos medicamentos.
+     */
+    public LiveData<List<HistoricoComMedicamento>> getAllHistorico() {
+        Log.d("MedicamentoViewModel", "getAllHistorico() chamado");
+        return mRepository.getAllHistoricoComMedicamento();
     }
 }

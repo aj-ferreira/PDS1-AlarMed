@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_200"
+    tools:ignore="ExtraText">
+
+    <!-- Cabeçalho histórico -->
+    <include
+        android:id="@+id/cabecalhoHistorico"
+        layout="@layout/nav_header_historico" />
+
+    <!-- Card calendário -->
+    <include
+        android:id="@+id/cardCalendario"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cabecalhoHistorico"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/view_card_seletor_data"/>
+
+    <!-- Card resumo do dia -->
+    <include
+        android:id="@+id/cardResumoDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cardCalendario"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/view_card_resumo_dia"/>
+
+    <!-- Subtitulo medicamentos do dia -->
+    <TextView
+        android:id="@+id/subtituloMedicamentosDia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/gray_500"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/subtitle_historical"
+        app:layout_constraintTop_toBottomOf="@id/cardResumoDia"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <!-- Lista de medicamentos do dia -->
+    <include
+        android:id="@+id/cardListaMedicamentosDia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/subtituloMedicamentosDia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        layout="@layout/list_item_medicamentos_dia"/>
+
+    <!-- Botão para voltar ao menu principal -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVoltarAoMenuPrincipal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:backgroundTint="@color/gray_100"
+        android:text="@string/btn_return_to_main_menu"
+        android:textColor="@color/blue_500"
+        app:cornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/blue_500"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:layout_constraintTop_toBottomOf="@id/cardListaMedicamentosDia"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

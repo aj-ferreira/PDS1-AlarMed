@@ -22,13 +22,14 @@
 
             <!-- Subtítulo -->
             <TextView
+                android:id="@+id/subtituloEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:textColor="@color/gray_500"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:text="Informações do Medicamento" />
+                android:text="@string/info_medicamento" />
 
             <!-- Informações Básicas -->
             <com.google.android.material.card.MaterialCardView
@@ -66,7 +67,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:autofillHints="name"
-                            android:hint="Nome do Medicamento *"
+                            android:hint="@string/nome_medicamento"
                             android:inputType="textCapWords"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -82,7 +83,7 @@
                             android:id="@+id/edit_descricao"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Descrição (opcional)"
+                            android:hint="@string/descricao_medicamento"
                             android:inputType="textMultiLine"
                             android:minLines="2"
                             android:gravity="top"
@@ -155,8 +156,6 @@
                             app:strokeColor="@color/blue_500" />
 
                     </LinearLayout>
-
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -280,19 +279,18 @@
                     app:icon="@drawable/ic_relogio"
                     app:iconTint="@color/blue_500"
                     android:visibility="gone" />
-            </LinearLayout>
 
-            <!-- Botão Salvar -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_save"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/salvar"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/blue_700"
-                app:cornerRadius="8dp"
-                android:minHeight="48dp" />
+                <!-- Botão Atualizar -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button_save"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/blue_500"
+                    android:text="@string/atualizar"
+                    android:textColor="@android:color/white"
+                    app:cornerRadius="8dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,7 +69,22 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("AddEditMedicamentoActivity", "onCreate() iniciado");
-        setContentView(R.layout.activity_new_medicamento);
+        
+        // Verifica se está em modo de edição primeiro para usar o layout correto
+        final Intent intent = getIntent();
+        boolean isEditMode = intent.hasExtra(EXTRA_REPLY_ID);
+        
+        if (isEditMode) {
+            setContentView(R.layout.activiy_edit_medicamento);
+        } else {
+            setContentView(R.layout.activity_new_medicamento);
+        }
+
+        // Configurar ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         // Encontra as views do layout
         Log.d("AddEditMedicamentoActivity", "Inicializando views...");
@@ -114,9 +131,8 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
         mSpinnerTipo.setAdapter(adapter);
 
         // Verifica se está em modo de edição e preenche os campos
-        final Intent intent = getIntent();
         Log.d("AddEditMedicamentoActivity", "Verificando modo de operação...");
-        if (intent.hasExtra(EXTRA_REPLY_ID)) {
+        if (isEditMode) {
             Log.i("AddEditMedicamentoActivity", "Modo de edição ativado");
             Log.i("NewMedicamentoActivity", "Modo de edição ativado com EXTRA_REPLY_ID =" + EXTRA_REPLY_ID);
             setTitle("Editar Medicamento");
@@ -274,12 +290,9 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
                 String mensagem = String.format(
                     "Horário cadastrado:\n\n" +
                     "⏰ Primeira dose: %s\n" +
-                    "🔄 Intervalo: %d horas\n" +
-                    "📅 Data de fim: %s",
+                    "🔄 Intervalo: %d horas\n",
                     horario.horario_inicial,
-                    horario.intervalo,
-                    horario.dataFim != null && !horario.dataFim.isEmpty() ? horario.dataFim : "Indefinido"
-                );
+                    horario.intervalo);
 
                 Log.d("AddEditMedicamentoActivity", "Exibindo dialog com informações do horário");
                 new AlertDialog.Builder(this)
@@ -317,6 +330,28 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
             }
         });
         Log.d("AddEditMedicamentoActivity", "consultarHorario() finalizado");
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_add_edit_medicamento, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_save) {
+            // Chama a mesma lógica do botão salvar
+            findViewById(R.id.button_save).performClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
