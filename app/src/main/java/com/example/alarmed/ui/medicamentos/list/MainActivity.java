@@ -18,6 +18,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.alarmed.R;
 import com.example.alarmed.alarm.NotificationHelper;
 import com.example.alarmed.alarm.StockManager;
@@ -31,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
 
     private MedicamentoViewModel mMedicamentoViewModel;
+    private com.example.alarmed.data.repos.MedicamentoRepository mMedicamentoRepository;
 
     private ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher;
 
@@ -121,6 +125,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "Inicializando ViewModel...");
         mMedicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
+        
+        Log.d("MainActivity", "Inicializando Repository...");
+        mMedicamentoRepository = new com.example.alarmed.data.repos.MedicamentoRepository(getApplication());
 
         Log.d("MainActivity", "Configurando observador dos medicamentos com horários...");
         mMedicamentoViewModel.getAllMedicamentosComHorarios().observe(this, medicamentosComHorarios -> {
@@ -216,8 +223,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btnGerarPdf.setOnClickListener(view -> {
-            Log.d("MainActivity", "Botão 'Gerar PDF' clicado");
-            Toast.makeText(MainActivity.this, "Funcionalidade de PDF será implementada em breve", Toast.LENGTH_SHORT).show();
+            Log.d("MainActivity", "Botão 'Gerar Relatório' clicado");
+            generateWeeklyReport();
         });
 
         // A funcionalidade de deletar
@@ -278,6 +285,41 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("MainActivity", "Android < 13, permissão não necessária");
         }
+    }
+
+    /**
+     * Gera o relatório semanal de medicamentos
+     */
+    private void generateWeeklyReport() {
+        Log.d("MainActivity", "Iniciando geração de relatório semanal...");
+        
+        // Busca todos os medicamentos
+        mMedicamentoViewModel.getAllMedicamentos().observe(this, medicamentos -> {
+            if (medicamentos == null || medicamentos.isEmpty()) {
+                Toast.makeText(this, "Nenhum medicamento cadastrado para gerar relatório", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            Log.d("MainActivity", "Encontrados " + medicamentos.size() + " medicamentos");
+            
+            // Lista para armazenar medicamentos com seus horários
+            List<com.example.alarmed.util.ReportGenerator.MedicamentoComHorario> medicamentosComHorarios = new ArrayList<>();
+            final int[] processedCount = {0};
+            
+            // Para cada medicamento, busca seu horário
+            for (Medicamento medicamento : medicamentos) {
+                mMedicamentoRepository.getHorarioByMedicamentoId(medicamento.id, horario -> {
+                    medicamentosComHorarios.add(new com.example.alarmed.util.ReportGenerator.MedicamentoComHorario(medicamento, horario));
+                    processedCount[0]++;
+                    
+                    // Quando todos foram processados, gera o relatório
+                    if (processedCount[0] == medicamentos.size()) {
+                        Log.d("MainActivity", "Todos os medicamentos processados, gerando relatório...");
+                        com.example.alarmed.util.ReportGenerator.generateWeeklyReport(MainActivity.this, medicamentosComHorarios);
+                    }
+                });
+            }
+        });
     }
 
     /**

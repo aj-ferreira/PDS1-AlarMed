@@ -50,7 +50,7 @@
     <string name="btn_edit_medicine">Editar</string>
     <string name="btn_delete_medication">Excluir</string>
     <string name="btn_view_history">Visualizar histórico</string>
-    <string name="btn_generate_pdf">Gerar PDF com histórico semanal</string>
+    <string name="btn_generate_pdf">Gerar PDF com rotina semanal</string>
     <string name="btn_return_to_main_menu">Voltar ao Menu Principal</string>
 
     <string name="info_medicamento">Informações do Medicamento</string>
