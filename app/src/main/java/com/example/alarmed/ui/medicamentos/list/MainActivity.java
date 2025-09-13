@@ -22,6 +22,7 @@ import com.example.alarmed.R;
 import com.example.alarmed.alarm.NotificationHelper;
 import com.example.alarmed.alarm.StockManager;
 import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.ui.historico.HistoricoActivity;
 import com.example.alarmed.ui.horario.HorarioActivity;
 import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
@@ -196,6 +197,22 @@ public class MainActivity extends AppCompatActivity {
                 mMedicamentoViewModel.deleteById(medicamento.id);
                 Toast.makeText(MainActivity.this, "Medicamento excluído", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Configurar botões inferiores
+        Log.d("MainActivity", "Configurando botões inferiores...");
+        com.google.android.material.button.MaterialButton btnVerHistorico = findViewById(R.id.btnVerHistorico);
+        com.google.android.material.button.MaterialButton btnGerarPdf = findViewById(R.id.btnGerarPdf);
+
+        btnVerHistorico.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão 'Ver Histórico' clicado");
+            Intent intent = new Intent(MainActivity.this, HistoricoActivity.class);
+            startActivity(intent);
+        });
+
+        btnGerarPdf.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão 'Gerar PDF' clicado");
+            Toast.makeText(MainActivity.this, "Funcionalidade de PDF será implementada em breve", Toast.LENGTH_SHORT).show();
         });
 
         // A funcionalidade de deletar

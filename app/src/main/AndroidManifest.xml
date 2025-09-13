@@ -44,6 +44,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.historico.HistoricoActivity"
+            android:label="Histórico de Medicamentos"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
 
         <receiver
             android:name=".alarm.AlarmReceiver"

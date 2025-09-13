@@ -13,6 +13,7 @@ import com.example.alarmed.data.db.entity.HistoricoUso;
 import com.example.alarmed.data.db.entity.Horario;
 import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios;
+import com.example.alarmed.data.db.relacionamentos.HistoricoComMedicamento;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -163,6 +164,10 @@ public class MedicamentoRepository {
 
     public LiveData<List<HistoricoUso>> getHistoricoParaMedicamento(int medicamentoId) {
         return historicoUsoDao.getHistoricoParaMedicamento(medicamentoId);
+    }
+
+    public LiveData<List<HistoricoComMedicamento>> getAllHistoricoComMedicamento() {
+        return historicoUsoDao.getAllHistoricoComMedicamento();
     }
 
     public void insertHistorico(HistoricoUso historico) {
