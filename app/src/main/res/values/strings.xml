@@ -1,16 +1,22 @@
 <resources>
-    <string name="app_name">alarmed</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="app_name">AlarMed</string>
+    <string name="nav_header_subtitle_app">Cuidando da sua saúde</string>
+
+    <string name="nav_header_title_historical">Histórico de Medicamentos</string>
+    <string name="nav_header_title_register">Novo Medicamento</string>
+    <string name="nav_header_title_edit">Editar Medicamento</string>
+    <string name="nav_header_subtitle_edit">Atualize as informações do medicamento</string>
+
+    <string name="subtitle_main">Seus Medicamentos</string>
+    <string name="subtitle_historical">Medicamentos do Dia</string>
+    <string name="subtitle_register">Informações do Medicamento</string>
+
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
-    <string name="adicionar_medicamento">+++</string>
 
     <string-array name="tipos_medicamento">
         <item>Comprimido</item>
@@ -22,4 +28,55 @@
         <item>Outro</item>
     </string-array>
 
+    <string name="data_calendar">09/08/2025</string>
+    <string name="select_date">Selecionar Data</string>
+    <string name="day_summary">Resumo do Dia</string>
+
+    <string name="status_taken">Tomado</string>
+    <string name="lost_status">Perdido</string>
+    <string name="late_status">Atrasado</string>
+
+    <string name="schedule_taken">Tomado:</string>
+    <string name="scheduled_time">Previsto:</string>
+
+    <string name="pill_icon">Ícone de comprimido</string>
+    <string name="logo_icon">Ícone de logotipo</string>
+    <string name="left_arrow_icon">Ícone de seta para a esquerda</string>
+    <string name="calendar_icon">Ícone de calendário</string>
+    <string name="filter_icon">Ícone de filtro</string>
+
+    <string name="btn_add_medication">Adicionar Novo Medicamento</string>
+    <string name="btn_medication_taken">Tomei</string>
+    <string name="btn_edit_medicine">Editar</string>
+    <string name="btn_delete_medication">Excluir</string>
+    <string name="btn_view_history">Visualizar histórico</string>
+    <string name="btn_generate_pdf">Gerar PDF com rotina semanal</string>
+    <string name="btn_return_to_main_menu">Voltar ao Menu Principal</string>
+
+    <string name="info_medicamento">Informações do Medicamento</string>
+    <string name="nome_medicamento">Nome do Medicamento *</string>
+    <string name="ex_losartana">Ex: Losartana 50mg</string>
+    <string name="dosagem">Dosagem *</string>
+    <string name="ex_dosagem">Ex: 1 comprimido, 5ml, 2 gotas</string>
+    <string name="observacoes">Observações</string>
+    <string name="ex_observacoes">Ex: Tomar com água, longe das refeições...</string>
+    <string name="definir_horarios">🕑 Definir Horários</string>
+    <string name="frequencia_fixa">Frequência Fixa (Ex: 8h em 8h)</string>
+    <string name="horarios_especificos">Horários Específicos</string>
+    <string name="apos_refeicoes">Após Refeições</string>
+    <string name="horarios">Horários</string>
+    <string name="hora_placeholder">--:--</string>
+    <string name="icone_relogio">⏰</string>
+    <string name="icone_excluir">✖</string>
+    <string name="adicionar_horario">+ Adicionar Horário</string>
+    <string name="data_inicio">📅 Data de Início</string>
+    <string name="formato_data">dd/mm/aaaa</string>
+    <string name="icone_calendario">📅</string>
+    <string name="estoque">Estoque</string>
+    <string name="estoque_atual">Estoque Atual</string>
+    <string name="estoque_minimo">Estoque Mínimo</string>
+    <string name="salvar">Salvar</string>
+    <string name="atualizar">Atualizar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="descricao_medicamento">Descrição (opcional)</string>
 </resources>

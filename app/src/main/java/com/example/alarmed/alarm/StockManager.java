@@ -48,8 +48,9 @@ public class StockManager {
                     medicamento.estoque_atual = novoEstoque;
                     Log.d(TAG, "Reduzindo estoque em " + doseQuantity + " unidade(s) para: " + medicamento.estoque_atual);
                     
-                    // Salva a atualização
-                    repository.save(medicamento);
+                    // IMPORTANTE: Usa update() em vez de save() para evitar CASCADE problems
+                    repository.updateMedicamento(medicamento);
+                    Log.d(TAG, "✓ Estoque atualizado via UPDATE (sem afetar foreign keys)");
                     
                     // Verifica se precisa notificar estoque baixo
                     checkAndNotifyLowStock(medicamento);

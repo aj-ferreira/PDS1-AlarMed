@@ -18,10 +18,14 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.alarmed.R;
 import com.example.alarmed.alarm.NotificationHelper;
 import com.example.alarmed.alarm.StockManager;
 import com.example.alarmed.data.db.entity.Medicamento;
+import com.example.alarmed.ui.historico.HistoricoActivity;
 import com.example.alarmed.ui.horario.HorarioActivity;
 import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
@@ -30,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class MainActivity extends AppCompatActivity {
 
     private MedicamentoViewModel mMedicamentoViewModel;
+    private com.example.alarmed.data.repos.MedicamentoRepository mMedicamentoRepository;
 
     private ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher;
 
@@ -120,15 +125,25 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "Inicializando ViewModel...");
         mMedicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
+        
+        Log.d("MainActivity", "Inicializando Repository...");
+        mMedicamentoRepository = new com.example.alarmed.data.repos.MedicamentoRepository(getApplication());
 
-        Log.d("MainActivity", "Configurando observador dos medicamentos...");
-        mMedicamentoViewModel.getAllMedicamentos().observe(this, medicamentos -> {
-            Log.d("MainActivity", "Lista de medicamentos atualizada. Total: " + 
-                  (medicamentos != null ? medicamentos.size() : 0));
-            adapter.submitList(medicamentos);
+        Log.d("MainActivity", "Configurando observador dos medicamentos com horários...");
+        mMedicamentoViewModel.getAllMedicamentosComHorarios().observe(this, medicamentosComHorarios -> {
+            Log.d("MainActivity", "Lista de medicamentos com horários atualizada. Total: " + 
+                  (medicamentosComHorarios != null ? medicamentosComHorarios.size() : 0));
+            adapter.submitList(medicamentosComHorarios);
             
             // Verifica estoque baixo quando a lista é atualizada
-            checkLowStockForAllMedications(medicamentos);
+            if (medicamentosComHorarios != null) {
+                java.util.List<com.example.alarmed.data.db.entity.Medicamento> medicamentos = 
+                    new java.util.ArrayList<>();
+                for (com.example.alarmed.data.db.relacionamentos.MedicamentoComHorarios mch : medicamentosComHorarios) {
+                    medicamentos.add(mch.medicamento);
+                }
+                checkLowStockForAllMedications(medicamentos);
+            }
         });
 
         // O FAB abre a a tela pra adc novo medicamento
@@ -158,6 +173,60 @@ public class MainActivity extends AppCompatActivity {
             mAddEditMedicamentoLauncher.launch(intent);
         });
 
+        // Listener para os botões dos cards
+        adapter.setOnButtonClickListener(new MedicamentoListAdapter.OnButtonClickListener() {
+            @Override
+            public void onTomeiClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão 'Tomei' clicado para medicamento: " + medicamento.nome);
+                
+                // Inicia o HistoryUpdateServiceNew para registrar histórico e reagendar alarme
+                Intent serviceIntent = new Intent(MainActivity.this, com.example.alarmed.alarm.HistoryUpdateServiceNew.class);
+                serviceIntent.setAction(com.example.alarmed.alarm.HistoryUpdateServiceNew.ACTION_TAKEN);
+                serviceIntent.putExtra(com.example.alarmed.alarm.HistoryUpdateServiceNew.EXTRA_MEDICAMENTO_ID, medicamento.id);
+                startService(serviceIntent);
+                
+                Toast.makeText(MainActivity.this, "Medicamento tomado registrado", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEditClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão editar clicado - medicamento ID: " + medicamento.id);
+                Intent intent = new Intent(MainActivity.this, AddEditMedicamentoActivity.class);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, medicamento.id);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME, medicamento.nome);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO, medicamento.descricao);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE, medicamento.dose);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI, medicamento.imagem);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, medicamento.estoque_atual);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, medicamento.estoque_minimo);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO, medicamento.tipo);
+                mAddEditMedicamentoLauncher.launch(intent);
+            }
+
+            @Override
+            public void onDeleteClick(Medicamento medicamento) {
+                Log.d("MainActivity", "Botão excluir clicado - medicamento ID: " + medicamento.id);
+                mMedicamentoViewModel.deleteById(medicamento.id);
+                Toast.makeText(MainActivity.this, "Medicamento excluído", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Configurar botões inferiores
+        Log.d("MainActivity", "Configurando botões inferiores...");
+        com.google.android.material.button.MaterialButton btnVerHistorico = findViewById(R.id.btnVerHistorico);
+        com.google.android.material.button.MaterialButton btnGerarPdf = findViewById(R.id.btnGerarPdf);
+
+        btnVerHistorico.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão 'Ver Histórico' clicado");
+            Intent intent = new Intent(MainActivity.this, HistoricoActivity.class);
+            startActivity(intent);
+        });
+
+        btnGerarPdf.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão 'Gerar Relatório' clicado");
+            generateWeeklyReport();
+        });
+
         // A funcionalidade de deletar
         Log.d("MainActivity", "Configurando swipe para deletar...");
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -175,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
                 mMedicamentoViewModel.deleteById(med.id);
                 Toast.makeText(MainActivity.this, "Medicamento deletado", Toast.LENGTH_SHORT).show();
             }
+
         });
 
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -215,6 +285,44 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("MainActivity", "Android < 13, permissão não necessária");
         }
+    }
+
+    /**
+     * Gera o relatório semanal de medicamentos
+     */
+    private void generateWeeklyReport() {
+        Log.d("MainActivity", "Iniciando geração de relatório semanal...");
+        
+        // Busca todos os medicamentos
+        mMedicamentoViewModel.getAllMedicamentos().observe(this, medicamentos -> {
+            if (medicamentos == null || medicamentos.isEmpty()) {
+                Toast.makeText(this, "Nenhum medicamento cadastrado para gerar relatório", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            Log.d("MainActivity", "Encontrados " + medicamentos.size() + " medicamentos");
+            
+            // Lista para armazenar medicamentos com seus horários
+            List<com.example.alarmed.util.ReportGenerator.MedicamentoComHorario> medicamentosComHorarios = new ArrayList<>();
+            final int[] processedCount = {0};
+            
+            // Para cada medicamento, busca seu horário
+            for (Medicamento medicamento : medicamentos) {
+                mMedicamentoRepository.getHorarioByMedicamentoId(medicamento.id, horario -> {
+                    medicamentosComHorarios.add(new com.example.alarmed.util.ReportGenerator.MedicamentoComHorario(medicamento, horario));
+                    processedCount[0]++;
+                    
+                    // Quando todos foram processados, gera o relatório
+                    if (processedCount[0] == medicamentos.size()) {
+                        Log.d("MainActivity", "Todos os medicamentos processados, gerando relatório...");
+                        // Executa na thread principal
+                        runOnUiThread(() -> {
+                            com.example.alarmed.util.ReportGenerator.generateWeeklyReport(MainActivity.this, medicamentosComHorarios);
+                        });
+                    }
+                });
+            }
+        });
     }
 
     /**

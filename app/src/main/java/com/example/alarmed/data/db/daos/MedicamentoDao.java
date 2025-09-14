@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.data.db.relacionamentos.MedicamentoComHistorico;
@@ -24,8 +25,12 @@ public interface MedicamentoDao {
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long save(Medicamento medicamento);
-    //@Update
-    //void updateMedicamento(Medicamento medicamento);
+    
+    @Insert
+    long insert(Medicamento medicamento);
+    
+    @Update
+    void update(Medicamento medicamento);
 
     @Query("SELECT * FROM medicamento ORDER BY nome ASC")
     LiveData<List<Medicamento>> getAllMedicamentos();

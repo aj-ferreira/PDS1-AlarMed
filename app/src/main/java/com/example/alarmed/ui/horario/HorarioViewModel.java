@@ -47,8 +47,8 @@ public class HorarioViewModel extends AndroidViewModel {
     
     private void scheduleAlarm(Horario horario) {
         Log.d("HorarioViewModel", "scheduleAlarm() iniciado");
-        // Busca o medicamento para obter o nome
-        mRepository.getMedicamentoById(medicamentoId).observeForever(medicamento -> {
+        // Busca o medicamento para obter o nome usando callback assíncrono
+        mRepository.getMedicamentoById(medicamentoId, medicamento -> {
             if (medicamento != null) {
                 Log.d("HorarioViewModel", "Medicamento encontrado: " + medicamento.nome + " - Agendando alarme...");
                 alarmScheduler.schedule(getApplication(), medicamentoId, medicamento.nome, horario);

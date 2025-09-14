@@ -1,24 +1,279 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/textViewNome"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textStyle="bold"
-        tools:text="Paracetamol" />
+        android:layout_marginVertical="8dp"
+        android:layout_marginHorizontal="12dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        android:backgroundTint="@android:color/white">
 
-    <TextView
-        android:id="@+id/textViewDescricao"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItemSecondary"
-        tools:text="Analgésico e antitérmico" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <!-- Header com imagem e informações principais -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <!-- Container da imagem -->
+                <FrameLayout
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_marginEnd="16dp">
+
+                    <!-- Imagem do medicamento (visível apenas quando há imagem cadastrada) -->
+                    <ImageView
+                        android:id="@+id/imageMedicamento"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/bg_image_placeholder"
+                        android:contentDescription="Imagem do medicamento"
+                        android:visibility="gone" />
+
+                    <!-- Ícone placeholder (visível quando não há imagem) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_image_placeholder"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/iconMedicamento"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@drawable/ic_comprimido"
+                            app:tint="@color/blue_500"
+                            android:contentDescription="@string/pill_icon" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Informações principais -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Nome do medicamento -->
+                    <TextView
+                        android:id="@+id/textViewNome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textStyle="bold"
+                        android:textColor="@color/gray_900"
+                        android:textSize="18sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        tools:text="Losartana 50mg" />
+
+                    <!-- Descrição/dose -->
+                    <TextView
+                        android:id="@+id/textViewDescricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="@color/gray_700"
+                        android:textSize="14sp"
+                        tools:text="1 comprimido" />
+
+                    <!-- Container de badges -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <!-- Badge estoque baixo -->
+                        <TextView
+                            android:id="@+id/badgeEstoqueBaixo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bg_badge_warning"
+                            android:text="Estoque Baixo"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+
+                        <!-- Badge tipo -->
+                        <TextView
+                            android:id="@+id/badgeTipo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_badge_info"
+                            android:textColor="@color/blue_700"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="4dp"
+                            tools:text="Comprimido" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Badge estoque -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="end">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Estoque"
+                        android:textSize="10sp"
+                        android:textColor="@color/gray_500"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewEstoque"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/blue_700"
+                        tools:text="15" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Divisor -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/gray_300" />
+
+            <!-- Footer com horário e ações -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
+                <!-- Informações de horário -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <!-- Container do horário com ícone -->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginEnd="6dp"
+                            android:src="@drawable/ic_relogio"
+                            app:tint="@color/blue_500" />
+
+                        <TextView
+                            android:id="@+id/textViewHorario"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/blue_700"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            tools:text="14:00" />
+                    </LinearLayout>
+
+                    <!-- Frequência abaixo do horário -->
+                    <TextView
+                        android:id="@+id/textViewFrequencia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="22dp"
+                        android:textColor="@color/gray_500"
+                        android:textSize="12sp"
+                        tools:text="A cada 2 horas" />
+                </LinearLayout>
+
+                <!-- Ações -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <!-- Botão Tomei -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnTomei"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="8dp"
+                        android:minHeight="36dp"
+                        android:minWidth="80dp"
+                        android:text="@string/btn_medication_taken"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        android:backgroundTint="@color/green_200"
+                        app:cornerRadius="18dp"
+                        app:icon="@drawable/ic_check"
+                        app:iconSize="14dp"
+                        app:iconGravity="textStart" />
+
+                    <!-- Botão Editar -->
+                    <ImageButton
+                        android:id="@+id/btnEditar"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/btn_edit_medicine"
+                        android:src="@drawable/ic_editar"
+                        app:tint="@color/blue_500" />
+
+                    <!-- Botão Excluir -->
+                    <ImageButton
+                        android:id="@+id/btnExcluir"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@string/btn_delete_medication"
+                        android:src="@drawable/ic_lixeira"
+                        app:tint="@color/red" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Borda lateral colorida -->
+        <View
+            android:layout_width="4dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/blue_500" />
+
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>
