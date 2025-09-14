@@ -131,7 +131,8 @@ Este projeto foi desenvolvido como parte da disciplina de Prática em Desenvolvi
 
 ## 🤝 Contribuidores
 
-- **aj-ferreira** - Desenvolvedor 
+- **aj-ferreira** - Desenvolvedor
+- **LayzaDev** - Desenvolvedor
 
 ---
 
