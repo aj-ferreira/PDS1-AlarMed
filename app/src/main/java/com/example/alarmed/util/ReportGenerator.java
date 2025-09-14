@@ -21,8 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ReportGenerator {
     private static final String TAG = "ReportGenerator";
@@ -89,6 +91,41 @@ public class ReportGenerator {
         content.append("===========================================\n");
         content.append("Data de geração: ").append(dateFormat.format(new Date())).append("\n\n");
         
+        // Calcula horários para os próximos 7 dias de forma contínua
+        Calendar startCalendar = Calendar.getInstance();
+        startCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        startCalendar.set(Calendar.MINUTE, 0);
+        startCalendar.set(Calendar.SECOND, 0);
+        startCalendar.set(Calendar.MILLISECOND, 0);
+        
+        Calendar endCalendar = Calendar.getInstance();
+        endCalendar.add(Calendar.DAY_OF_MONTH, 7);
+        endCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        endCalendar.set(Calendar.MINUTE, 0);
+        endCalendar.set(Calendar.SECOND, 0);
+        endCalendar.set(Calendar.MILLISECOND, 0);
+        
+        // Para cada medicamento, calcula todos os horários da semana
+        Map<String, List<String>> horariosPorDia = new HashMap<>();
+        
+        for (MedicamentoComHorario medicamentoComHorario : medicamentosComHorarios) {
+            if (medicamentoComHorario.horario != null) {
+                List<Date> horariosCompletos = calculateWeeklySchedule(medicamentoComHorario, startCalendar.getTime(), endCalendar.getTime());
+                
+                for (Date horarioCompleto : horariosCompletos) {
+                    Calendar horarioCalendar = Calendar.getInstance();
+                    horarioCalendar.setTime(horarioCompleto);
+                    
+                    String dayKey = dateFormat.format(horarioCompleto);
+                    String horarioFormatted = timeFormat.format(horarioCompleto) + " - " + 
+                                             medicamentoComHorario.medicamento.nome + 
+                                             " (" + medicamentoComHorario.medicamento.dose + ")";
+                    
+                    horariosPorDia.computeIfAbsent(dayKey, k -> new ArrayList<>()).add(horarioFormatted);
+                }
+            }
+        }
+        
         // Para cada dia da semana
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -98,29 +135,19 @@ public class ReportGenerator {
         
         for (int day = 0; day < 7; day++) {
             Date currentDate = calendar.getTime();
+            String dayKey = dateFormat.format(currentDate);
+            
             content.append("📅 ").append(getDayOfWeekName(calendar.get(Calendar.DAY_OF_WEEK)))
-                   .append(" - ").append(dateFormat.format(currentDate)).append("\n");
+                   .append(" - ").append(dayKey).append("\n");
             content.append("-------------------------------------------\n");
             
-            // Gera horários para este dia
-            List<String> horariosParaODia = new ArrayList<>();
+            List<String> horariosParaODia = horariosPorDia.get(dayKey);
             
-            for (MedicamentoComHorario medicamentoComHorario : medicamentosComHorarios) {
-                if (medicamentoComHorario.horario != null) {
-                    List<String> horariosDoDia = calculateDaySchedule(medicamentoComHorario, currentDate);
-                    for (String horario : horariosDoDia) {
-                        horariosParaODia.add(horario + " - " + medicamentoComHorario.medicamento.nome + 
-                                           " (" + medicamentoComHorario.medicamento.dose + ")");
-                    }
-                }
-            }
-            
-            // Ordena os horários
-            horariosParaODia.sort(String::compareTo);
-            
-            if (horariosParaODia.isEmpty()) {
+            if (horariosParaODia == null || horariosParaODia.isEmpty()) {
                 content.append("   ⚪ Nenhum medicamento agendado\n");
             } else {
+                // Ordena os horários
+                horariosParaODia.sort(String::compareTo);
                 for (String horario : horariosParaODia) {
                     content.append("   🔔 ").append(horario).append("\n");
                 }
@@ -161,8 +188,8 @@ public class ReportGenerator {
         return content.toString();
     }
     
-    private static List<String> calculateDaySchedule(MedicamentoComHorario medicamentoComHorario, Date targetDate) {
-        List<String> horarios = new ArrayList<>();
+    private static List<Date> calculateWeeklySchedule(MedicamentoComHorario medicamentoComHorario, Date startDate, Date endDate) {
+        List<Date> horarios = new ArrayList<>();
         Horario horario = medicamentoComHorario.horario;
         
         if (horario == null || horario.horario_inicial == null) {
@@ -171,46 +198,35 @@ public class ReportGenerator {
         
         try {
             // Parseia o horário inicial
-            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-            Date horarioInicial = timeFormat.parse(horario.horario_inicial);
+            String[] parts = horario.horario_inicial.split(":");
+            int startHour = Integer.parseInt(parts[0]);
+            int startMinute = Integer.parseInt(parts[1]);
             
-            if (horarioInicial == null) {
-                return horarios;
-            }
-            
-            Calendar horarioInicialCalendar = Calendar.getInstance();
-            horarioInicialCalendar.setTime(horarioInicial);
-            
+            // Começa do horário inicial hoje
             Calendar calendar = Calendar.getInstance();
-            calendar.setTime(targetDate);
-            calendar.set(Calendar.HOUR_OF_DAY, horarioInicialCalendar.get(Calendar.HOUR_OF_DAY));
-            calendar.set(Calendar.MINUTE, horarioInicialCalendar.get(Calendar.MINUTE));
+            calendar.setTime(startDate);
+            calendar.set(Calendar.HOUR_OF_DAY, startHour);
+            calendar.set(Calendar.MINUTE, startMinute);
             calendar.set(Calendar.SECOND, 0);
             calendar.set(Calendar.MILLISECOND, 0);
             
-            // Gera horários para o dia (máximo 24 horários por dia)
-            for (int i = 0; i < 24; i++) {
-                Date horarioAtual = calendar.getTime();
-                
-                // Verifica se ainda está no mesmo dia
-                Calendar checkCalendar = Calendar.getInstance();
-                checkCalendar.setTime(horarioAtual);
-                Calendar targetCalendar = Calendar.getInstance();
-                targetCalendar.setTime(targetDate);
-                
-                if (checkCalendar.get(Calendar.DAY_OF_YEAR) == targetCalendar.get(Calendar.DAY_OF_YEAR) &&
-                    checkCalendar.get(Calendar.YEAR) == targetCalendar.get(Calendar.YEAR)) {
-                    horarios.add(timeFormat.format(horarioAtual));
-                } else {
-                    break;
-                }
-                
-                // Adiciona o intervalo
+            // Se o horário inicial já passou hoje, avança para a próxima ocorrência
+            Calendar now = Calendar.getInstance();
+            while (calendar.before(now)) {
+                calendar.add(Calendar.HOUR_OF_DAY, horario.intervalo);
+            }
+            
+            // Gera horários até o fim da semana
+            Calendar endCalendar = Calendar.getInstance();
+            endCalendar.setTime(endDate);
+            
+            while (calendar.before(endCalendar)) {
+                horarios.add(new Date(calendar.getTimeInMillis()));
                 calendar.add(Calendar.HOUR_OF_DAY, horario.intervalo);
             }
             
         } catch (Exception e) {
-            Log.e(TAG, "Erro ao calcular horários para o dia", e);
+            Log.e(TAG, "Erro ao calcular horários semanais", e);
         }
         
         return horarios;
