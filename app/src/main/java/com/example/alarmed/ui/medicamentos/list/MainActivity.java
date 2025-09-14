@@ -315,7 +315,10 @@ public class MainActivity extends AppCompatActivity {
                     // Quando todos foram processados, gera o relatório
                     if (processedCount[0] == medicamentos.size()) {
                         Log.d("MainActivity", "Todos os medicamentos processados, gerando relatório...");
-                        com.example.alarmed.util.ReportGenerator.generateWeeklyReport(MainActivity.this, medicamentosComHorarios);
+                        // Executa na thread principal
+                        runOnUiThread(() -> {
+                            com.example.alarmed.util.ReportGenerator.generateWeeklyReport(MainActivity.this, medicamentosComHorarios);
+                        });
                     }
                 });
             }

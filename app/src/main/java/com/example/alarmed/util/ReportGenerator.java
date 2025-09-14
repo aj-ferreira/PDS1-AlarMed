@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -61,11 +63,17 @@ public class ReportGenerator {
             // Abre o arquivo
             openFile(context, reportFile);
             
-            Toast.makeText(context, "Relatório gerado com sucesso!", Toast.LENGTH_SHORT).show();
+            // Toast na thread principal
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Toast.makeText(context, "Relatório gerado com sucesso!", Toast.LENGTH_SHORT).show();
+            });
             
         } catch (IOException e) {
             Log.e(TAG, "Erro ao gerar relatório", e);
-            Toast.makeText(context, "Erro ao gerar relatório: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            // Toast na thread principal
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Toast.makeText(context, "Erro ao gerar relatório: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            });
         }
     }
     
@@ -237,12 +245,16 @@ public class ReportGenerator {
                 context.startActivity(intent);
             } else {
                 // Se não conseguir abrir, pelo menos mostra onde foi salvo
-                Toast.makeText(context, "Arquivo salvo em: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    Toast.makeText(context, "Arquivo salvo em: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+                });
             }
             
         } catch (Exception e) {
             Log.e(TAG, "Erro ao abrir arquivo", e);
-            Toast.makeText(context, "Arquivo salvo em: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Toast.makeText(context, "Arquivo salvo em: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            });
         }
     }
 }
