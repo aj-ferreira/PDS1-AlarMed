@@ -1,12 +1,20 @@
 package com.example.alarmed;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import android.content.Context;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.room.Room;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+
+import com.example.alarmed.data.db.AppDatabase;
+import com.example.alarmed.data.db.daos.MedicamentoDao;
+import com.example.alarmed.data.db.entity.Medicamento;
 
 import org.junit.After;
 import org.junit.Before;
@@ -19,19 +27,13 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.*;
-
-import com.example.alarmed.data.db.daos.MedicamentoDao;
-import com.example.alarmed.data.db.entity.Medicamento;
-import com.example.alarmed.data.db.AppDatabase;
-
 /**
  * Classe de teste instrumentado para o MedicamentoDao.
  * Estes testes rodam em um dispositivo ou emulador Android.
  */
 @RunWith(AndroidJUnit4.class)
 public class MedicamentoDaoTest {
-    // Esta regra executa cada tarefa de forma síncrona, o que é útil para testes de LiveData.
+    // Esta regra executa cada tarefa de forma síncrona
     @Rule
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
@@ -41,7 +43,7 @@ public class MedicamentoDaoTest {
     @Before
     public void createDb() {
         Context context = ApplicationProvider.getApplicationContext();
-        // Usamos um banco de dados em memória para que os dados não persistam entre os testes.
+        //  banco de dados em memória para que os dados não persistam entre os testes.
         db = Room.inMemoryDatabaseBuilder(context, AppDatabase.class)
                 // Permite que as queries sejam executadas na thread principal (apenas para testes).
                 .allowMainThreadQueries()

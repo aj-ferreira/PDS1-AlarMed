@@ -22,7 +22,6 @@ public class MedicamentoViewModel extends AndroidViewModel {
         super(application);
         Log.d("MedicamentoViewModel", "Inicializando ViewModel...");
         // Cria uma instância do repositório.
-        // O ViewModel não deve ter uma referência direta ao banco de dados ou DAOs.
         mRepository = new MedicamentoRepository(application);
 
         // Obtém a lista de todos os medicamentos do repositório.
@@ -70,8 +69,6 @@ public class MedicamentoViewModel extends AndroidViewModel {
         mRepository.deleteMedicamentoById(id);
     }
 
-    // Você pode adicionar outros métodos aqui para interagir com o repositório,
-    // por exemplo, para buscar um medicamento específico ou seus horários.
 
     public LiveData<MedicamentoComHorarios> getMedicamentoComHorarios(int medicamentoId) {
         Log.d("MedicamentoViewModel", "getMedicamentoComHorarios() chamado - ID: " + medicamentoId);

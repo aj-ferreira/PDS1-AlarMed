@@ -18,18 +18,17 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.alarmed.R;
 import com.example.alarmed.alarm.NotificationHelper;
-import com.example.alarmed.alarm.StockManager;
 import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.ui.historico.HistoricoActivity;
 import com.example.alarmed.ui.horario.HorarioActivity;
 import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Medicamento criado.", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d("MainActivity", "Operação: ATUALIZAR medicamento existente ID: " + id);
-                        // ATUALIZAÇÃO: usa o save normal, sem navegar
                         medicamento.id = id;
                         mMedicamentoViewModel.save(medicamento);
                         Toast.makeText(this, "Medicamento atualizado.", Toast.LENGTH_SHORT).show();
@@ -271,7 +269,6 @@ public class MainActivity extends AppCompatActivity {
     // Implementação do método para pedir permissão
     private void askNotificationPermission() {
         Log.d("MainActivity", "askNotificationPermission() iniciado");
-        // Obrigatório a partir da API 33 (Android 13)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             Log.d("MainActivity", "Android 13+ detectado, verificando permissão POST_NOTIFICATIONS");
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) !=

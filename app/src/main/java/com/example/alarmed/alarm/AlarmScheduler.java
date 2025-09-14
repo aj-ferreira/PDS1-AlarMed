@@ -56,7 +56,7 @@ public class AlarmScheduler {
         // Verifica se a permissão para alarmes exatos foi concedida
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
-                // Aqui você deveria guiar o usuário para as configurações para conceder a permissão
+
                 new Handler(Looper.getMainLooper()).post(() -> 
                     Toast.makeText(context, "Permissão para alarmes exatos não concedida.", Toast.LENGTH_LONG).show()
                 );

@@ -34,7 +34,6 @@ public class MedicamentoRepository {
 
     public MedicamentoRepository(Context application) {
         Log.d("MedicamentoRepository", "Inicializando repositório...");
-        // Em uma implementação real, você obteria a instância do banco de dados aqui
         AppDatabase db = AppDatabase.getDatabase(application);
         this.medicamentoDao = db.medicamentoDao();
         this.horarioDao = db.horarioDao();
@@ -132,8 +131,6 @@ public class MedicamentoRepository {
             
             if (horario == null) {
                 Log.w("MedicamentoRepository", "AVISO: Nenhum horário encontrado no banco para medicamento ID: " + medicamentoId);
-                // Vamos verificar se há algum horário na tabela para debug
-                // (Nota: Em produção, essa verificação deve ser removida)
                 try {
                     // Busca todos os horários para debug
                     Log.d("MedicamentoRepository", "Verificando se há horários na tabela...");

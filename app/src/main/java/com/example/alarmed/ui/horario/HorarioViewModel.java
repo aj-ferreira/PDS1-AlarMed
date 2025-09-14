@@ -9,12 +9,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.alarmed.alarm.AlarmScheduler;
 import com.example.alarmed.data.db.entity.Horario;
-import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.data.repos.MedicamentoRepository;
 
 public class HorarioViewModel extends AndroidViewModel {
     private final MedicamentoRepository mRepository;
-    private final LiveData<Horario> mHorario; // Agora observa um único Horario
+    private final LiveData<Horario> mHorario; // observa um único Horario
     private final int medicamentoId;
     private final AlarmScheduler alarmScheduler;
 

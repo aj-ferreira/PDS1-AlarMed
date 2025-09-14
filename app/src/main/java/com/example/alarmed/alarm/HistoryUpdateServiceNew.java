@@ -116,7 +116,7 @@ public class HistoryUpdateServiceNew extends Service {
     private void reagendarAlarme(MedicamentoRepository repository, int medicamentoId) {
         Log.d(TAG, "Reagendando próximo alarme para medicamento ID: " + medicamentoId);
         
-        // Primeiro, vamos verificar se o horário existe antes de reagendar
+        // verificar se o horário existe antes de reagendar
         repository.getHorarioByMedicamentoId(medicamentoId, horario -> {
             Log.d(TAG, "Callback do getHorarioByMedicamentoId executado");
             if (horario != null) {
@@ -138,13 +138,11 @@ public class HistoryUpdateServiceNew extends Service {
             } else {
                 Log.e(TAG, "✗ ERRO: Nenhum horário encontrado para medicamento ID: " + medicamentoId);
                 
-                // Vamos fazer uma verificação adicional diretamente no banco
+                // verificação adicional diretamente no banco
                 Log.d(TAG, "Fazendo verificação adicional no banco de dados...");
-                // Isso será executado em background thread, então é seguro usar método síncrono
+                // Isso será executado em background thread, então usar método síncrono
                 new Thread(() -> {
                     try {
-                        // Aqui poderíamos fazer uma verificação direta, mas não temos acesso ao método síncrono
-                        // Vamos apenas logar que não encontramos o horário
                         Log.e(TAG, "Confirmado: Horário perdido para medicamento " + medicamentoId);
                     } catch (Exception e) {
                         Log.e(TAG, "Erro na verificação adicional", e);

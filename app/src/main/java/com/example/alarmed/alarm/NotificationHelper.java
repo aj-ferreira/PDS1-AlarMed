@@ -44,7 +44,7 @@ public class NotificationHelper extends ContextWrapper {
     }
 
     /**
-     * Cria o canal de notificação. Essencial para Android 8.0+.
+     * Cria o canal de notificação.
      * Deve ser chamado quando a aplicação inicia.
      */
     public static void createNotificationChannel(Context context) {
@@ -129,7 +129,7 @@ public class NotificationHelper extends ContextWrapper {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_launcher_foreground) // Substitua por um ícone de notificação adequado
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Hora de tomar o seu medicamento!")
                 .setContentText(medicamentoNome)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -186,7 +186,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(body))
-                .setSmallIcon(R.drawable.ic_launcher_foreground) // Idealmente usar um ícone de aviso
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
