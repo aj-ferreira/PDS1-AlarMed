@@ -133,6 +133,7 @@ Este projeto foi desenvolvido como parte da disciplina de Prática em Desenvolvi
 
 - **aj-ferreira** - Desenvolvedor
 - **LayzaDev** - Desenvolvedor
+- **jaquelinegon** - Desenvolvedor/Tester
 
 ---
 
