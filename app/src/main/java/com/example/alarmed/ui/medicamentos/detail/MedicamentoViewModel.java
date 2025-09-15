@@ -51,6 +51,16 @@ public class MedicamentoViewModel extends AndroidViewModel {
     }
 
     /**
+     * Atualiza um medicamento existente (preserva horários associados).
+     * Usa UPDATE em vez de REPLACE para manter integridade das foreign keys.
+     * @param medicamento O medicamento existente a ser atualizado.
+     */
+    public void update(Medicamento medicamento) {
+        Log.d("MedicamentoViewModel", "update() chamado - Medicamento: " + medicamento.nome + " (ID: " + medicamento.id + ")");
+        mRepository.updateMedicamento(medicamento);
+    }
+
+    /**
      * Salva (insere) um novo medicamento e executa um callback com o novo ID.
      * @param medicamento O novo medicamento a ser inserido.
      * @param listener O listener a ser chamado após a conclusão.

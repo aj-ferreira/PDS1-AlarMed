@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         Log.d("MainActivity", "Operação: ATUALIZAR medicamento existente ID: " + id);
                         medicamento.id = id;
-                        mMedicamentoViewModel.save(medicamento);
+                        // CORREÇÃO: Usar update() em vez de save() para medicamentos existentes
+                        // Isso preserva os horários associados (evita problemas com foreign key CASCADE)
+                        mMedicamentoViewModel.update(medicamento);
                         Toast.makeText(this, "Medicamento atualizado.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
