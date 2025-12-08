@@ -54,6 +54,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:label="Login"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.auth.CadastroActivity"
+            android:label="Cadastrar Usuário"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
 
         <receiver
             android:name=".alarm.AlarmReceiver"

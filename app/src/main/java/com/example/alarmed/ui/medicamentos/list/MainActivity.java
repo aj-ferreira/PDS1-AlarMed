@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -14,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +27,8 @@ import com.example.alarmed.ui.historico.HistoricoActivity;
 import com.example.alarmed.ui.horario.HorarioActivity;
 import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.alarmed.util.DrawerHelper;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MedicamentoViewModel mMedicamentoViewModel;
     private com.example.alarmed.data.repos.MedicamentoRepository mMedicamentoRepository;
+    private DrawerHelper drawerHelper;
 
     private ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher;
 
@@ -110,7 +114,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("MainActivity", "onCreate() iniciado");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_with_drawer);
+        
+        // Configura o Drawer seguindo princípios SOLID
+        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        drawerHelper = new DrawerHelper(this, drawerLayout, navigationView);
+        drawerHelper.setupActionBar();
         
         Log.d("MainActivity", "Criando canal de notificação...");
         NotificationHelper.createNotificationChannel(this);
@@ -146,13 +156,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // O FAB abre a a tela pra adc novo medicamento
-        Log.d("MainActivity", "Configurando FAB...");
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            Log.d("MainActivity", "FAB clicado - abrindo tela de novo medicamento");
+        // Botão adicionar novo medicamento
+        Log.d("MainActivity", "Configurando botão adicionar medicamento...");
+        Button btnAdicionar = findViewById(R.id.btnAdicionar);
+        btnAdicionar.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
             Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
             mAddEditMedicamentoLauncher.launch(intent);
+        });
+        
+        // Configurar FAB para abrir o drawer
+        Log.d("MainActivity", "Configurando FAB para abrir drawer...");
+        com.google.android.material.floatingactionbutton.FloatingActionButton fab = findViewById(R.id.ic_hamburguer_menu);
+        fab.setOnClickListener(view -> {
+            Log.d("MainActivity", "FAB clicado - abrindo drawer");
+            drawerLayout.openDrawer(androidx.core.view.GravityCompat.START);
         });
 
         // Listener para o clique em um item da lista (para edição)
@@ -250,6 +268,23 @@ public class MainActivity extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
         Log.d("MainActivity", "onCreate() finalizado");
     }
+    
+    @Override
+    public void onBackPressed() {
+        // Fecha o drawer se estiver aberto (princípio SRP)
+        if (!drawerHelper.closeDrawerIfOpen()) {
+            super.onBackPressed();
+        }
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Atualiza estado do menu ao retornar (princípio SRP)
+        if (drawerHelper != null) {
+            drawerHelper.updateMenuState();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -259,6 +294,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Delega ao drawerHelper primeiro (princípio DIP)
+        if (drawerHelper.onOptionsItemSelected(item)) {
+            return true;
+        }
+        
         if (item.getItemId() == 1) {
             // Testa a notificação
             Log.d("MainActivity", "Testando notificação...");
