@@ -27,7 +27,9 @@ import com.example.alarmed.ui.historico.HistoricoActivity;
 import com.example.alarmed.ui.horario.HorarioActivity;
 import com.example.alarmed.ui.medicamentos.addedit.AddEditMedicamentoActivity;
 import com.example.alarmed.ui.medicamentos.detail.MedicamentoViewModel;
+import com.example.alarmed.ui.medicamentos.view.ViewMedicamentoActivity;
 import com.example.alarmed.util.DrawerHelper;
+import com.example.alarmed.util.SessionManager;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private MedicamentoViewModel mMedicamentoViewModel;
     private com.example.alarmed.data.repos.MedicamentoRepository mMedicamentoRepository;
     private DrawerHelper drawerHelper;
+    private SessionManager sessionManager;
+    private MedicamentoListAdapter adapter;
 
     private ActivityResultLauncher<Intent> mNewMedicamentoActivityLauncher;
 
@@ -116,6 +120,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "onCreate() iniciado");
         setContentView(R.layout.activity_main_with_drawer);
         
+        // Inicializa o SessionManager
+        sessionManager = new SessionManager(this);
+        
         // Configura o Drawer seguindo princípios SOLID
         DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -130,8 +137,12 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity", "Configurando RecyclerView e Adapter...");
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        final MedicamentoListAdapter adapter = new MedicamentoListAdapter(new MedicamentoListAdapter.MedicamentoDiff());
+        adapter = new MedicamentoListAdapter(new MedicamentoListAdapter.MedicamentoDiff());
         recyclerView.setAdapter(adapter);
+        
+        // Configura permissões do adapter baseado no tipo de usuário
+        adapter.setUserAdmin(sessionManager.isAdmin());
+        Log.d("MainActivity", "Permissões do adapter configuradas - Admin: " + sessionManager.isAdmin());
 
         Log.d("MainActivity", "Inicializando ViewModel...");
         mMedicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
@@ -160,6 +171,12 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Configurando botão adicionar medicamento...");
         Button btnAdicionar = findViewById(R.id.btnAdicionar);
         btnAdicionar.setOnClickListener(view -> {
+            // Apenas admin pode adicionar medicamentos
+            if (!sessionManager.isAdmin()) {
+                Toast.makeText(this, "Apenas administradores podem adicionar medicamentos.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            
             Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
             Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
             mAddEditMedicamentoLauncher.launch(intent);
@@ -176,19 +193,38 @@ public class MainActivity extends AppCompatActivity {
         // Listener para o clique em um item da lista (para edição)
         Log.d("MainActivity", "Configurando listener de clique dos itens...");
         adapter.setOnItemClickListener(medicamento -> {
-            Log.d("MainActivity", "Item clicado - editando medicamento ID: " + medicamento.id + 
+            Log.d("MainActivity", "Item clicado - Medicamento ID: " + medicamento.id + 
                   ", Nome: " + medicamento.nome);
-            Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, medicamento.id);
-            Log.i("MainActivity", "id sent in extra to NewMedicamentoActivity intent: " + medicamento.id);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME, medicamento.nome);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO, medicamento.descricao);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE, medicamento.dose);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI, medicamento.imagem);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, medicamento.estoque_atual);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, medicamento.estoque_minimo);
-            intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO, medicamento.tipo);
-            mAddEditMedicamentoLauncher.launch(intent);
+            
+            // Verifica se o usuário é admin
+            if (sessionManager.isAdmin()) {
+                // Admin pode editar
+                Log.d("MainActivity", "Usuário admin - abrindo tela de edição");
+                Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ID, medicamento.id);
+                Log.i("MainActivity", "id sent in extra to NewMedicamentoActivity intent: " + medicamento.id);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_NOME, medicamento.nome);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DESCRICAO, medicamento.descricao);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_DOSE, medicamento.dose);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_IMAGEM_URI, medicamento.imagem);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_ATUAL, medicamento.estoque_atual);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_ESTOQUE_MINIMO, medicamento.estoque_minimo);
+                intent.putExtra(AddEditMedicamentoActivity.EXTRA_REPLY_TIPO, medicamento.tipo);
+                mAddEditMedicamentoLauncher.launch(intent);
+            } else {
+                // Usuário comum pode apenas visualizar
+                Log.d("MainActivity", "Usuário comum - abrindo tela de visualização");
+                Intent intent = new Intent(this, ViewMedicamentoActivity.class);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_ID, medicamento.id);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_NOME, medicamento.nome);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_DESCRICAO, medicamento.descricao);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_DOSE, medicamento.dose);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_IMAGEM_URI, medicamento.imagem);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_ESTOQUE_ATUAL, medicamento.estoque_atual);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_ESTOQUE_MINIMO, medicamento.estoque_minimo);
+                intent.putExtra(ViewMedicamentoActivity.EXTRA_MEDICAMENTO_TIPO, medicamento.tipo);
+                startActivity(intent);
+            }
         });
 
         // Listener para os botões dos cards
@@ -245,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
             generateWeeklyReport();
         });
 
-        // A funcionalidade de deletar
+        // A funcionalidade de deletar (apenas para admin)
         Log.d("MainActivity", "Configurando swipe para deletar...");
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -256,11 +292,28 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                // Apenas admin pode deletar via swipe
+                if (!sessionManager.isAdmin()) {
+                    Log.w("MainActivity", "Tentativa de deletar por usuário não-admin via swipe - bloqueado");
+                    Toast.makeText(MainActivity.this, "Apenas administradores podem deletar medicamentos.", Toast.LENGTH_LONG).show();
+                    adapter.notifyItemChanged(viewHolder.getAdapterPosition()); // Restaura o item
+                    return;
+                }
+                
                 int position = viewHolder.getAdapterPosition();
                 Medicamento med = adapter.getMedicamentoAt(position);
                 Log.d("MainActivity", "Medicamento deletado via swipe - ID: " + med.id + ", Nome: " + med.nome);
                 mMedicamentoViewModel.deleteById(med.id);
                 Toast.makeText(MainActivity.this, "Medicamento deletado", Toast.LENGTH_SHORT).show();
+            }
+            
+            @Override
+            public int getSwipeDirs(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+                // Desabilita swipe para usuários não-admin
+                if (!sessionManager.isAdmin()) {
+                    return 0; // Nenhuma direção de swipe permitida
+                }
+                return super.getSwipeDirs(recyclerView, viewHolder);
             }
 
         });
@@ -283,6 +336,12 @@ public class MainActivity extends AppCompatActivity {
         // Atualiza estado do menu ao retornar (princípio SRP)
         if (drawerHelper != null) {
             drawerHelper.updateMenuState();
+        }
+        
+        // Atualiza permissões do adapter caso o estado de login tenha mudado
+        if (adapter != null && sessionManager != null) {
+            adapter.setUserAdmin(sessionManager.isAdmin());
+            Log.d("MainActivity", "Permissões do adapter atualizadas no onResume - Admin: " + sessionManager.isAdmin());
         }
     }
 

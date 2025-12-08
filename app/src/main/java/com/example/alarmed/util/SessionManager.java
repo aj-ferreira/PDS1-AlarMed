@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.alarmed.data.db.entity.Usuario;
-
+//TALVEZ NAO VAI USAR
 /**
  * Gerenciador de sessão do usuário.
  * Utiliza SharedPreferences para armazenar informações da sessão atual.

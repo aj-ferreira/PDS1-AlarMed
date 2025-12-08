@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/gray_200">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Informações do Medicamento"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/blue_500"
+            android:layout_marginBottom="24dp"
+            android:gravity="center"/>
+
+        <!-- Card com informações -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="4dp"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Imagem do medicamento -->
+                <ImageView
+                    android:id="@+id/image_medicamento"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="16dp"
+                    android:contentDescription="Imagem do medicamento"
+                    android:src="@drawable/ic_placeholder_image"/>
+
+                <!-- Nome -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Nome:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"
+                    android:layout_marginTop="8dp"/>
+
+                <TextView
+                    android:id="@+id/text_nome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="18sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Tipo -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tipo:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"/>
+
+                <TextView
+                    android:id="@+id/text_tipo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Dose -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dosagem:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"/>
+
+                <TextView
+                    android:id="@+id/text_dose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Descrição -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descrição:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"/>
+
+                <TextView
+                    android:id="@+id/text_descricao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Estoque Atual -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Estoque Atual:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"/>
+
+                <TextView
+                    android:id="@+id/text_estoque_atual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Estoque Mínimo -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Estoque Mínimo:"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/gray_600"/>
+
+                <TextView
+                    android:id="@+id/text_estoque_minimo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_900"
+                    android:layout_marginBottom="12dp"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Botão Consultar Horário -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_consultar_horario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Consultar Horário"
+            android:textColor="@android:color/white"
+            app:icon="@android:drawable/ic_menu_recent_history"
+            app:iconGravity="textStart"
+            app:iconTint="@android:color/white"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- Botão Fechar -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_fechar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fechar"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+
+    </LinearLayout>
+</ScrollView>
