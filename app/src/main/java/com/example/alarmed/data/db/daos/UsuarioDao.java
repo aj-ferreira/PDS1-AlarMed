@@ -87,6 +87,14 @@ public interface UsuarioDao {
     LiveData<List<Usuario>> getUsuariosComuns();
 
     /**
+     * Busca um usuário por ID de forma síncrona.
+     * @param id O ID do usuário.
+     * @return O usuário encontrado ou null.
+     */
+    @Query("SELECT * FROM usuario WHERE id = :id")
+    Usuario getUsuarioByIdSync(int id);
+
+    /**
      * Verifica se existe pelo menos um administrador no sistema.
      * @return Número de administradores ativos.
      */

@@ -92,12 +92,39 @@ public class SessionManager {
     }
 
     /**
+     * Verifica se o usuário logado é um usuário administrador (alias para isAdmin).
+     * @return true se o usuário é admin, false caso contrário.
+     */
+    public boolean isUserAdmin() {
+        return isAdmin();
+    }
+
+    /**
      * Verifica se o usuário logado é um usuário comum.
      * @return true se o usuário é comum, false caso contrário.
      */
     public boolean isUsuario() {
         String perfil = getUserPerfil();
         return "USUARIO".equals(perfil);
+    }
+
+    /**
+     * Obtém um objeto Usuario com os dados da sessão atual.
+     * @return Usuario com dados da sessão ou null se não houver sessão.
+     */
+    public Usuario getUsuario() {
+        if (!isLoggedIn()) {
+            return null;
+        }
+        
+        Usuario usuario = new Usuario();
+        usuario.id = getUserId();
+        usuario.nome = getUserName();
+        usuario.email = getUserEmail();
+        usuario.tipoPerfil = getUserPerfil();
+        usuario.ativo = true;
+        
+        return usuario;
     }
 
     /**

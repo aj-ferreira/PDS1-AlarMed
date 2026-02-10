@@ -13,12 +13,14 @@ import com.example.alarmed.data.db.daos.HorarioDao;
 import com.example.alarmed.data.db.daos.MedicamentoDao;
 import com.example.alarmed.data.db.daos.RelatorioPdfDao;
 import com.example.alarmed.data.db.daos.UsuarioDao;
+import com.example.alarmed.data.db.dao.PerfilUsuarioDao;
 import com.example.alarmed.data.db.entity.HistoricoUso;
 import com.example.alarmed.data.db.entity.Horario;
 import com.example.alarmed.data.db.entity.Medicamento;
 import com.example.alarmed.data.db.entity.RelatorioPDF;
 import com.example.alarmed.data.db.entity.RelatorioPDFMedicamento;
 import com.example.alarmed.data.db.entity.Usuario;
+import com.example.alarmed.data.db.entity.PerfilUsuario;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,8 +30,9 @@ import java.util.concurrent.Executors;
         HistoricoUso.class,
         RelatorioPDF.class,
         RelatorioPDFMedicamento.class,
-        Usuario.class},
-        version = 3, exportSchema = false)
+        Usuario.class,
+        PerfilUsuario.class},
+        version = 5, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     // Métodos abstratos para que o Room possa fornecer as implementações dos DAOs.
     public abstract MedicamentoDao medicamentoDao();
@@ -37,6 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract HistoricoUsoDao historicoUsoDao();
     public abstract RelatorioPdfDao relatorioDao();
     public abstract UsuarioDao usuarioDao();
+    public abstract PerfilUsuarioDao perfilUsuarioDao();
 
     // A palavra-chave 'volatile' garante que a instância seja sempre lida da memória principal.
     private static volatile AppDatabase INSTANCE;
@@ -78,27 +82,89 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
-    // Migração da versão 3 para 4 - update tabela usuario
+    // Migração da versão 3 para 4 - cria tabela perfil_usuario
     static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
-            // Cria a tabela usuario
-            database.execSQL("CREATE TABLE IF NOT EXISTS `usuario` (" +
+            // Cria a tabela perfil_usuario
+            database.execSQL("CREATE TABLE IF NOT EXISTS `perfil_usuario` (" +
                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
-                    "`nome` TEXT, " +
-                    "`email` TEXT, " +
-                    "`senha` TEXT, " +
-                    "`tipo_perfil` TEXT, " +
-                    "`data_criacao` TEXT NOT NULL, " +
-                    "`ativo` INTEGER NOT NULL)");
+                    "`usuario_id` INTEGER NOT NULL, " +
+                    "`data_nascimento` TEXT, " +
+                    "`telefone` TEXT, " +
+                    "`endereco` TEXT, " +
+                    "`cidade` TEXT, " +
+                    "`estado` TEXT, " +
+                    "`cep` TEXT, " +
+                    "`peso` REAL, " +
+                    "`altura` REAL, " +
+                    "`tipo_sanguineo` TEXT, " +
+                    "`alergias` TEXT, " +
+                    "`condicoes_medicas` TEXT, " +
+                    "`medicamentos_continuos` TEXT, " +
+                    "`contato_emergencia_nome` TEXT, " +
+                    "`contato_emergencia_telefone` TEXT, " +
+                    "`contato_emergencia_parentesco` TEXT, " +
+                    "`nome_medico` TEXT, " +
+                    "`telefone_medico` TEXT, " +
+                    "`plano_saude` TEXT, " +
+                    "`numero_carteirinha` TEXT, " +
+                    "`observacoes` TEXT, " +
+                    "`data_atualizacao` TEXT, " +
+                    "FOREIGN KEY(`usuario_id`) REFERENCES `usuario`(`id`) ON DELETE CASCADE)");
+            
+            // Cria índice único para usuario_id
+            database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_perfil_usuario_usuario_id` " +
+                    "ON `perfil_usuario` (`usuario_id`)");
+        }
+    };
 
-            // Cria índice único para email
-            database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_usuario_email` ON `usuario` (`email`)");
-
-            // Insere usuário admin padrão
-            database.execSQL("INSERT INTO usuario (nome, email, senha, tipo_perfil, data_criacao, ativo) " +
-                    "VALUES ('Administrador', 'admin@alarmed.com', 'admin123', 'ADMIN', '" +
-                    System.currentTimeMillis() + "', 1)");
+    // Migração da versão 4 para 5 - remove foreign key e campo usuario_id
+    static final Migration MIGRATION_4_5 = new Migration(4, 5) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Cria nova tabela sem foreign key
+            database.execSQL("CREATE TABLE IF NOT EXISTS `perfil_usuario_new` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`data_nascimento` TEXT, " +
+                    "`telefone` TEXT, " +
+                    "`endereco` TEXT, " +
+                    "`cidade` TEXT, " +
+                    "`estado` TEXT, " +
+                    "`cep` TEXT, " +
+                    "`peso` REAL, " +
+                    "`altura` REAL, " +
+                    "`tipo_sanguineo` TEXT, " +
+                    "`alergias` TEXT, " +
+                    "`condicoes_medicas` TEXT, " +
+                    "`medicamentos_continuos` TEXT, " +
+                    "`contato_emergencia_nome` TEXT, " +
+                    "`contato_emergencia_telefone` TEXT, " +
+                    "`contato_emergencia_parentesco` TEXT, " +
+                    "`nome_medico` TEXT, " +
+                    "`telefone_medico` TEXT, " +
+                    "`plano_saude` TEXT, " +
+                    "`numero_carteirinha` TEXT, " +
+                    "`observacoes` TEXT, " +
+                    "`data_atualizacao` TEXT)");
+            
+            // Copia dados da tabela antiga (excluindo usuario_id)
+            database.execSQL("INSERT INTO perfil_usuario_new (id, data_nascimento, telefone, endereco, " +
+                    "cidade, estado, cep, peso, altura, tipo_sanguineo, alergias, condicoes_medicas, " +
+                    "medicamentos_continuos, contato_emergencia_nome, contato_emergencia_telefone, " +
+                    "contato_emergencia_parentesco, nome_medico, telefone_medico, plano_saude, " +
+                    "numero_carteirinha, observacoes, data_atualizacao) " +
+                    "SELECT id, data_nascimento, telefone, endereco, cidade, estado, cep, peso, altura, " +
+                    "tipo_sanguineo, alergias, condicoes_medicas, medicamentos_continuos, " +
+                    "contato_emergencia_nome, contato_emergencia_telefone, contato_emergencia_parentesco, " +
+                    "nome_medico, telefone_medico, plano_saude, numero_carteirinha, observacoes, " +
+                    "data_atualizacao FROM perfil_usuario");
+            
+            // Remove tabela antiga
+            database.execSQL("DROP TABLE perfil_usuario");
+            
+            // Renomeia nova tabela
+            database.execSQL("ALTER TABLE perfil_usuario_new RENAME TO perfil_usuario");
         }
     };
 
@@ -117,7 +183,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "alarmed_database")
                             // Adiciona as migrações
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
                             .build();
                 }
             }

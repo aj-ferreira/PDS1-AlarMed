@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.alarmed.R;
 import com.example.alarmed.data.repos.MedicamentoRepository;
+import com.example.alarmed.util.PermissionManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -69,6 +70,13 @@ public class AddEditMedicamentoActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("AddEditMedicamentoActivity", "onCreate() iniciado");
+        
+        // Verifica permissões - apenas ADMIN pode criar/editar medicamentos
+        PermissionManager permissionManager = new PermissionManager(this);
+        if (!permissionManager.checkPermissionOrFinish(this, "criar ou editar medicamentos", 
+                permissionManager.canEditMedicamentos())) {
+            return;
+        }
         
         // Verifica se está em modo de edição primeiro para usar o layout correto
         final Intent intent = getIntent();

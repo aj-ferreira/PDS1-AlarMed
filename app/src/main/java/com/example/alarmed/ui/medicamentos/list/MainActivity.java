@@ -170,17 +170,25 @@ public class MainActivity extends AppCompatActivity {
         // Botão adicionar novo medicamento
         Log.d("MainActivity", "Configurando botão adicionar medicamento...");
         Button btnAdicionar = findViewById(R.id.btnAdicionar);
-        btnAdicionar.setOnClickListener(view -> {
-            // Apenas admin pode adicionar medicamentos
-            if (!sessionManager.isAdmin()) {
-                Toast.makeText(this, "Apenas administradores podem adicionar medicamentos.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            
-            Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
-            Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
-            mAddEditMedicamentoLauncher.launch(intent);
-        });
+        
+        // Debug: verificar informações do usuário
+        Log.d("MainActivity", "Usuário logado: " + sessionManager.isLoggedIn());
+        Log.d("MainActivity", "Perfil do usuário: " + sessionManager.getUserPerfil());
+        Log.d("MainActivity", "É admin: " + sessionManager.isAdmin());
+        
+        // Controla a visibilidade do botão baseado no perfil do usuário
+        if (sessionManager.isAdmin()) {
+            btnAdicionar.setVisibility(Button.VISIBLE);
+            btnAdicionar.setOnClickListener(view -> {
+                Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
+                Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
+                mAddEditMedicamentoLauncher.launch(intent);
+            });
+            Log.d("MainActivity", "Botão adicionar configurado como VISÍVEL para ADMIN");
+        } else {
+            btnAdicionar.setVisibility(Button.GONE);
+            Log.d("MainActivity", "Botão adicionar oculto para usuário comum");
+        }
         
         // Configurar FAB para abrir o drawer
         Log.d("MainActivity", "Configurando FAB para abrir drawer...");
@@ -342,6 +350,18 @@ public class MainActivity extends AppCompatActivity {
         if (adapter != null && sessionManager != null) {
             adapter.setUserAdmin(sessionManager.isAdmin());
             Log.d("MainActivity", "Permissões do adapter atualizadas no onResume - Admin: " + sessionManager.isAdmin());
+        }
+        
+        // Atualiza visibilidade do botão adicionar
+        Button btnAdicionar = findViewById(R.id.btnAdicionar);
+        if (btnAdicionar != null && sessionManager != null) {
+            if (sessionManager.isAdmin()) {
+                btnAdicionar.setVisibility(Button.VISIBLE);
+                Log.d("MainActivity", "Botão adicionar configurado como VISÍVEL no onResume");
+            } else {
+                btnAdicionar.setVisibility(Button.GONE);
+                Log.d("MainActivity", "Botão adicionar oculto no onResume");
+            }
         }
     }
 

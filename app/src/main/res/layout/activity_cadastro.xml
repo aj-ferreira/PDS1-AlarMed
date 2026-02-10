@@ -180,16 +180,6 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/radio_usuario"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Usuário"
-                            android:textColor="@color/blue_500"
-                            android:checked="true"
-                            android:buttonTint="@color/blue_500" />
-
-                        <RadioButton
                             android:id="@+id/radio_admin"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

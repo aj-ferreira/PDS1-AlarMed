@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.alarmed.R;
 import com.example.alarmed.data.db.entity.Horario;
 import com.example.alarmed.ui.medicamentos.list.MainActivity;
+import com.example.alarmed.util.PermissionManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Locale;
@@ -34,6 +35,14 @@ public class HorarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("HorarioActivity", "onCreate() iniciado");
+        
+        // Verifica permissões - apenas ADMIN pode configurar horários
+        PermissionManager permissionManager = new PermissionManager(this);
+        if (!permissionManager.checkPermissionOrFinish(this, "configurar horários", 
+                permissionManager.canManageHorarios())) {
+            return;
+        }
+        
         setContentView(R.layout.activity_horario);
 
         // Configurar ActionBar

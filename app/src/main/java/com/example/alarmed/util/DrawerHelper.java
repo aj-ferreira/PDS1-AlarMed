@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.alarmed.R;
 import com.example.alarmed.ui.auth.LoginActivity;
+import com.example.alarmed.ui.perfil.PerfilActivity;
 import com.google.android.material.navigation.NavigationView;
 
 /**
@@ -101,6 +102,8 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
         
         if (id == R.id.nav_login) {
             handleLoginNavigation();
+        } else if (id == R.id.nav_perfil) {
+            handlePerfilNavigation();
         }
         // Adicionar outros itens de navegação aqui
         
@@ -125,13 +128,26 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
     }
 
     /**
+     * Trata a navegação para o perfil do usuário.
+     * Princípio da Responsabilidade Única - método específico para perfil.
+     * Usuário comum (não logado) pode visualizar, apenas admin pode editar.
+     */
+    private void handlePerfilNavigation() {
+        // Permite acesso ao perfil mesmo sem login
+        // O controle de edição é feito dentro da PerfilActivity
+        Intent intent = new Intent(activity, PerfilActivity.class);
+        activity.startActivity(intent);
+    }
+
+    /**
      * Atualiza o menu baseado no estado de login do usuário.
      */
     private void updateMenuForLoginState() {
         MenuItem loginItem = navigationView.getMenu().findItem(R.id.nav_login);
         if (loginItem != null) {
             if (sessionManager.isLoggedIn()) {
-                loginItem.setTitle("Logout (" + sessionManager.getUserName() + ")");
+                String perfil = sessionManager.isAdmin() ? " [ADMIN]" : " [Usuário]";
+                loginItem.setTitle("Logout (" + sessionManager.getUserName() + perfil + ")");
                 loginItem.setIcon(android.R.drawable.ic_lock_power_off);
             } else {
                 loginItem.setTitle("Login");

@@ -162,6 +162,43 @@ public class UsuarioRepository {
     }
 
     /**
+     * Garante que o usuário comum (ID 2) exista no banco de dados.
+     * Se não existir, cria um usuário comum padrão.
+     * @param callback Callback com o ID do usuário comum.
+     */
+    public void garantirUsuarioComum(OnUsuarioComumListener callback) {
+        executor.execute(() -> {
+            try {
+                // Verifica se o usuário comum já existe
+                Usuario usuarioComum = usuarioDao.getUsuarioByIdSync(2);
+                
+                if (usuarioComum == null) {
+                    // Cria um usuário comum padrão
+                    Usuario novoUsuario = new Usuario();
+                    novoUsuario.id = 2;
+                    novoUsuario.nome = "Usuário Comum";
+                    novoUsuario.email = "usuario@alarmed.com";
+                    novoUsuario.senha = "usuario123";
+                    novoUsuario.tipoPerfil = "USUARIO";
+                    novoUsuario.ativo = true;
+                    
+                    usuarioDao.insert(novoUsuario);
+                    Log.d(TAG, "Usuário comum criado com ID: 2");
+                }
+                
+                if (callback != null) {
+                    callback.onUsuarioComumReady(2);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Erro ao garantir usuário comum", e);
+                if (callback != null) {
+                    callback.onError(e);
+                }
+            }
+        });
+    }
+
+    /**
      * Verifica se um email já existe no banco de dados.
      * @param email Email a ser verificado.
      * @param callback Callback com o resultado.
@@ -248,6 +285,11 @@ public class UsuarioRepository {
 
     public interface OnEmailExistsListener {
         void onResult(boolean existe);
+        void onError(Exception e);
+    }
+
+    public interface OnUsuarioComumListener {
+        void onUsuarioComumReady(int usuarioId);
         void onError(Exception e);
     }
 }

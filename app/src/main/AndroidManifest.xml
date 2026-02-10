@@ -71,6 +71,14 @@
                 android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.perfil.PerfilActivity"
+            android:label="Perfil do Usuário"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.auth.LoginActivity"
             android:label="Login"
             android:parentActivityName=".ui.medicamentos.list.MainActivity">
