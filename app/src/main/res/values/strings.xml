@@ -17,6 +17,9 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    
+    <string name="navigation_drawer_open">Abrir menu de navegação</string>
+    <string name="navigation_drawer_close">Fechar menu de navegação</string>
 
     <string-array name="tipos_medicamento">
         <item>Comprimido</item>
@@ -50,7 +53,7 @@
     <string name="btn_edit_medicine">Editar</string>
     <string name="btn_delete_medication">Excluir</string>
     <string name="btn_view_history">Visualizar histórico</string>
-    <string name="btn_generate_pdf">Gerar PDF com rotina semanal</string>
+    <string name="btn_generate_pdf">Gerar relatório rotina semanal</string>
     <string name="btn_return_to_main_menu">Voltar ao Menu Principal</string>
 
     <string name="info_medicamento">Informações do Medicamento</string>

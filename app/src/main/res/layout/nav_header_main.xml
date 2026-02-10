@@ -11,7 +11,7 @@
         android:id="@+id/logoIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/ic_logo2"
+        android:src="@drawable/ic_logo_header"
         android:contentDescription="@string/logo_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         app:layout_constraintStart_toEndOf="@id/logoIcon"
         app:layout_constraintTop_toTopOf="@id/logoIcon"
         app:layout_constraintBottom_toBottomOf="@id/logoIcon"
-        app:layout_constraintEnd_toStartOf="@id/fab">
+        app:layout_constraintEnd_toStartOf="@id/ic_hamburguer_menu">
 
         <TextView
             android:id="@+id/titleText"
@@ -50,11 +50,11 @@
 
     <!-- Botão + -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/ic_hamburguer_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/btn_add_medication"
-        app:srcCompat="@drawable/ic_add_medicamento"
+        app:srcCompat="@drawable/ic_menu"
         app:backgroundTint="@color/blue_200"
         app:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"

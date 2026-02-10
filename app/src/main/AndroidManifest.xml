@@ -39,6 +39,22 @@
                 android:value=".ui.medicamentos.list.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.medicamentos.addedit.AddEditMedicamentoActivity"
+            android:label="Adicionar Medicamento"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.medicamentos.view.ViewMedicamentoActivity"
+            android:label="Visualizar Medicamento"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.horario.HorarioActivity"
             android:label="Definir Horário"
             android:parentActivityName=".ui.medicamentos.list.MainActivity">
@@ -49,6 +65,30 @@
         <activity
             android:name=".ui.historico.HistoricoActivity"
             android:label="Histórico de Medicamentos"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.perfil.PerfilActivity"
+            android:label="Perfil do Usuário"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.auth.LoginActivity"
+            android:label="Login"
+            android:parentActivityName=".ui.medicamentos.list.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.medicamentos.list.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.auth.CadastroActivity"
+            android:label="Cadastrar Usuário"
             android:parentActivityName=".ui.medicamentos.list.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

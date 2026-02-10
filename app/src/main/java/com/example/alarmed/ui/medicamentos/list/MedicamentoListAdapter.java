@@ -32,9 +32,11 @@ import java.util.Locale;
 public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, MedicamentoListAdapter.MedicamentoViewHolder> {
     private OnItemClickListener listener;
     private OnButtonClickListener buttonListener;
+    private boolean isUserAdmin;
 
     public MedicamentoListAdapter(@NonNull DiffUtil.ItemCallback<MedicamentoComHorarios> diffCallback) {
         super(diffCallback);
+        this.isUserAdmin = false; // Por padrão, assume que não é admin
         Log.d("MedicamentoListAdapter", "Adapter criado");
     }
 
@@ -204,6 +206,17 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
                 horarioItemView.setText("--:--");
                 frequenciaItemView.setText("Não configurado");
             }
+            
+            // Controla visibilidade dos botões de edição e exclusão baseado no tipo de usuário
+            if (isUserAdmin) {
+                btnEditar.setVisibility(View.VISIBLE);
+                btnExcluir.setVisibility(View.VISIBLE);
+                Log.d("MedicamentoListAdapter", "Botões de edição visíveis para admin");
+            } else {
+                btnEditar.setVisibility(View.GONE);
+                btnExcluir.setVisibility(View.GONE);
+                Log.d("MedicamentoListAdapter", "Botões de edição ocultos para usuário comum");
+            }
         }
     }
 
@@ -224,6 +237,16 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
 
     public void setOnButtonClickListener(OnButtonClickListener buttonListener) {
         this.buttonListener = buttonListener;
+    }
+
+    /**
+     * Define se o usuário atual é admin.
+     * Controla a visibilidade dos botões de edição e exclusão.
+     */
+    public void setUserAdmin(boolean isAdmin) {
+        Log.d("MedicamentoListAdapter", "setUserAdmin() - isAdmin: " + isAdmin);
+        this.isUserAdmin = isAdmin;
+        notifyDataSetChanged(); // Atualiza a lista para refletir as mudanças
     }
 
     /**
