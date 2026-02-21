@@ -152,8 +152,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Selecionar"
-                            android:textColor="@color/blue_500"
-                            app:strokeColor="@color/blue_500" />
+                            android:textColor="@color/green_500"
+                            app:strokeColor="@color/green_500" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -274,10 +274,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="Consultar Horário"
-                    android:textColor="@color/blue_500"
-                    app:strokeColor="@color/blue_500"
+                    android:textColor="@color/green_500"
+                    app:strokeColor="@color/green_500"
                     app:icon="@drawable/ic_relogio"
-                    app:iconTint="@color/blue_500"
+                    app:iconTint="@color/green_500"
                     android:visibility="gone" />
 
                 <!-- Botão Atualizar -->
@@ -286,7 +286,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:backgroundTint="@color/blue_500"
+                    android:backgroundTint="@color/green_500"
                     android:text="@string/atualizar"
                     android:textColor="@android:color/white"
                     app:cornerRadius="8dp" />

@@ -107,8 +107,8 @@ public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, Histo
             switch (status.toLowerCase()) {
                 case "tomado":
                     iconeStatus.setImageResource(R.drawable.ic_check_circle);
-                    iconeStatus.setColorFilter(itemView.getContext().getColor(R.color.green_500));
-                    txtStatus.setTextColor(itemView.getContext().getColor(R.color.green_600));
+                    iconeStatus.setColorFilter(itemView.getContext().getColor(R.color.success_500));
+                    txtStatus.setTextColor(itemView.getContext().getColor(R.color.success_600));
                     break;
                 case "ignorado":
                 case "pulado":

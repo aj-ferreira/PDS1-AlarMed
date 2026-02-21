@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/btn_add_medication"
         app:srcCompat="@drawable/ic_menu"
-        app:backgroundTint="@color/blue_200"
+        app:backgroundTint="@color/green_200"
         app:tint="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="12dp"
-            android:background="@color/blue_100">
+            android:background="@color/green_100">
 
             <!-- Título -->
             <TextView
@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="2"
-                        android:textColor="@color/green_200"
+                        android:textColor="@color/green_500"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 

@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        android:backgroundTint="@color/blue_500"
+        android:backgroundTint="@color/green_500"
         android:text="@string/btn_add_medication"
         android:textAllCaps="false"
         android:textColor="@color/white"

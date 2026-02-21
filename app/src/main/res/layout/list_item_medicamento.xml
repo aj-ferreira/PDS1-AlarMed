@@ -61,7 +61,7 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@drawable/ic_comprimido"
-                            app:tint="@color/blue_500"
+                            app:tint="@color/green_500"
                             android:contentDescription="@string/pill_icon" />
                     </LinearLayout>
                 </FrameLayout>
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:background="@drawable/bg_badge_info"
-                            android:textColor="@color/blue_700"
+                            android:textColor="@color/green_700"
                             android:textSize="10sp"
                             android:textStyle="bold"
                             android:paddingHorizontal="8dp"
@@ -156,7 +156,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="@color/blue_700"
+                        android:textColor="@color/green_700"
                         tools:text="15" />
                 </LinearLayout>
             </LinearLayout>
@@ -195,13 +195,13 @@
                             android:layout_height="16dp"
                             android:layout_marginEnd="6dp"
                             android:src="@drawable/ic_relogio"
-                            app:tint="@color/blue_500" />
+                            app:tint="@color/green_500" />
 
                         <TextView
                             android:id="@+id/textViewHorario"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/blue_700"
+                            android:textColor="@color/green_700"
                             android:textSize="14sp"
                             android:textStyle="bold"
                             tools:text="14:00" />
@@ -238,7 +238,7 @@
                         android:text="@string/btn_medication_taken"
                         android:textColor="@android:color/white"
                         android:textSize="12sp"
-                        android:backgroundTint="@color/green_200"
+                        android:backgroundTint="@color/green_500"
                         app:cornerRadius="18dp"
                         app:icon="@drawable/ic_check"
                         app:iconSize="14dp"
@@ -253,7 +253,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@string/btn_edit_medicine"
                         android:src="@drawable/ic_editar"
-                        app:tint="@color/blue_500" />
+                        app:tint="@color/green_500" />
 
                     <!-- Botão Excluir -->
                     <ImageButton
@@ -273,7 +273,7 @@
             android:layout_width="4dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:background="@color/blue_500" />
+            android:background="@color/green_500" />
 
     </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

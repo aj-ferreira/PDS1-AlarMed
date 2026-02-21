@@ -15,14 +15,14 @@
         android:layout_marginBottom="8dp"
         android:backgroundTint="@color/white"
         android:text="@string/btn_view_history"
-        android:textColor="@color/blue_500"
+        android:textColor="@color/green_500"
         app:cornerRadius="8dp"
         app:icon="@drawable/ic_historico"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        app:iconTint="@color/blue_500"
+        app:iconTint="@color/green_500"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/blue_200"
+        app:strokeColor="@color/green_200"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
     <com.google.android.material.button.MaterialButton
