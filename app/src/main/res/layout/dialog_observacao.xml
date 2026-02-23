@@ -9,17 +9,37 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_observacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Observação (opcional)"
+            android:hint="Anotação (opcional)"
             android:inputType="textMultiLine"
-            android:minLines="2"
+            android:minLines="3"
             android:gravity="top" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_confirmar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Sim, tomei"
+        android:textSize="16sp"
+        android:backgroundTint="@color/primary_500" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_voltar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="8dp"
+        android:text="Voltar"
+        android:textSize="16sp"
+        android:textColor="@color/gray_600"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:strokeColor="@color/gray_300" />
 
 </LinearLayout>
