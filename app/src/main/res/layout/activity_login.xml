@@ -114,18 +114,20 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Link "Esqueci minha senha" -->
+
+            <!-- Botão Entrar -->
+
             <TextView
                 android:id="@+id/text_esqueceu_senha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="32dp"
                 android:text="ESQUECI MINHA SENHA"
-                android:textSize="11sp"
-                android:textStyle="bold"
                 android:textColor="@color/green_500"
-                android:layout_gravity="center"
-                android:layout_marginBottom="32dp" />
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-            <!-- Botão Entrar -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_entrar"
                 android:layout_width="match_parent"
@@ -145,7 +147,8 @@
             android:layout_marginTop="20dp"
             android:text="Não possui uma conta? Criar Conta"
             android:textSize="14sp"
-            android:textColor="@color/gray_600" />
+            android:textStyle="bold"
+            android:textColor="@color/green_500" />
 
     </LinearLayout>
 </ScrollView>
