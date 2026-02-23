@@ -22,7 +22,8 @@ import java.util.Locale;
 public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, HistoricoAdapter.HistoricoViewHolder> {
 
     private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-    private static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat("dd 'de' MMMM 'de' yyyy 'às' HH:mm", new Locale("pt", "BR"));
+    private static final SimpleDateFormat HORA_FORMAT = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private static final SimpleDateFormat DATA_FORMAT = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
     public HistoricoAdapter() {
         super(DIFF_CALLBACK);
@@ -61,7 +62,8 @@ public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, Histo
     class HistoricoViewHolder extends RecyclerView.ViewHolder {
         private final TextView txtNomeMedicamento;
         private final TextView txtStatus;
-        private final TextView txtDataHora;
+        private final TextView txtHora;
+        private final TextView txtDataCurta;
         private final TextView txtObservacao;
         private final ImageView iconeStatus;
 
@@ -69,18 +71,14 @@ public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, Histo
             super(itemView);
             txtNomeMedicamento = itemView.findViewById(R.id.txtNomeMedicamento);
             txtStatus = itemView.findViewById(R.id.txtStatus);
-            txtDataHora = itemView.findViewById(R.id.txtDataHora);
+            txtHora = itemView.findViewById(R.id.txtHora);
+            txtDataCurta = itemView.findViewById(R.id.txtDataCurta);
             txtObservacao = itemView.findViewById(R.id.txtObservacao);
             iconeStatus = itemView.findViewById(R.id.iconeStatus);
         }
 
         public void bind(HistoricoComMedicamento historicoComMedicamento) {
-            // Nome do medicamento com dose
-            String nomeCompleto = historicoComMedicamento.medicamento.nome;
-            if (historicoComMedicamento.medicamento.dose != null && !historicoComMedicamento.medicamento.dose.isEmpty()) {
-                nomeCompleto += " " + historicoComMedicamento.medicamento.dose;
-            }
-            txtNomeMedicamento.setText(nomeCompleto);
+            txtNomeMedicamento.setText(historicoComMedicamento.medicamento.nome);
 
             // Status
             String status = historicoComMedicamento.historico.status;
@@ -89,9 +87,9 @@ public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, Histo
             // Configurar ícone e cor baseado no status
             configureStatusDisplay(status);
 
-            // Data e hora formatada
-            String dataHoraFormatada = formatarDataHora(historicoComMedicamento.historico.data_hora);
-            txtDataHora.setText(dataHoraFormatada);
+            // Hora e data formatadas
+            txtHora.setText(formatar(historicoComMedicamento.historico.data_hora, HORA_FORMAT));
+            txtDataCurta.setText(formatar(historicoComMedicamento.historico.data_hora, DATA_FORMAT));
 
             // Observação (se houver)
             if (historicoComMedicamento.historico.observacao != null && 
@@ -129,14 +127,13 @@ public class HistoricoAdapter extends ListAdapter<HistoricoComMedicamento, Histo
             }
         }
 
-        private String formatarDataHora(String dataHora) {
+        private String formatar(String dataHora, SimpleDateFormat format) {
             try {
                 Date date = INPUT_FORMAT.parse(dataHora);
                 if (date != null) {
-                    return OUTPUT_FORMAT.format(date);
+                    return format.format(date);
                 }
             } catch (ParseException e) {
-                // Se não conseguir parsear, retorna a string original
                 return dataHora;
             }
             return dataHora;

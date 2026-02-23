@@ -55,16 +55,6 @@
                 android:textStyle="bold"
                 tools:text="Tomado" />
 
-            <!-- Data e hora -->
-            <TextView
-                android:id="@+id/txtDataHora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/gray_500"
-                android:textSize="13sp"
-                tools:text="11 de Setembro de 2025 às 08:30" />
-
             <!-- Observação (opcional) -->
             <TextView
                 android:id="@+id/txtObservacao"
@@ -77,6 +67,34 @@
                 android:visibility="gone"
                 tools:text="Observação: Tomado com alimento"
                 tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <!-- Data e hora (direita) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:orientation="vertical"
+            android:gravity="end">
+
+            <TextView
+                android:id="@+id/txtHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray_700"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="19:16" />
+
+            <TextView
+                android:id="@+id/txtDataCurta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/gray_500"
+                android:textSize="14sp"
+                tools:text="23/02/2026" />
 
         </LinearLayout>
 

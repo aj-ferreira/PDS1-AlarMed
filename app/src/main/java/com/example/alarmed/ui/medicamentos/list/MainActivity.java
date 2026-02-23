@@ -5,14 +5,17 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -240,15 +243,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnButtonClickListener(new MedicamentoListAdapter.OnButtonClickListener() {
             @Override
             public void onTomeiClick(Medicamento medicamento) {
-                Log.d("MainActivity", "Botão 'Tomei' clicado para medicamento: " + medicamento.nome);
-                
-                // Inicia o HistoryUpdateServiceNew para registrar histórico e reagendar alarme
-                Intent serviceIntent = new Intent(MainActivity.this, com.example.alarmed.alarm.HistoryUpdateServiceNew.class);
-                serviceIntent.setAction(com.example.alarmed.alarm.HistoryUpdateServiceNew.ACTION_TAKEN);
-                serviceIntent.putExtra(com.example.alarmed.alarm.HistoryUpdateServiceNew.EXTRA_MEDICAMENTO_ID, medicamento.id);
-                startService(serviceIntent);
-                
-                Toast.makeText(MainActivity.this, "Medicamento tomado registrado", Toast.LENGTH_SHORT).show();
+                showTomeiDialog(medicamento);
             }
 
             @Override
@@ -454,10 +449,34 @@ public class MainActivity extends AppCompatActivity {
         
         for (Medicamento medicamento : medicamentos) {
             if (NotificationHelper.isLowStock(medicamento)) {
-                Log.w("MainActivity", "Estoque baixo detectado: " + medicamento.nome + 
+                Log.w("MainActivity", "Estoque baixo detectado: " + medicamento.nome +
                       " (Atual: " + medicamento.estoque_atual + ", Mínimo: " + medicamento.estoque_minimo + ")");
                 NotificationHelper.sendLowStockNotification(this, medicamento);
             }
         }
+    }
+
+    private void showTomeiDialog(Medicamento medicamento) {
+        Log.d("MainActivity", "Botão 'Tomei' clicado para medicamento: " + medicamento.nome);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_observacao, null);
+        com.google.android.material.textfield.TextInputEditText editObservacao =
+                dialogView.findViewById(R.id.edit_observacao);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Registrar tomada")
+                .setView(dialogView)
+                .setPositiveButton("Registrar", (dialog, which) -> {
+                    String observacao = editObservacao.getText() != null
+                            ? editObservacao.getText().toString() : "";
+                    Intent serviceIntent = new Intent(this, com.example.alarmed.alarm.HistoryUpdateServiceNew.class);
+                    serviceIntent.setAction(com.example.alarmed.alarm.HistoryUpdateServiceNew.ACTION_TAKEN);
+                    serviceIntent.putExtra(com.example.alarmed.alarm.HistoryUpdateServiceNew.EXTRA_MEDICAMENTO_ID, medicamento.id);
+                    serviceIntent.putExtra(com.example.alarmed.alarm.HistoryUpdateServiceNew.EXTRA_OBSERVACAO, observacao);
+                    startService(serviceIntent);
+                    Toast.makeText(this, "Medicamento tomado registrado", Toast.LENGTH_SHORT).show();
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
     }
 }
