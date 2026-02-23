@@ -196,32 +196,25 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical">
+                        android:orientation="vertical"
+                        android:gravity="end">
 
-                        <ImageView
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
-                            android:src="@drawable/ic_comprimido"
-                            app:tint="@color/primary_500"
-                            android:contentDescription="Estoque" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Estoque"
+                            android:textSize="10sp"
+                            android:textColor="@color/gray_500"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textViewEstoque"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            android:textSize="13sp"
-                            android:textColor="@color/gray_600"
-                            tools:text="@sample/medicamento_estoque.txt" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="3dp"
-                            android:text="unidades"
-                            android:textSize="13sp"
-                            android:textColor="@color/gray_500" />
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/primary_500"
+                            tools:text="15" />
 
                     </LinearLayout>
                 </LinearLayout>

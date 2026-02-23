@@ -134,13 +134,10 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
             // Nome do medicamento
             nomeItemView.setText(medicamento.nome);
 
-            // Tipo · Dose (ex: "Comprimido · 2 unidade(s)")
-            String tipoDose = medicamento.tipo != null ? medicamento.tipo : "";
-            if (medicamento.dose != null && !medicamento.dose.trim().isEmpty()) {
-                tipoDose += " · " + medicamento.dose + " unidade(s)";
-            }
-            badgeTipo.setText(tipoDose);
-            badgeTipo.setVisibility(tipoDose.trim().isEmpty() ? View.GONE : View.VISIBLE);
+            // Tipo (ex: "Comprimido")
+            String tipo = medicamento.tipo != null ? medicamento.tipo : "";
+            badgeTipo.setText(tipo);
+            badgeTipo.setVisibility(tipo.trim().isEmpty() ? View.GONE : View.VISIBLE);
 
             // Descrição abaixo (opcional)
             if (medicamento.descricao != null && !medicamento.descricao.trim().isEmpty()) {
