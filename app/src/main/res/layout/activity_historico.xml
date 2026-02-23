@@ -19,25 +19,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tituloHistorico"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Histórico de Medicamentos"
-                android:textColor="@color/gray_700"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/subtituloHistorico"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:text="Acompanhe o histórico de uso dos seus medicamentos"
-                android:textColor="@color/gray_500"
-                android:textSize="16sp" />
-
             <!-- Lista de histórico -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewHistorico"
@@ -69,8 +50,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nenhum histórico encontrado"
-                    android:textColor="@color/gray_500"
+                    android:text="Nenhum registro encontrado"
+                    android:textColor="@color/secondary_text"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -78,9 +59,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Comece a tomar seus medicamentos para ver o histórico aqui"
+                    android:text="Marque seus medicamentos como tomados para acompanhar seu histórico aqui"
                     android:gravity="center"
-                    android:textColor="@color/gray_400"
+                    android:textColor="@color/primary_500"
                     android:textSize="14sp" />
 
             </LinearLayout>
