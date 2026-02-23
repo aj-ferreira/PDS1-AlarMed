@@ -9,10 +9,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="pink">#ff4265</color>
     <color name="icon_bg_pink">#fde8ec</color>
-    <color name="green_100">#cce8e5</color>
-    <color name="green_200">#4da9a0</color>
-    <color name="green_500">#186b63</color>
-    <color name="green_700">#0f4d47</color>
+    <color name="green_100">#d1f0e7</color>
+    <color name="green_200">#6dcfb0</color>
+    <color name="green_400">#52be9a</color>
+    <color name="green_500">#36aa88</color>
+    <color name="green_600">#2d9272</color>
+    <color name="green_700">#267a62</color>
     <color name="gray_100">#f6f9f8</color>
     <color name="gray_200">#dde4ed</color>
     <color name="gray_300">#d1d5db</color>
@@ -21,10 +23,20 @@
     <color name="gray_600">#4b5563</color>
     <color name="gray_700">#374151</color>
     <color name="gray_900">#111827</color>
-    <color name="success_500">#33a88a</color>
-    <color name="success_600">#27907a</color>
+    <color name="success_500">#4abf9a</color>
+    <color name="success_600">#36aa88</color>
     <color name="orange">#ca8a04</color>
     <color name="red">#ef4444</color>
     <color name="yellow_600">#d97706</color>
+
+    <!-- Nova paleta principal -->
+    <color name="primary_500">#259d91</color>
+    <color name="primary_text">#ffffff</color>
+    <color name="secondary_bg">#e4f1ed</color>
+    <color name="secondary_text">#1b746b</color>
+
+    <!-- Orange para banner de estoque baixo -->
+    <color name="orange_50">#fdf5e6</color>
+    <color name="orange_500">#f69f2d</color>
 
 </resources>
