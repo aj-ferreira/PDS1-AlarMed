@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationView navigationView = findViewById(R.id.nav_view);
         drawerHelper = new DrawerHelper(this, drawerLayout, navigationView);
         drawerHelper.setupActionBar();
+
         
         Log.d("MainActivity", "Criando canal de notificação...");
         NotificationHelper.createNotificationChannel(this);

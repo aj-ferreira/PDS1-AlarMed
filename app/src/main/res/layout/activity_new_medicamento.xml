@@ -68,6 +68,7 @@
                             android:autofillHints="name"
                             android:hint="Nome do Medicamento *"
                             android:inputType="textCapWords"
+                            android:textColor="@color/gray_900"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,6 +87,7 @@
                             android:inputType="textMultiLine"
                             android:minLines="2"
                             android:gravity="top"
+                            android:textColor="@color/gray_900"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,6 +103,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Dose (ex: 1, 2...)"
                             android:inputType="number"
+                            android:textColor="@color/gray_900"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -205,6 +208,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Estoque Atual *"
                             android:inputType="number"
+                            android:textColor="@color/gray_900"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,6 +224,7 @@
                             android:layout_height="wrap_content"
                             android:hint="Estoque Mínimo *"
                             android:inputType="number"
+                            android:textColor="@color/gray_900"
                             android:minHeight="48dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>

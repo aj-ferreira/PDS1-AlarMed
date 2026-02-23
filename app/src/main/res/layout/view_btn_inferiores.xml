@@ -4,41 +4,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:elevation="8dp"
+    android:gravity="center_vertical">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnVerHistorico"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_weight="1"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
         android:text="@string/btn_view_history"
-        android:textColor="@color/green_500"
+        android:textColor="@color/gray_700"
         app:cornerRadius="8dp"
         app:icon="@drawable/ic_historico"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        app:iconTint="@color/green_500"
+        app:iconTint="@color/gray_700"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/green_200"
+        app:strokeColor="@color/gray_300"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGerarPdf"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:backgroundTint="@color/white"
         android:text="@string/btn_generate_pdf"
-        android:textColor="@color/red"
+        android:textColor="@color/gray_700"
         app:cornerRadius="8dp"
-        app:icon="@drawable/ic_pdf"
+        app:icon="@drawable/ic_relatorio"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        app:iconTint="@color/red"
+        app:iconTint="@color/gray_700"
         app:strokeWidth="1dp"
-        app:strokeColor="@color/red"
+        app:strokeColor="@color/gray_300"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
 
 </LinearLayout>
