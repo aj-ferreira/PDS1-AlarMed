@@ -63,7 +63,6 @@
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:startIconTint="@color/green_500"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                app:boxBackgroundMode="filled"
                 app:boxBackgroundColor="#1A000000"
                 app:boxCornerRadiusTopStart="28dp"
                 app:boxCornerRadiusTopEnd="28dp"
@@ -79,7 +78,8 @@
                     android:textColor="@color/gray_600"
                     android:inputType="textEmailAddress"
                     android:paddingStart="12dp"
-                    android:minHeight="56dp" />
+                    android:minHeight="56dp"
+                    android:background="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Campo de Senha -->
@@ -94,7 +94,6 @@
                 app:startIconTint="@color/green_500"
                 app:endIconMode="password_toggle"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
-                app:boxBackgroundMode="filled"
                 app:boxBackgroundColor="#1A000000"
                 app:boxCornerRadiusTopStart="28dp"
                 app:boxCornerRadiusTopEnd="28dp"
@@ -110,7 +109,8 @@
                     android:textColor="@color/gray_600"
                     android:inputType="textPassword"
                     android:paddingStart="12dp"
-                    android:minHeight="56dp" />
+                    android:minHeight="56dp"
+                    android:background="@null" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Link "Esqueci minha senha" -->
