@@ -125,7 +125,7 @@
                 android:layout_marginBottom="32dp"
                 android:text="ESQUECI MINHA SENHA"
                 android:textColor="@color/green_500"
-                android:textSize="11sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.button.MaterialButton
@@ -139,16 +139,35 @@
 
         </LinearLayout>
 
+
         <!-- Link para Cadastro -->
-        <TextView
-            android:id="@+id/text_ir_para_cadastro"
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Não possui uma conta? Criar Conta"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/green_500" />
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Não possui uma conta? "
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/gray_600" />
+
+            <TextView
+                android:id="@+id/text_ir_para_cadastro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Criar Conta"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/green_500"
+                android:padding="4dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

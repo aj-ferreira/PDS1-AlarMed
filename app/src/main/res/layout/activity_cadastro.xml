@@ -180,7 +180,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tipo de Perfil"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray_600"
                     android:layout_marginBottom="4dp" />
 
@@ -208,7 +208,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:text="CADASTRAR"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="28dp"
             app:backgroundTint="@color/green_500"
@@ -226,7 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Já possui uma conta? "
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textColor="@color/gray_600" />
 
             <TextView
@@ -234,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fazer Login"
-                android:textSize="14sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="@color/green_500"
                 android:padding="4dp" />
