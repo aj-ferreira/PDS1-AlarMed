@@ -55,6 +55,7 @@
             <!-- Campo de Email -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_email"
+                android:clipToOutline="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -62,7 +63,7 @@
                 android:textColorHint="@color/gray_600"
                 app:startIconDrawable="@android:drawable/ic_dialog_email"
                 app:startIconTint="@color/green_500"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 app:boxBackgroundColor="#1A000000"
                 app:boxCornerRadiusTopStart="28dp"
                 app:boxCornerRadiusTopEnd="28dp"
@@ -85,6 +86,7 @@
             <!-- Campo de Senha -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_layout_senha"
+                android:clipToOutline="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
@@ -93,7 +95,7 @@
                 app:startIconDrawable="@android:drawable/ic_lock_lock"
                 app:startIconTint="@color/green_500"
                 app:endIconMode="password_toggle"
-                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 app:boxBackgroundColor="#1A000000"
                 app:boxCornerRadiusTopStart="28dp"
                 app:boxCornerRadiusTopEnd="28dp"
