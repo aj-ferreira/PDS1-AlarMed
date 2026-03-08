@@ -243,12 +243,25 @@ public class UsuarioRepository {
         });
     }
 
-    /**
-     * Atualiza a senha de um usuário.
-     * @param id ID do usuário.
-     * @param novaSenha Nova senha.
-     * @param callback Callback de conclusão.
-     */
+    // Busca um usuário pelo email.
+    public void buscarPorEmail(String email, OnBuscarPorEmailListener callback) {
+        executor.execute(() -> {
+            try {
+                Usuario usuario = usuarioDao.getUsuarioByEmail(email);
+                Log.d(TAG, "Busca por email " + email + ": " + (usuario != null ? "encontrado" : "não encontrado"));
+                if (callback != null) {
+                    callback.onResult(usuario);
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Erro ao buscar usuário por email", e);
+                if (callback != null) {
+                    callback.onError(e);
+                }
+            }
+        });
+    }
+
+    // Atualiza a senha de um usuário.
     public void atualizarSenha(int id, String novaSenha, OnOperationCompleteListener callback) {
         executor.execute(() -> {
             try {
@@ -285,6 +298,11 @@ public class UsuarioRepository {
 
     public interface OnEmailExistsListener {
         void onResult(boolean existe);
+        void onError(Exception e);
+    }
+
+    public interface OnBuscarPorEmailListener {
+        void onResult(Usuario usuario);
         void onError(Exception e);
     }
 
