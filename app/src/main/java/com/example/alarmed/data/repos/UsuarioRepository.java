@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.example.alarmed.data.db.AppDatabase;
 import com.example.alarmed.data.db.daos.UsuarioDao;
 import com.example.alarmed.data.db.entity.Usuario;
+import com.example.alarmed.util.PasswordUtil;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -80,6 +81,11 @@ public class UsuarioRepository {
     public void insert(Usuario usuario, OnUsuarioInsertListener callback) {
         executor.execute(() -> {
             try {
+                // Criptografa a senha antes de inserir
+                if (usuario.senha != null && !PasswordUtil.isHashed(usuario.senha)) {
+                    usuario.senha = PasswordUtil.hashPassword(usuario.senha);
+                }
+                
                 long id = usuarioDao.insert(usuario);
                 Log.d(TAG, "Usuário inserido com ID: " + id);
                 if (callback != null) {
@@ -102,6 +108,11 @@ public class UsuarioRepository {
     public void update(Usuario usuario, OnOperationCompleteListener callback) {
         executor.execute(() -> {
             try {
+                // Criptografa a senha antes de atualizar se não estiver criptografada
+                if (usuario.senha != null && !PasswordUtil.isHashed(usuario.senha)) {
+                    usuario.senha = PasswordUtil.hashPassword(usuario.senha);
+                }
+                
                 usuarioDao.update(usuario);
                 Log.d(TAG, "Usuário atualizado: " + usuario.id);
                 if (callback != null) {
@@ -147,7 +158,17 @@ public class UsuarioRepository {
     public void autenticar(String email, String senha, OnAuthListener callback) {
         executor.execute(() -> {
             try {
-                Usuario usuario = usuarioDao.autenticar(email, senha);
+                // Busca o usuário pelo email
+                Usuario usuario = usuarioDao.getUsuarioByEmail(email);
+                
+                // Verifica se o usuário existe e se a senha está correta
+                if (usuario != null && usuario.senha != null) {
+                    boolean senhaCorreta = PasswordUtil.verifyPassword(senha, usuario.senha);
+                    if (!senhaCorreta) {
+                        usuario = null; // Senha incorreta
+                    }
+                }
+                
                 Log.d(TAG, "Autenticação: " + (usuario != null ? "sucesso" : "falha"));
                 if (callback != null) {
                     callback.onAuthResult(usuario);
@@ -178,7 +199,7 @@ public class UsuarioRepository {
                     novoUsuario.id = 2;
                     novoUsuario.nome = "Usuário Comum";
                     novoUsuario.email = "usuario@alarmed.com";
-                    novoUsuario.senha = "usuario123";
+                    novoUsuario.senha = PasswordUtil.hashPassword("usuario123");
                     novoUsuario.tipoPerfil = "USUARIO";
                     novoUsuario.ativo = true;
                     
@@ -265,7 +286,9 @@ public class UsuarioRepository {
     public void atualizarSenha(int id, String novaSenha, OnOperationCompleteListener callback) {
         executor.execute(() -> {
             try {
-                usuarioDao.atualizarSenha(id, novaSenha);
+                // Criptografa a nova senha antes de atualizar
+                String senhaCriptografada = PasswordUtil.hashPassword(novaSenha);
+                usuarioDao.atualizarSenha(id, senhaCriptografada);
                 Log.d(TAG, "Senha atualizada para usuário: " + id);
                 if (callback != null) {
                     callback.onComplete();
