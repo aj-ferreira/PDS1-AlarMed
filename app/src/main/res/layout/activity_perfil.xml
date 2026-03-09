@@ -32,7 +32,7 @@
                     android:text="Informações Pessoais"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_500"
+                    android:textColor="@color/green_500"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Nome do Usuário -->
@@ -69,6 +69,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="none"
+                        android:textColor="@color/gray_900"
                         android:focusable="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +86,8 @@
                         android:id="@+id/edit_telefone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"/>
+                        android:inputType="phone"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Endereço -->
@@ -101,7 +103,8 @@
                         android:id="@+id/edit_endereco"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPostalAddress"/>
+                        android:inputType="textPostalAddress"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Cidade e Estado -->
@@ -124,7 +127,8 @@
                             android:id="@+id/edit_cidade"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textCapWords"/>
+                            android:inputType="textCapWords"
+                            android:textColor="@color/gray_900"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -139,6 +143,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textCapCharacters"
+                            android:textColor="@color/gray_900"
                             android:maxLength="2"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
@@ -156,6 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
+                        android:textColor="@color/gray_900"
                         android:maxLength="9"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -182,7 +188,7 @@
                     android:text="Informações de Saúde"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_500"
+                    android:textColor="@color/green_500"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Peso e Altura -->
@@ -205,7 +211,8 @@
                             android:id="@+id/edit_peso"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"/>
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/gray_900"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -220,7 +227,8 @@
                             android:id="@+id/edit_altura"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"/>
+                            android:inputType="numberDecimal"
+                            android:textColor="@color/gray_900"/>
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -230,7 +238,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@color/blue_100"
+                    android:background="@color/green_100"
                     android:padding="12dp"
                     android:layout_marginBottom="12dp"
                     android:visibility="gone">
@@ -240,7 +248,7 @@
                         android:layout_height="wrap_content"
                         android:text="IMC (Índice de Massa Corporal)"
                         android:textStyle="bold"
-                        android:textColor="@color/blue_500"
+                        android:textColor="@color/green_500"
                         android:textSize="14sp"/>
 
                     <TextView
@@ -250,7 +258,7 @@
                         android:text="--"
                         android:textSize="24sp"
                         android:textStyle="bold"
-                        android:textColor="@color/blue_700"/>
+                        android:textColor="@color/green_700"/>
 
                     <TextView
                         android:id="@+id/text_imc_classificacao"
@@ -274,7 +282,8 @@
                         android:id="@+id/edit_tipo_sanguineo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="none"/>
+                        android:inputType="none"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Alergias -->
@@ -291,6 +300,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/gray_900"
                         android:minLines="2"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -308,6 +318,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/gray_900"
                         android:minLines="2"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -324,6 +335,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/gray_900"
                         android:minLines="2"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -350,7 +362,7 @@
                     android:text="Contato de Emergência"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_500"
+                    android:textColor="@color/green_500"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Nome do Contato -->
@@ -366,7 +378,8 @@
                         android:id="@+id/edit_contato_nome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"/>
+                        android:inputType="textPersonName"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Telefone do Contato -->
@@ -382,7 +395,8 @@
                         android:id="@+id/edit_contato_telefone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"/>
+                        android:inputType="phone"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Parentesco -->
@@ -397,7 +411,8 @@
                         android:id="@+id/edit_contato_parentesco"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -423,7 +438,7 @@
                     android:text="Informações Médicas"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_500"
+                    android:textColor="@color/green_500"
                     android:layout_marginBottom="16dp"/>
 
                 <!-- Nome do Médico -->
@@ -439,7 +454,8 @@
                         android:id="@+id/edit_nome_medico"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPersonName"/>
+                        android:inputType="textPersonName"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Telefone do Médico -->
@@ -455,7 +471,8 @@
                         android:id="@+id/edit_telefone_medico"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="phone"/>
+                        android:inputType="phone"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Plano de Saúde -->
@@ -471,7 +488,8 @@
                         android:id="@+id/edit_plano_saude"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Número da Carteirinha -->
@@ -486,7 +504,8 @@
                         android:id="@+id/edit_numero_carteirinha"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text"/>
+                        android:inputType="text"
+                        android:textColor="@color/gray_900"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -512,7 +531,7 @@
                     android:text="Observações Adicionais"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:textColor="@color/blue_500"
+                    android:textColor="@color/green_500"
                     android:layout_marginBottom="16dp"/>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -527,6 +546,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
+                        android:textColor="@color/gray_900"
                         android:minLines="3"
                         android:gravity="top"/>
                 </com.google.android.material.textfield.TextInputLayout>

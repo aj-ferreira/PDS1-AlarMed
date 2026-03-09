@@ -32,7 +32,7 @@ import java.util.concurrent.Executors;
         RelatorioPDFMedicamento.class,
         Usuario.class,
         PerfilUsuario.class},
-        version = 5, exportSchema = false)
+        version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     // Métodos abstratos para que o Room possa fornecer as implementações dos DAOs.
     public abstract MedicamentoDao medicamentoDao();
@@ -119,6 +119,78 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    // Migração da versão 5 para 6 - recria todas as tabelas com schema correto
+    static final Migration MIGRATION_5_6 = new Migration(5, 6) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Drop na ordem correta (tabelas com FK primeiro)
+            database.execSQL("DROP TABLE IF EXISTS `relatorio_pdf_medicamento`");
+            database.execSQL("DROP TABLE IF EXISTS `historico_uso`");
+            database.execSQL("DROP TABLE IF EXISTS `horario`");
+            database.execSQL("DROP TABLE IF EXISTS `perfil_usuario`");
+            database.execSQL("DROP TABLE IF EXISTS `relatorio_pdf`");
+            database.execSQL("DROP TABLE IF EXISTS `usuario`");
+            database.execSQL("DROP TABLE IF EXISTS `medicamento`");
+
+            // Recria na ordem correta (tabelas referenciadas primeiro)
+            database.execSQL("CREATE TABLE IF NOT EXISTS `medicamento` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`nome` TEXT, `descricao` TEXT, `imagem` TEXT, " +
+                    "`estoque_atual` INTEGER NOT NULL DEFAULT 0, " +
+                    "`estoque_minimo` INTEGER NOT NULL DEFAULT 0, " +
+                    "`tipo` TEXT, `dose` TEXT)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `usuario` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`nome` TEXT, `email` TEXT, `senha` TEXT, " +
+                    "`tipo_perfil` TEXT, `data_criacao` TEXT, " +
+                    "`ativo` INTEGER NOT NULL DEFAULT 1)");
+            database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_usuario_email` ON `usuario` (`email`)");
+            database.execSQL("INSERT INTO `usuario` (nome, email, senha, tipo_perfil, data_criacao, ativo) " +
+                    "VALUES ('Administrador', 'admin@alarmed.com', 'admin123', 'ADMIN', '" +
+                    System.currentTimeMillis() + "', 1)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `relatorio_pdf` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`data_criacao` TEXT, `caminho_arquivo` TEXT, `descricao` TEXT)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `horario` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`id_medicamento` INTEGER NOT NULL, " +
+                    "`horario_inicial` TEXT, " +
+                    "`intervalo` INTEGER NOT NULL DEFAULT 0, " +
+                    "`repetir_dias` TEXT, `data_fim` TEXT, " +
+                    "FOREIGN KEY(`id_medicamento`) REFERENCES `medicamento`(`id`) ON DELETE CASCADE ON UPDATE CASCADE)");
+            database.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_horario_id_medicamento` ON `horario` (`id_medicamento`)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `historico_uso` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`id_medicamento` INTEGER NOT NULL, " +
+                    "`data_hora` TEXT, `status` TEXT, `observacao` TEXT, " +
+                    "FOREIGN KEY(`id_medicamento`) REFERENCES `medicamento`(`id`) ON DELETE CASCADE ON UPDATE CASCADE)");
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_historico_uso_id_medicamento` ON `historico_uso` (`id_medicamento`)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `relatorio_pdf_medicamento` (" +
+                    "`id_pdf` INTEGER NOT NULL, `id_medicamento` INTEGER NOT NULL, " +
+                    "PRIMARY KEY(`id_pdf`, `id_medicamento`), " +
+                    "FOREIGN KEY(`id_pdf`) REFERENCES `relatorio_pdf`(`id`) ON DELETE CASCADE ON UPDATE CASCADE, " +
+                    "FOREIGN KEY(`id_medicamento`) REFERENCES `medicamento`(`id`) ON DELETE CASCADE ON UPDATE CASCADE)");
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_relatorio_pdf_medicamento_id_pdf` ON `relatorio_pdf_medicamento` (`id_pdf`)");
+            database.execSQL("CREATE INDEX IF NOT EXISTS `index_relatorio_pdf_medicamento_id_medicamento` ON `relatorio_pdf_medicamento` (`id_medicamento`)");
+
+            database.execSQL("CREATE TABLE IF NOT EXISTS `perfil_usuario` (" +
+                    "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    "`data_nascimento` TEXT, `telefone` TEXT, `endereco` TEXT, " +
+                    "`cidade` TEXT, `estado` TEXT, `cep` TEXT, " +
+                    "`peso` REAL, `altura` REAL, `tipo_sanguineo` TEXT, " +
+                    "`alergias` TEXT, `condicoes_medicas` TEXT, `medicamentos_continuos` TEXT, " +
+                    "`contato_emergencia_nome` TEXT, `contato_emergencia_telefone` TEXT, " +
+                    "`contato_emergencia_parentesco` TEXT, `nome_medico` TEXT, " +
+                    "`telefone_medico` TEXT, `plano_saude` TEXT, `numero_carteirinha` TEXT, " +
+                    "`observacoes` TEXT, `data_atualizacao` TEXT)");
+        }
+    };
+
     // Migração da versão 4 para 5 - remove foreign key e campo usuario_id
     static final Migration MIGRATION_4_5 = new Migration(4, 5) {
         @Override
@@ -183,7 +255,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "alarmed_database")
                             // Adiciona as migrações
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                             .build();
                 }
             }

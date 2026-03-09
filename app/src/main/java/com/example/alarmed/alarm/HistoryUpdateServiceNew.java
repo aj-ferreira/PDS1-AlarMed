@@ -24,6 +24,7 @@ public class HistoryUpdateServiceNew extends Service {
     public static final String ACTION_TAKEN = "com.example.alarmed.ACTION_TAKEN";
     public static final String ACTION_SKIPPED = "com.example.alarmed.ACTION_SKIPPED";
     public static final String EXTRA_MEDICAMENTO_ID = "MEDICAMENTO_ID";
+    public static final String EXTRA_OBSERVACAO = "OBSERVACAO";
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private StockManager stockManager;
@@ -51,7 +52,8 @@ public class HistoryUpdateServiceNew extends Service {
             Log.d(TAG, "Action: " + action + ", Medicamento ID: " + medicamentoId);
 
             if (action != null && medicamentoId != -1) {
-                handleAction(action, medicamentoId);
+                String observacao = intent.getStringExtra(EXTRA_OBSERVACAO);
+                handleAction(action, medicamentoId, observacao);
             } else {
                 Log.w(TAG, "Parâmetros inválidos - Action: " + action + ", ID: " + medicamentoId);
                 stopSelf();
@@ -64,7 +66,7 @@ public class HistoryUpdateServiceNew extends Service {
         return START_NOT_STICKY;
     }
 
-    private void handleAction(String action, int medicamentoId) {
+    private void handleAction(String action, int medicamentoId, String observacao) {
         Log.d(TAG, "handleAction() iniciado - Action: " + action + ", ID: " + medicamentoId);
         
         executorService.execute(() -> {
@@ -91,6 +93,7 @@ public class HistoryUpdateServiceNew extends Service {
                     historico.id_medicamento = medicamentoId;
                     historico.status = status;
                     historico.data_hora = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                    historico.observacao = (observacao != null && !observacao.trim().isEmpty()) ? observacao.trim() : null;
                     repository.insertHistorico(historico);
                     Log.d(TAG, "Histórico inserido: " + status + " às " + historico.data_hora);
 

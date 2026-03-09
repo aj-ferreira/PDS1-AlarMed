@@ -51,7 +51,7 @@
                     android:contentDescription="@string/calendar_icon"
                     android:src="@drawable/ic_calendario"
                     android:layout_marginEnd="16dp"
-                    app:tint="@color/blue_500" />
+                    app:tint="@color/green_500" />
 
                 <!-- Campo para selecionar data -->
                 <TextView
@@ -63,7 +63,7 @@
                     android:text="@string/data_calendar"
                     android:textColor="@color/gray_500"
                     android:textSize="14sp"
-                    android:background="@color/blue_100"/>
+                    android:background="@color/green_100"/>
 
                 <!-- Ícone filtro -->
                 <ImageView
@@ -72,7 +72,7 @@
                     android:contentDescription="@string/filter_icon"
                     android:src="@drawable/ic_filtro"
                     android:layout_marginStart="16dp"
-                    android:background="@color/blue_100"
+                    android:background="@color/green_100"
                     app:tint="@color/black" />
             </LinearLayout>
         </LinearLayout>

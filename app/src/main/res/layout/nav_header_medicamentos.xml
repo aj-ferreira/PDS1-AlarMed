@@ -6,7 +6,7 @@
     android:background="@drawable/bg_header"
     android:padding="12dp">
 
-    <!-- Ícone logo-->
+    <!-- Logo AlarMed -->
     <ImageView
         android:id="@+id/logoIcon"
         android:layout_width="36dp"
@@ -17,49 +17,35 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-    <!-- Título e Subtítulo -->
-    <LinearLayout
-        android:id="@+id/textContainer"
+    <!-- Título da tela -->
+    <TextView
+        android:id="@+id/titleText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="8dp"
-        android:orientation="vertical"
+        android:text="Meus Medicamentos"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
         app:layout_constraintStart_toEndOf="@id/logoIcon"
         app:layout_constraintTop_toTopOf="@id/logoIcon"
         app:layout_constraintBottom_toBottomOf="@id/logoIcon"
-        app:layout_constraintEnd_toStartOf="@id/ic_hamburguer_menu">
+        app:layout_constraintEnd_toStartOf="@id/ic_hamburguer_menu" />
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/white" />
-
-        <TextView
-            android:id="@+id/subtitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/nav_header_subtitle_app"
-            android:textSize="13sp"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
-
-    <!-- Botão + -->
+    <!-- Botão Menu -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ic_hamburguer_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/btn_add_medication"
         app:srcCompat="@drawable/ic_menu"
-        app:backgroundTint="@color/green_200"
+        app:backgroundTint="@color/green_400"
         app:tint="@android:color/white"
         app:fabSize="mini"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

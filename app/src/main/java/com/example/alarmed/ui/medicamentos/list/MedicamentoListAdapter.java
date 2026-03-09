@@ -68,7 +68,7 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
         private final TextView estoqueItemView;
         private final TextView horarioItemView;
         private final TextView frequenciaItemView;
-        private final TextView badgeEstoqueBaixo;
+        private final View badgeEstoqueBaixo;
         private final TextView badgeTipo;
         private final ImageView imageMedicamento;
         private final ImageView iconMedicamento;
@@ -133,13 +133,19 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
             
             // Nome do medicamento
             nomeItemView.setText(medicamento.nome);
-            
-            // Descrição com dose
-            String descricaoCompleta = medicamento.descricao != null ? medicamento.descricao : "";
-            if (medicamento.dose != null && !medicamento.dose.trim().isEmpty()) {
-                descricaoCompleta += " • " + medicamento.dose + " unidade(s)";
+
+            // Tipo (ex: "Comprimido")
+            String tipo = medicamento.tipo != null ? medicamento.tipo : "";
+            badgeTipo.setText(tipo);
+            badgeTipo.setVisibility(tipo.trim().isEmpty() ? View.GONE : View.VISIBLE);
+
+            // Descrição abaixo (opcional)
+            if (medicamento.descricao != null && !medicamento.descricao.trim().isEmpty()) {
+                descricaoItemView.setText(medicamento.descricao);
+                descricaoItemView.setVisibility(View.VISIBLE);
+            } else {
+                descricaoItemView.setVisibility(View.GONE);
             }
-            descricaoItemView.setText(descricaoCompleta);
 
             // Estoque
             estoqueItemView.setText(String.valueOf(medicamento.estoque_atual));
@@ -147,14 +153,6 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
             // Badge estoque baixo
             boolean isLowStock = MedicamentoRepository.isLowStock(medicamento);
             badgeEstoqueBaixo.setVisibility(isLowStock ? View.VISIBLE : View.GONE);
-
-            // Badge tipo
-            if (medicamento.tipo != null && !medicamento.tipo.trim().isEmpty()) {
-                badgeTipo.setText(medicamento.tipo);
-                badgeTipo.setVisibility(View.VISIBLE);
-            } else {
-                badgeTipo.setVisibility(View.GONE);
-            }
 
             // Imagem do medicamento - exibe apenas se cadastrada e válida
             boolean hasValidImage = false;
@@ -191,7 +189,7 @@ public class MedicamentoListAdapter extends ListAdapter<MedicamentoComHorarios, 
                 
                 // Exibe a frequência
                 if (horario.intervalo > 0) {
-                    String frequenciaText = "A cada " + horario.intervalo + " horas";
+                    String frequenciaText = "a cada " + horario.intervalo + "h";
                 
                     if (horario.repetir_dias != null && !horario.repetir_dias.trim().isEmpty() 
                         && !horario.repetir_dias.equals("TODOS")) {
