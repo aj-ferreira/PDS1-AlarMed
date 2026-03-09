@@ -180,14 +180,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d("MainActivity", "Perfil do usuário: " + sessionManager.getUserPerfil());
         Log.d("MainActivity", "É admin: " + sessionManager.isAdmin());
         
+        // Registra o listener sempre, a visibilidade controla o acesso
+        btnAdicionar.setOnClickListener(view -> {
+            Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
+            Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
+            mAddEditMedicamentoLauncher.launch(intent);
+        });
+
         // Controla a visibilidade do botão baseado no perfil do usuário
         if (sessionManager.isAdmin()) {
             btnAdicionar.setVisibility(Button.VISIBLE);
-            btnAdicionar.setOnClickListener(view -> {
-                Log.d("MainActivity", "Botão adicionar clicado - abrindo tela de novo medicamento");
-                Intent intent = new Intent(this, AddEditMedicamentoActivity.class);
-                mAddEditMedicamentoLauncher.launch(intent);
-            });
             Log.d("MainActivity", "Botão adicionar configurado como VISÍVEL para ADMIN");
         } else {
             btnAdicionar.setVisibility(Button.GONE);

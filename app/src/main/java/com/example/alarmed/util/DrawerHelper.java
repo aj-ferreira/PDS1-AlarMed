@@ -117,14 +117,13 @@ public class DrawerHelper implements NavigationView.OnNavigationItemSelectedList
      */
     private void handleLoginNavigation() {
         if (sessionManager.isLoggedIn()) {
-            // Se já está logado, fazer logout
+            // Fazer logout e navegar para tela de login
             sessionManager.logout();
             updateMenuForLoginState();
-        } else {
-            // Navegar para tela de login
-            Intent intent = new Intent(activity, LoginActivity.class);
-            activity.startActivity(intent);
         }
+        // Navegar para tela de login (seja após logout ou se já estava deslogado)
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
     }
 
     /**
